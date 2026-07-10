@@ -1,0 +1,125 @@
+import Link from "next/link";
+import { ImFacebook, ImGithub, ImGoogle } from "react-icons/im";
+import { signIn } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
+
+//internal imports
+import SettingServices from "@services/SettingServices";
+import useGetSetting from "@hooks/useGetSetting";
+import useUtilsFunction from "@hooks/useUtilsFunction";
+
+const BottomNavigation = ({ or, route, desc, pageName, loginTitle, hideSignUp, hideSocial }) => {
+  const buttonStyles = `
+    text-sm inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-semibold text-center justify-center rounded-md focus:outline-none shadow-sm
+    px-3 py-4 h-12 w-full mb-6 mr-2
+  `;
+
+  const {
+    error,
+    isLoading,
+    data: storeSetting,
+  } = useQuery({
+    queryKey: ["storeSetting"],
+    queryFn: async () => await SettingServices.getStoreSetting(),
+    staleTime: 4 * 60 * 1000, // Api request after 4 minutes
+  });
+
+  const { storeCustomizationSetting } = useGetSetting();
+  const { showingTranslateValue } = useUtilsFunction();
+
+  return (
+    <>
+      {or && !hideSocial && (
+        <div className="my-4 text-center font-medium">
+          <div className="after:bg-gray-100 before:bg-gray-100">OR</div>
+        </div>
+      )}
+
+      {!error && !isLoading && !hideSocial && (
+        <div className="flex flex-col mb-4">
+          {storeSetting?.google_login_status && (
+            <button
+              onClick={() =>
+                signIn("google", {
+                  callbackUrl: "/user/dashboard",
+                  redirect: true,
+                })
+              }
+              className={buttonStyles}
+              style={{ backgroundColor: '#006E44', color: 'white' }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005a37'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#006E44'}
+            >
+              <ImGoogle className="text-2xl" />
+              <span className="ml-2">{loginTitle} With Google</span>
+            </button>
+          )}
+          {storeSetting?.facebook_login_status && (
+            <button
+              onClick={() =>
+                signIn("facebook", {
+                  callbackUrl: "/user/dashboard",
+                  redirect: true,
+                })
+              }
+              className={
+                buttonStyles + "bg-blue-500 text-white hover:bg-blue-600"
+              }
+            >
+              <ImFacebook className="text-2xl" />
+              <span className="ml-2">{loginTitle} With Facebook</span>
+            </button>
+          )}
+          {storeSetting?.github_login_status && (
+            <button
+              onClick={() =>
+                signIn("github", {
+                  callbackUrl: "/user/dashboard",
+                  redirect: true,
+                })
+              }
+              className={
+                buttonStyles + "bg-gray-700 text-white hover:bg-gray-900"
+              }
+            >
+              <ImGithub className="text-2xl" />
+              <span className="ml-2">{loginTitle} With Github</span>
+            </button>
+          )}
+        </div>
+      )}
+
+      {!hideSignUp && (
+        <div className="text-center text-sm text-gray-900 mt-4">
+          <div className="text-gray-500 mt-2.5">
+            {desc ? "Already have an account?" : "Don't have an account?"}
+            <Link
+              href={route}
+              className="text-gray-800 hover:text-store-500 font-bold mx-2"
+            >
+              <span className="capitalize">{pageName}</span>
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* Privacy Policy & Terms & Conditions Button */}
+      <div className="mt-4 mb-4">
+        <Link
+          href="/privacy-policy"
+          className=" font-semibold py-3 px-6 rounded-md transition-colors duration-300 flex items-center justify-center text-center w-full gap-2"
+         
+        >
+          <span className="text-sm leading-tight underline underline-offset-2">
+            {showingTranslateValue(storeCustomizationSetting?.privacy_policy?.title) || "Privacy Policy"} and  
+          </span>
+          <span className="text-sm leading-tight underline underline-offset-2">
+            {showingTranslateValue(storeCustomizationSetting?.term_and_condition?.title) || " Terms & Conditions"}
+          </span>
+        </Link>
+      </div>
+    </>
+  );
+};
+
+export default BottomNavigation;

@@ -1,0 +1,1 @@
+import{e}from"./index-DyQKMQAO.js";const i={getAllPrescriptions:async()=>e.get("/prescriptions"),getPrescriptionById:async r=>e.get(`/prescriptions/${r}`),updatePrescriptionStatus:async(r,t)=>e.put(`/prescriptions/${r}/status`,t),deletePrescription:async r=>e.delete(`/prescriptions/${r}`)};export{i as P};

@@ -1,0 +1,1 @@
+import{j as s}from"./index-DyQKMQAO.js";import{M as a}from"./react-tooltip.min-BM9NE_X8.js";const n=({id:t,Icon:o,title:r,bgColor:e})=>s.jsxs(s.Fragment,{children:[s.jsx("p",{"data-tooltip-id":t,className:"text-xl",children:s.jsx(o,{})}),s.jsx(a,{id:t,style:{backgroundColor:e},children:s.jsx("span",{className:"text-sm font-medium",children:r})})]});export{n as T};

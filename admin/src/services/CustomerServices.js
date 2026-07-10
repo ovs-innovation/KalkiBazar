@@ -1,0 +1,89 @@
+import requests from "./httpService";
+
+const CustomerServices = {
+  getAllCustomers: async ({ searchText = "", filterType = "" }) => {
+    const params = new URLSearchParams();
+    if (searchText) params.append("searchText", searchText);
+    if (filterType) params.append("filterType", filterType);
+    return requests.get(`/customer?${params.toString()}`);
+  },
+
+  addAllCustomers: async (body) => {
+    return requests.post("/customer/add/all", body);
+  },
+  // user create
+  createCustomer: async (body) => {
+    return requests.post(`/customer/create`, body);
+  },
+
+  filterCustomer: async (email) => {
+    return requests.post(`/customer/filter/${email}`);
+  },
+
+  getCustomerById: async (id) => {
+    return requests.get(`/customer/${id}`);
+  },
+
+  updateCustomer: async (id, body) => {
+    return requests.put(`/customer/${id}`, body);
+  },
+
+  deleteCustomer: async (id) => {
+    return requests.delete(`/customer/${id}`);
+  },
+
+  // Admin: Get wholesalers
+  getAllWholesalers: async ({ searchText = "", wholesalerStatus = "" } = {}) => {
+    const params = new URLSearchParams();
+    if (searchText) params.append("searchText", searchText);
+    if (wholesalerStatus) params.append("wholesalerStatus", wholesalerStatus);
+    return requests.get(`/customer/wholesalers?${params.toString()}`);
+  },
+
+  // Create wholesaler (admin)
+  createWholesaler: async (body) => {
+    return requests.post(`/customer/wholesaler`, body);
+  },
+
+  // Update wholesaler approval status (approve / reject)
+  updateWholesalerStatus: async (id, status) => {
+    return requests.put(`/customer/${id}`, { wholesalerStatus: status });
+  },
+
+  // Delete cloudinary asset
+  deleteCloudinaryAsset: async (publicId) => {
+    return requests.post(`/customer/cloudinary-delete`, { publicId });
+  },
+
+  // Send credentials to wholesaler (admin action)
+  sendCredentials: async (id, body = {}) => {
+    return requests.post(`/customer/send-credentials/${id}`, body);
+  },
+
+  getCustomerStatistics: async () => {
+    return requests.get("/customer/statistics");
+  },
+
+  // Shipping Address APIs
+  getShippingAddresses: async (customerId) => {
+    return requests.get(`/customer/shipping/address/${customerId}`);
+  },
+
+  addShippingAddress: async (customerId, body) => {
+    return requests.post(`/customer/shipping/address/${customerId}`, body);
+  },
+
+  updateShippingAddress: async (customerId, addressId, body) => {
+    return requests.put(`/customer/shipping/address/${customerId}/${addressId}`, body);
+  },
+
+  deleteShippingAddress: async (customerId, addressId) => {
+    return requests.delete(`/customer/shipping/address/${customerId}/${addressId}`);
+  },
+
+  updateFcmToken: async (id, fcmToken) => {
+    return requests.put(`/customer/update-fcm-token/${id}`, { fcmToken });
+  },
+};
+
+export default CustomerServices;
