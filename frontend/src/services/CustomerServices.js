@@ -25,7 +25,7 @@ const CustomerServices = {
   },
 
   completeProfile: async (body) => {
-    return requests.post("/customer/complete-profile", body);
+    return requests.post("/customer/complete-profile", body); 
   },
 
   sendProfileEmailOtp: async (body) => {

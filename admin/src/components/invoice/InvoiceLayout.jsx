@@ -75,20 +75,19 @@ const InvoiceLayout = ({ data, printRef, globalSetting, currency, getNumberTwo }
           <div className="text-left flex flex-col items-start gap-0">
             <h2 className="text-lg font-serif font-semibold">
               <a href="/" rel="noreferrer">
-                <img
-                  width={120}
-                  height={40}
-                  src={globalSetting?.logo || "/favicon-transparent.png"}
-                  alt="logo"
-                />
+                <span className="flex flex-col leading-none">
+                  <span className="text-[#0f766e] font-extrabold tracking-tight text-xl">
+                    Kalki<span className="text-[#0d9488]">Bazar</span>
+                  </span>
+                </span>
               </a>
             </h2>
               
             {/* Bill From - from common settings */}
             <div className="flex-1 min-w-[0] items-start">
-              <p className="text-semibold md:text-base font-semibold text-gray-900">
+              {/* <p className="text-semibold md:text-base font-semibold text-gray-900">
                 {globalSetting?.company_name || "AQOSU FARMACYKART PRIVATE LIMITED"}
-              </p>
+              </p> */}
               <p className="text-sm text-gray-600 leading-snug">
                 {globalSetting?.address ||
                   "GF D-90, KH NO-1100, RAJNAGAR COLONY, BEHTA HAJIPUR, LONI BORDER, LONI, GHAZIABAD, UTTAR PRADESH, Landmark: NEAR MUNISH PUBLIC, Pin: 201102"}
@@ -97,7 +96,7 @@ const InvoiceLayout = ({ data, printRef, globalSetting, currency, getNumberTwo }
                 <div className="flex gap-x-3">
                   <div className="flex gap-x-2 text-sm text-gray-600 leading-snug mt-0.5">
                     <div className="font-semibold">Email:</div>
-                    <div>{globalSetting?.email || "farmacykart@gmail.com"}</div>
+                    <div>{globalSetting?.email || "kalkiBrand@gmail.com"}</div>
                   </div>
                   <div className="flex gap-x-2 text-sm text-gray-600 leading-snug mt-0.5">
                     <div className="font-semibold">Phone No:</div>
@@ -188,7 +187,6 @@ const InvoiceLayout = ({ data, printRef, globalSetting, currency, getNumberTwo }
                   )}
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -293,7 +291,7 @@ const InvoiceLayout = ({ data, printRef, globalSetting, currency, getNumberTwo }
                   {globalSetting?.pharmacist_name || "Registered Pharmacist"}
                 </p>
                 <p className="text-[11px] text-gray-500 leading-snug">
-                  {globalSetting?.company_name || "Farmacykart"}
+                  {globalSetting?.company_name || "Kalki Bazar"}
                 </p>
                 {globalSetting?.website && (
                   <p className="text-[11px] text-store-600 leading-snug">

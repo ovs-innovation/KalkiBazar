@@ -23,19 +23,14 @@ import { pickBrandLogo } from "@utils/brandAssets";
 
 const NavbarLogo = () => {
   return (
-    <Link href="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="KalkiBrand">
-      {/* Icon Badge */}
-      <span className="kalki-logo-badge flex items-center justify-center w-10 h-10 rounded-xl shadow-md">
-        <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 13h-2v-4H7v-2h4V5h2v4h4v2h-4v4z" fill="white"/>
-        </svg>
-      </span>
+    <Link href="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="KalkiMart">
+    
       {/* Wordmark */}
       <span className="flex flex-col leading-none">
         <span className="kalki-logo-text font-extrabold tracking-tight text-xl">
-          Kalki<span className="kalki-logo-accent">Brand</span>
+          Kalki<span className="kalki-logo-accent">Bazar</span>
         </span>
-        <span className="text-[9px] font-semibold tracking-[0.18em] uppercase text-gray-500 mt-0.5">Pharmacy</span>
+        {/* <span className="text-[9px] font-semibold tracking-[0.18em] uppercase text-gray-500 mt-0.5">Pharmacy</span> */}
       </span>
     </Link>
   );

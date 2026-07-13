@@ -1,4 +1,4 @@
-import React,{useState, useRef, useContext, useEffect} from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { createPortal } from "react-dom";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -104,10 +104,10 @@ const Checkout = () => {
   });
 
   // Normalize shippingAddresses to always be an array
-  const shippingAddresses = Array.isArray(shippingAddressesResponse) 
-    ? shippingAddressesResponse 
-    : shippingAddressesResponse 
-      ? [shippingAddressesResponse] 
+  const shippingAddresses = Array.isArray(shippingAddressesResponse)
+    ? shippingAddressesResponse
+    : shippingAddressesResponse
+      ? [shippingAddressesResponse]
       : [];
 
   // Set default selected address on load
@@ -160,7 +160,7 @@ const Checkout = () => {
       setValue("firstName", nameParts[0] || "");
       setValue("lastName", nameParts.slice(1).join(" ") || "");
       setValue("email", getDisplayEmail(userInfo) || "");
-      setValue("contact", selectedAddress.phone || "");
+      setValue("contact", selectedAddress.phone || selectedAddress.contact || "");
       setValue("address", selectedAddress.address || "");
       setValue("address2", "");
       setValue("city", selectedAddress.city || "");
@@ -182,19 +182,19 @@ const Checkout = () => {
         total: parseFloat(total)
       };
     }
-    
+
     let totalMRP = 0;
     let totalDiscount = 0;
-    
+
     items.forEach(item => {
       const originalPrice = item.originalPrice || item.mrp || item.prices?.original || (item.price * 1.2);
       const currentPrice = item.price || item.prices?.sale || 0;
       const quantity = item.quantity || 1;
-      
+
       totalMRP += originalPrice * quantity;
       totalDiscount += (originalPrice - currentPrice) * quantity;
     });
-    
+
     return {
       totalMRP,
       totalDiscount,
@@ -234,11 +234,11 @@ const Checkout = () => {
         }
       }
     };
-    
+
     const timeoutId = setTimeout(() => {
       fetchLocation();
     }, 500);
-    
+
     return () => clearTimeout(timeoutId);
   }, [addressForm.zipCode]);
 
@@ -259,7 +259,7 @@ const Checkout = () => {
 
           if (geocodeData.status === 'OK' && geocodeData.results && geocodeData.results.length > 0) {
             const result = geocodeData.results[0];
-            
+
             // Extract address components
             let street = "";
             let city = "";
@@ -270,12 +270,12 @@ const Checkout = () => {
             const streetNumber = result.address_components.find(c => c.types.includes("street_number"))?.long_name || "";
             const route = result.address_components.find(c => c.types.includes("route"))?.long_name || "";
             const sublocality = result.address_components.find(c => c.types.includes("sublocality"))?.long_name || "";
-            
+
             street = [streetNumber, route, sublocality].filter(Boolean).join(", ");
-            
+
             // If street is still empty, use formatted_address part
             if (!street) {
-                street = result.formatted_address.split(",")[0];
+              street = result.formatted_address.split(",")[0];
             }
 
             city = result.address_components.find(c => c.types.includes("locality"))?.long_name || "";
@@ -390,8 +390,8 @@ const Checkout = () => {
         // If this was set as default or is first address, select it
         if (addressForm.isDefault || shippingAddresses.length === 0) {
           const updatedResponse = await CustomerServices.getShippingAddress({ userId: uId });
-          const updatedAddresses = Array.isArray(updatedResponse?.shippingAddress) 
-            ? updatedResponse.shippingAddress 
+          const updatedAddresses = Array.isArray(updatedResponse?.shippingAddress)
+            ? updatedResponse.shippingAddress
             : [];
           const newDefault = updatedAddresses.find(addr => addr.isDefault) || updatedAddresses[updatedAddresses.length - 1];
           if (newDefault) setSelectedAddress(newDefault);
@@ -408,7 +408,7 @@ const Checkout = () => {
 
   // Handle address deletion
   const handleDeleteAddress = async (addressId) => {
-     
+
 
     const uId = userInfo?._id || userInfo?.id;
     try {
@@ -422,8 +422,8 @@ const Checkout = () => {
         // If deleted address was selected, select first available
         if (selectedAddress?._id === addressId) {
           const updatedResponse = await CustomerServices.getShippingAddress({ userId: uId });
-          const updatedAddresses = Array.isArray(updatedResponse?.shippingAddress) 
-            ? updatedResponse.shippingAddress 
+          const updatedAddresses = Array.isArray(updatedResponse?.shippingAddress)
+            ? updatedResponse.shippingAddress
             : [];
           if (updatedAddresses.length > 0) {
             setSelectedAddress(updatedAddresses[0]);
@@ -488,9 +488,9 @@ const Checkout = () => {
                             const locationText = `${address.city || ''}${address.city && address.zipCode ? ', ' : ''}${address.zipCode || ''}`;
                             const locationDisplay = locationText.length > 25 ? locationText.substring(0, 25) + '..' : locationText;
                             const fullAddress = `${address.address || ''}, ${address.city || ''}${address.city && address.country ? ', ' : ''}${address.country || ''}.`;
-                            
+
                             const isSelected = selectedAddress?._id === address._id || selectedAddress?.id === address.id;
-                            
+
                             return (
                               <div
                                 key={address._id || address.id || Math.random()}
@@ -501,7 +501,7 @@ const Checkout = () => {
                                   setValue("firstName", nameParts[0] || "");
                                   setValue("lastName", nameParts.slice(1).join(" ") || "");
                                   setValue("email", getDisplayEmail(userInfo) || "");
-                                  setValue("contact", address.phone || "");
+                                  setValue("contact", address.phone || address.contact || "");
                                   setValue("address", address.address || "");
                                   setValue("address2", "");
                                   setValue("city", address.city || "");
@@ -509,11 +509,10 @@ const Checkout = () => {
                                   setValue("country", address.country || "India");
                                   setValue("zipCode", address.zipCode || "");
                                 }}
-                                className={`border-2 rounded-lg p-3 sm:p-4 cursor-pointer transition-all ${
-                                  isSelected
+                                className={`border-2 rounded-lg p-3 sm:p-4 cursor-pointer transition-all ${isSelected
                                     ? ' border-gray-200 ring-2 ring-store-300'
                                     : 'border-gray-200 bg-white hover:border-store-300 hover:shadow-sm'
-                                }`}
+                                  }`}
                               >
                                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                   <div className="flex items-start gap-3 flex-1 min-w-0">
@@ -529,7 +528,7 @@ const Checkout = () => {
                                           setValue("firstName", nameParts[0] || "");
                                           setValue("lastName", nameParts.slice(1).join(" ") || "");
                                           setValue("email", getDisplayEmail(userInfo) || "");
-                                          setValue("contact", address.phone || "");
+                                          setValue("contact", address.phone || address.contact || "");
                                           setValue("address", address.address || "");
                                           setValue("address2", "");
                                           setValue("city", address.city || "");
@@ -611,7 +610,7 @@ const Checkout = () => {
                   {/* Cart Items Section */}
                   <div className="form-group mt-8 sm:mt-12 max-h-[420px] sm:max-h-[500px] overflow-y-auto scrollbar-hide">
                     <h2 className="font-semibold font-serif text-base text-gray-700 pb-3">
-                      
+
                       Order Items
                     </h2>
 
@@ -702,7 +701,7 @@ const Checkout = () => {
                           {/* Cutouts for coupon effect */}
                           <div className="absolute top-1/2 -left-3 transform -translate-y-1/2 w-6 h-6 bg-white rounded-full border-r-2 border-dashed border-emerald-400 z-10"></div>
                           <div className="absolute top-1/2 -right-3 transform -translate-y-1/2 w-6 h-6 bg-white rounded-full border-l-2 border-dashed border-emerald-400 z-10"></div>
-                          
+
                           <div className="flex justify-between items-start mb-2">
                             <div className="flex flex-col gap-1">
                               <span className="text-xs uppercase font-bold tracking-widest text-emerald-600 flex items-center gap-1">
@@ -719,14 +718,14 @@ const Checkout = () => {
                               </svg>
                             </div>
                           </div>
-                          
+
                           <div className="border-t-2 border-dashed border-emerald-200 my-4 relative"></div>
-                          
+
                           <div className="flex justify-between items-center">
                             <div className="text-sm text-emerald-800 font-medium">
                               You save <span className="font-bold text-lg text-emerald-600">{currency}{discountAmount.toFixed(2)}</span>
                             </div>
-                            
+
                             <div className="flex items-center gap-3">
                               <button
                                 type="button"
@@ -788,9 +787,8 @@ const Checkout = () => {
                                   <button
                                     disabled={isCouponAvailable || !selectedCouponCode}
                                     onClick={handleCouponCode}
-                                    className={`md:text-sm leading-4 inline-flex items-center cursor-pointer bg-store-600 transition ease-in-out duration-300 font-semibold text-center justify-center border border-gray-200 rounded-md placeholder-white focus-visible:outline-none focus:outline-none px-5 md:px-6 lg:px-8 py-3 md:py-3.5 lg:py-3 mt-3 sm:mt-0 sm:ml-3 md:mt-0 md:ml-3 lg:mt-0 lg:ml-3 hover:text-white hover:bg-store-500 h-12 text-sm text-white lg:text-base w-full sm:w-auto ${
-                                      !selectedCouponCode ? "opacity-60 cursor-not-allowed" : ""
-                                    }`}
+                                    className={`md:text-sm leading-4 inline-flex items-center cursor-pointer bg-store-600 transition ease-in-out duration-300 font-semibold text-center justify-center border border-gray-200 rounded-md placeholder-white focus-visible:outline-none focus:outline-none px-5 md:px-6 lg:px-8 py-3 md:py-3.5 lg:py-3 mt-3 sm:mt-0 sm:ml-3 md:mt-0 md:ml-3 lg:mt-0 lg:ml-3 hover:text-white hover:bg-store-500 h-12 text-sm text-white lg:text-base w-full sm:w-auto ${!selectedCouponCode ? "opacity-60 cursor-not-allowed" : ""
+                                      }`}
                                   >
                                     {showingTranslateValue(
                                       storeCustomizationSetting?.checkout?.apply_button
@@ -816,7 +814,7 @@ const Checkout = () => {
                     </form>
                   </div>
                 )}
-                
+
                 {/* Total MRP - Hidden for wholesalers */}
                 {!isWholesaler && (
                   <div className="flex items-center py-2 text-sm w-full font-semibold text-gray-500 last:border-b-0 last:text-base last:pb-0">
@@ -827,7 +825,7 @@ const Checkout = () => {
                     </span>
                   </div>
                 )}
-                
+
                 {/* Total Discount - Hidden for wholesalers */}
                 {!isWholesaler && totals.totalDiscount > 0 && (
                   <div className="flex items-center py-2 text-sm w-full font-semibold text-green-600 last:border-b-0 last:text-base last:pb-0">
@@ -839,8 +837,8 @@ const Checkout = () => {
                   </div>
                 )}
 
-                 
-                 
+
+
                 {/* Tax Display */}
                 {taxSummary?.inclusiveTax > 0 && (
                   <div className="flex items-center py-2 text-xs sm:text-sm w-full font-semibold text-gray-500">
@@ -860,30 +858,28 @@ const Checkout = () => {
                     </span>
                   </div>
                 )}
-                
+
                 {/* Coupon Offer / Additional Discount - Hidden for wholesalers */}
                 {!isWholesaler && discountAmount > 0 && (
                   <div
-                    className={`flex items-center py-2 text-sm w-full font-semibold last:border-b-0 last:text-base last:pb-0 ${
-                      isCouponApplied ? "text-green-600" : "text-gray-500"
-                    }`}
+                    className={`flex items-center py-2 text-sm w-full font-semibold last:border-b-0 last:text-base last:pb-0 ${isCouponApplied ? "text-green-600" : "text-gray-500"
+                      }`}
                   >
                     {isCouponApplied
                       ? "Coupon Offer"
                       : showingTranslateValue(
-                          storeCustomizationSetting?.checkout?.discount
-                        )}
+                        storeCustomizationSetting?.checkout?.discount
+                      )}
                     <span
-                      className={`ml-auto flex-shrink-0 font-bold ${
-                        isCouponApplied ? "text-green-600" : "text-orange-400"
-                      }`}
+                      className={`ml-auto flex-shrink-0 font-bold ${isCouponApplied ? "text-green-600" : "text-orange-400"
+                        }`}
                     >
                       {currency}
                       {discountAmount.toFixed(2)}
                     </span>
                   </div>
                 )}
-                
+
                 {/* Shipping Cost */}
                 {shippingCost > 0 ? (
                   <div className="flex items-center py-2 text-sm w-full font-semibold text-gray-500 last:border-b-0 last:text-base last:pb-0">
@@ -926,8 +922,8 @@ const Checkout = () => {
                   <div className="mb-4">
                     <div className="flex flex-wrap items-center gap-2 sm:gap-3 bg-white rounded-lg p-3 border border-gray-200">
                       <div className="flex items-center gap-3 flex-1 min-w-0">
-                        <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
-                          <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="w-10 h-10 bg-blue-50/50 border border-blue-100/40 rounded-lg flex items-center justify-center shrink-0">
+                          <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                           </svg>
                         </div>
@@ -937,26 +933,26 @@ const Checkout = () => {
                               {...register("paymentMethod", {
                                 required: "Payment Method is required!",
                               })}
-                              className="w-full px-2 py-1 pr-8 bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-medium text-store-600 cursor-pointer appearance-none"
+                              className="w-full px-2 py-1 pr-8 bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-semibold text-blue-600 cursor-pointer appearance-none"
                               defaultValue=""
                             >
                               <option value="" disabled>
                                 Pay using
                               </option>
-                              {storeSetting?.cod_status && (
+                              {storeSetting?.cod_status !== false && (
                                 <option value="Cash">
                                   Cash on Delivery
                                 </option>
                               )}
-                              {storeSetting?.razorpay_status && (
+                              {storeSetting?.razorpay_status !== false && (
                                 <option value="RazorPay">
                                   UPI / RazorPay
                                 </option>
                               )}
                             </select>
                             <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none">
-                              <svg className="w-4 h-4 text-store-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                              <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                               </svg>
                             </div>
                           </div>
@@ -986,11 +982,10 @@ const Checkout = () => {
                       }
                     }}
                     disabled={isEmpty || isCheckoutSubmit || !agreeToTerms}
-                    className={`w-full py-4 rounded-lg text-base font-semibold text-white transition-all ${
-                      isEmpty || isCheckoutSubmit || !agreeToTerms
+                    className={`w-full py-4 rounded-lg text-base font-semibold text-white transition-all ${isEmpty || isCheckoutSubmit || !agreeToTerms
                         ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-store-500 hover:bg-store-600 shadow-md hover:shadow-lg'
-                    }`}
+                        : 'bg-blue-500 hover:bg-blue-600 shadow-md hover:shadow-lg'
+                      }`}
                   >
                     {isCheckoutSubmit ? (
                       <span className="flex items-center justify-center">
@@ -1043,11 +1038,11 @@ const Checkout = () => {
       {portalReady && showAddressModal && createPortal(
         <div className="fixed inset-0 z-[10050]">
           {/* Overlay */}
-          <div 
+          <div
             className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
             onClick={() => setShowAddressModal(false)}
           />
-          
+
           {/* Modal Panel - full screen on mobile, below header on desktop */}
           <div className="absolute right-0 w-full sm:max-w-md lg:max-w-lg flex flex-col top-16 h-[calc(100dvh-4rem)] lg:top-[148px] lg:h-[calc(100dvh-148px)]">
             <div className="flex flex-col flex-1 min-h-0 bg-white shadow-xl">
@@ -1083,166 +1078,166 @@ const Checkout = () => {
                 className="flex flex-col flex-1 min-h-0"
               >
                 <div className="flex-1 min-h-0 overflow-y-auto px-4 sm:px-6 py-4">
-                <div className="space-y-4">
-                  {/* Use Current Location Button */}
-                  <div className="mb-4">
-                    <button
-                      type="button"
-                      onClick={handleUseCurrentLocation}
-                      disabled={isLocationLoading}
-                      className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg font-semibold text-sm hover:bg-emerald-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isLocationLoading ? (
-                        <FiLoader className="animate-spin" size={18} />
-                      ) : (
-                        <IoLocationOutline size={18} />
-                      )}
-                      {isLocationLoading ? "Fetching Location..." : "Use Current Location"}
-                    </button>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={addressForm.name}
-                      onChange={handleAddressChange}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
-                      placeholder="John Doe"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Street Address
-                    </label>
-                    <textarea
-                      name="address"
-                      value={addressForm.address}
-                      onChange={handleAddressChange}
-                      required
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
-                      placeholder="123 Main St, Apt 4B"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        City
-                      </label>
-                      <input
-                        type="text"
-                        name="city"
-                        value={addressForm.city}
-                        onChange={handleAddressChange}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
-                        placeholder="New York"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        State/Province
-                      </label>
-                      <input
-                        type="text"
-                        name="country"
-                        value={addressForm.country}
-                        onChange={handleAddressChange}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
-                        placeholder="NY"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      ZIP/Postal Code
-                    </label>
-                    <input
-                      type="text"
-                      name="zipCode"
-                      value={addressForm.zipCode}
-                      onChange={handleAddressChange}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
-                      placeholder="10001"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={addressForm.phone}
-                      onChange={handleAddressChange}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
-                      placeholder="+1 (555) 123-4567"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Address Type
-                      </label>
-                      <select
-                        name="addressType"
-                        value={addressForm.addressType}
-                        onChange={handleAddressChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
+                  <div className="space-y-4">
+                    {/* Use Current Location Button */}
+                    <div className="mb-4">
+                      <button
+                        type="button"
+                        onClick={handleUseCurrentLocation}
+                        disabled={isLocationLoading}
+                        className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg font-semibold text-sm hover:bg-emerald-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <option value="Home">Home</option>
-                        <option value="Work">Work</option>
-                        <option value="Other">Other</option>
-                      </select>
+                        {isLocationLoading ? (
+                          <FiLoader className="animate-spin" size={18} />
+                        ) : (
+                          <IoLocationOutline size={18} />
+                        )}
+                        {isLocationLoading ? "Fetching Location..." : "Use Current Location"}
+                      </button>
                     </div>
 
-                    <div className="flex items-center pt-0 sm:pt-7">
-                      <input
-                        type="checkbox"
-                        name="isDefault"
-                        checked={addressForm.isDefault}
-                        onChange={handleAddressChange}
-                        className="h-4 w-4 text-store-600 focus:ring-store-500 border-gray-300 rounded"
-                      />
-                      <label className="ml-2 block text-sm text-gray-700">
-                        Set as default address
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Full Name
                       </label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={addressForm.name}
+                        onChange={handleAddressChange}
+                        required
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
+                        placeholder="John Doe"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Street Address
+                      </label>
+                      <textarea
+                        name="address"
+                        value={addressForm.address}
+                        onChange={handleAddressChange}
+                        required
+                        rows={3}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
+                        placeholder="123 Main St, Apt 4B"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          City
+                        </label>
+                        <input
+                          type="text"
+                          name="city"
+                          value={addressForm.city}
+                          onChange={handleAddressChange}
+                          required
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
+                          placeholder="New York"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          State/Province
+                        </label>
+                        <input
+                          type="text"
+                          name="country"
+                          value={addressForm.country}
+                          onChange={handleAddressChange}
+                          required
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
+                          placeholder="NY"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        ZIP/Postal Code
+                      </label>
+                      <input
+                        type="text"
+                        name="zipCode"
+                        value={addressForm.zipCode}
+                        onChange={handleAddressChange}
+                        required
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
+                        placeholder="10001"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={addressForm.phone}
+                        onChange={handleAddressChange}
+                        required
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
+                        placeholder="+1 (555) 123-4567"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Address Type
+                        </label>
+                        <select
+                          name="addressType"
+                          value={addressForm.addressType}
+                          onChange={handleAddressChange}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-store-500 focus:border-transparent"
+                        >
+                          <option value="Home">Home</option>
+                          <option value="Work">Work</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+
+                      <div className="flex items-center pt-0 sm:pt-7">
+                        <input
+                          type="checkbox"
+                          name="isDefault"
+                          checked={addressForm.isDefault}
+                          onChange={handleAddressChange}
+                          className="h-4 w-4 text-store-600 focus:ring-store-500 border-gray-300 rounded"
+                        />
+                        <label className="ml-2 block text-sm text-gray-700">
+                          Set as default address
+                        </label>
+                      </div>
                     </div>
                   </div>
-                </div>
                 </div>
 
                 {/* Footer Buttons - always visible */}
                 <div className="flex-shrink-0 border-t border-gray-200 px-4 sm:px-6 py-3 sm:py-4 bg-white pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-                <div className="flex flex-col-reverse gap-2 sm:flex-row sm:space-x-3 sm:gap-0">
-                  <button
-                    type="button"
-                    className="flex-1 px-4 py-2.5 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-store-500"
-                    onClick={() => setShowAddressModal(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 px-4 py-2.5 border border-transparent rounded-md text-sm font-medium text-white bg-store-500 hover:bg-store-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-store-500"
-                  >
-                    {editingAddress ? "Update Address" : "Save Address"}
-                  </button>
-                </div>
+                  <div className="flex flex-col-reverse gap-2 sm:flex-row sm:space-x-3 sm:gap-0">
+                    <button
+                      type="button"
+                      className="flex-1 px-4 py-2.5 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-store-500"
+                      onClick={() => setShowAddressModal(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="flex-1 px-4 py-2.5 border border-transparent rounded-md text-sm font-medium text-white bg-store-500 hover:bg-store-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-store-500"
+                    >
+                      {editingAddress ? "Update Address" : "Save Address"}
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>

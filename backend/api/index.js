@@ -141,7 +141,7 @@ app.use("/api/category", categoryRoutes);
 app.use("/api/coupon", couponRoutes);
 app.use("/api/tax", taxRoutes);
 app.use("/api/customer", customerRoutes);
-app.use("/api/order/customer", customerOrderRoutes);
+app.use("/api/order", customerOrderRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/attributes", attributeRoutes);
 app.use("/api/setting", settingRoutes);

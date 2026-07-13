@@ -16,6 +16,7 @@ import useUtilsFunction from "./useUtilsFunction";
 import CouponServices from "@services/CouponServices";
 import { notifyError, notifySuccess } from "@utils/toast";
 import CustomerServices from "@services/CustomerServices";
+import { setToken } from "@services/httpServices";
 import { isProfileComplete, getDisplayEmail } from "@utils/profileAuth";
 import NotificationServices from "@services/NotificationServices";
 import ShiprocketServices from "@services/ShiprocketServices";
@@ -74,7 +75,39 @@ const useCheckoutSubmit = (storeSetting) => {
     setValue,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      contact: "",
+      address: "",
+      address2: "",
+      city: "",
+      state: "",
+      country: "India",
+      zipCode: "",
+      shippingOption: "",
+      paymentMethod: "",
+    }
+  });
+
+  // Manually register fields that don't have corresponding visible input components
+  // in checkout.js form but are set dynamically via setValue. This ensures they
+  // are included in React Hook Form's submit data.
+  useEffect(() => {
+    register("firstName");
+    register("lastName");
+    register("email");
+    register("contact");
+    register("address");
+    register("address2");
+    register("city");
+    register("state");
+    register("country");
+    register("zipCode");
+    register("shippingOption");
+  }, [register]);
 
   useEffect(() => {
     if (Cookies.get("couponInfo")) {
@@ -208,22 +241,27 @@ const useCheckoutSubmit = (storeSetting) => {
   }, [items, cartTotal, shippingCost, discountPercentage]);
 
   const submitHandler = async (data) => {
+    console.log("useCheckoutSubmit submitHandler invoked. Form data:", data);
     try {
-      // Keep the old checkout flow: take details on checkout itself
-      // and (if needed) complete the customer profile in the background.
-      if (userInfo?.token && !isProfileComplete(userInfo)) {
+      // Always sync checkout form data to DB profile so that name/phone/email
+      // are up-to-date before the order is validated on the backend.
+      if (userInfo?.token) {
+        // Re-apply token to axios instance in case it was lost after page refresh
+        setToken(userInfo.token);
         try {
           const profilePayload = {
             name:
               `${data.firstName || ""} ${data.lastName || ""}`.trim() ||
               userInfo?.name,
-            phone: data.contact,
+            email: data.email || "",
+            phone: data.contact || userInfo?.phone || userInfo?.contact || "",
             address: data.address,
             city: data.city,
             country: data.country,
             zipCode: data.zipCode,
           };
 
+          console.log("Submitting completeProfile with payload:", profilePayload);
           await CustomerServices.completeProfile(profilePayload);
         } catch (err) {
           // If profile completion fails, block placing order and show message
@@ -251,7 +289,8 @@ const useCheckoutSubmit = (storeSetting) => {
 
       const userDetails = {
         name: `${data.firstName || ""} ${data.lastName || ""}`.trim() || userInfo?.name || "A customer",
-        contact: data.contact,
+        contact: data.contact || userInfo?.phone || userInfo?.contact || "",
+        phone: data.contact || userInfo?.phone || userInfo?.contact || "", // Store phone so backend Mongoose schema accepts and saves it
         email: data.email,
         address: data.address,
         country: data.country,
@@ -651,7 +690,12 @@ const useCheckoutSubmit = (storeSetting) => {
     // console.log("handle default shipping", value);
     setUseExistingAddress(value);
     if (value) {
-      const address = data;
+      const address = Array.isArray(data)
+        ? (data.find(addr => addr.isDefault) || data[0])
+        : data;
+
+      if (!address) return;
+
       const nameParts = address?.name?.split(" "); // Split the name into parts
       const firstName = nameParts[0]; // First name is the first element
       const lastName =
@@ -662,7 +706,7 @@ const useCheckoutSubmit = (storeSetting) => {
       setValue("lastName", lastName);
 
       setValue("address", address.address);
-      setValue("contact", address.contact);
+      setValue("contact", address.phone || address.contact || "");
       // setValue("email", address.email);
       setValue("city", address.city);
       setValue("country", address.country);

@@ -36,7 +36,6 @@ const tokenForVerify = (user) => {
 
 const isAuth = async (req, res, next) => {
   const { authorization } = req.headers;
-  // console.log("authorization", req.headers);
   try {
     if (!authorization) {
       console.log("isAuth: No authorization header");
@@ -52,7 +51,13 @@ const isAuth = async (req, res, next) => {
       });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "fallback_jwt_secret");
-    req.user = decoded;
+
+    // FIX HERE: If the token contains customerId instead of _id, map it to _id
+    req.user = {
+      ...decoded,
+      _id: decoded._id || decoded.customerId
+    };
+
     next();
   } catch (err) {
     console.log("isAuth Error:", err.message);
@@ -64,18 +69,20 @@ const isAuth = async (req, res, next) => {
 
 const isAuthOptional = async (req, res, next) => {
   const { authorization } = req.headers;
-  // console.log("isAuthOptional: Authorization Header:", authorization ? "Present" : "Missing");
   try {
     if (authorization) {
       const token = authorization.split(" ")[1];
       if (token) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || "fallback_jwt_secret");
-        req.user = decoded;
-        // console.log("isAuthOptional: Token verified for user:", decoded._id);
+
+        // FIX HERE: Also normalize the object mapping here
+        req.user = {
+          ...decoded,
+          _id: decoded._id || decoded.customerId
+        };
       }
     }
   } catch (err) {
-    // If token is invalid or expired, we just ignore it and proceed as guest
     console.log("isAuthOptional Error:", err.message);
   }
   next();

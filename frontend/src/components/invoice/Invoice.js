@@ -72,17 +72,16 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
           {/* Logo + Invoice on same line */}
           <div className="text-left flex flex-col items-start gap-0 hidden lg:block">
             <h2 className="text-lg font-serif font-semibold">
-              <Link href="/">
-                <Image
-                  width={120}
-                  height={40}
-                  src={pickBrandLogo(
-                    storeCustomizationSetting?.navbar?.logo,
-                    storeCustomizationSetting?.footer?.block4_logo
-                  )}
-                  alt="logo"
-                />
+              <Link href="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="KalkiMart">
+              
+                {/* Wordmark */}
+                <span className="flex flex-col leading-none">
+                  <span className="font-extrabold tracking-tight text-lg text-slate-800 font-sans">
+                    Kalki<span className="text-blue-600">Mart</span>
+                  </span>
+                </span>
               </Link>
+
             </h2>
               
               {/* Bill From - from common settings */}
@@ -99,7 +98,7 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
                <div  className="flex gap-x-3">
                   <div className="flex gap-x-2 text-sm text-gray-600 leading-snug mt-0.5">
                     <div className="font-semibold">Email:</div>
-                    <div>{globalSetting?.email || "farmacykart@gmail.com"}</div>
+                    <div>{globalSetting?.email || "KalkiMart@gmail.com"}</div>
                   </div>
 
                   <div className="flex gap-x-2 text-sm text-gray-600 leading-snug mt-0.5">
@@ -362,7 +361,7 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
                 {globalSetting?.pharmacist_name || "Registered Pharmacist"}
               </p>
               <p className="text-[11px] text-gray-500 leading-snug">
-                {globalSetting?.company_name || "Farmacykart"}
+                {globalSetting?.company_name || "KalkiMart"}
               </p>
               {globalSetting?.website && (
                 <p className="text-[11px] text-store-600 leading-snug">

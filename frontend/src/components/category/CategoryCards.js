@@ -16,49 +16,49 @@ const CategoryCards = () => {
   const router = useRouter();
   const { storeCustomizationSetting } = useGetSetting();
 
-  // Matched exactly to your assets while adopting the color schemes from the screenshot
+  // Matched to the soft pastel color palette from the screenshot
   const categories = [
     {
       id: 1,
-      title: "Diabetes",
-      image: "/flags/diabetic-health.webp",
+      title: "Masale",
+      image: "/flags/cat7.webp",
       searchQuery: "Diabetes",
-      bgGradient: "bg-gradient-to-br from-[#eafaf1] to-[#d4f4e2]", // Soft Mint Green
+      bgColor: "bg-[#eefaf3]", // Soft Mint Green
     },
     {
       id: 2,
-      title: "Orthopedic",
-      image: "/flags/pain-relief.png",
+      title: "Sweets",
+      image: "/flags/cat3.webp",
       searchQuery: "Orthopedic",
-      bgGradient: "bg-gradient-to-br from-[#f0ebfa] to-[#e0d6f5]", // Soft Purple
+      bgColor: "bg-[#f5effa]", // Soft Lavender
     },
     {
       id: 3,
-      title: "Cardiac & Heart Care",
-      image: "/flags/heart-care.webp",
+      title: "Oil & Shampu",
+      image: "/flags/cat4.webp",
       searchQuery: "heart",
-      bgGradient: "bg-gradient-to-br from-[#fdf0ed] to-[#fbdad2]", // Soft Coral Pink
+      bgColor: "bg-[#faf0ee]", // Soft Peach/Coral
     },
     {
       id: 4,
-      title: "Cold & Cough",
-      image: "/flags/cold-caugh.png",
+      title: "SoftDrinks",
+      image: "/flags/drinks.webp",
       searchQuery: "Cold & Cough",
-      bgGradient: "bg-gradient-to-br from-[#ebf5fa] to-[#d6ebf5]", // Soft Ice Blue
+      bgColor: "bg-[#edf6fa]", // Soft Ice Blue
     },
     {
       id: 5,
-      title: "Child Care",
-      image: "/flags/babycare.png",
+      title: "Snacks",
+      image: "/flags/cat8.webp",
       searchQuery: "kidney",
-      bgGradient: "bg-gradient-to-br from-[#fefaf0] to-[#fdf1d6]", // Soft Warm Yellow
+      bgColor: "bg-[#faf5eb]", // Soft Warm Cream
     },
     {
       id: 6,
-      title: "Respiratory Care",
-      image: "/flags/women-health.jpg",
+      title: "Dairy Products",
+      image: "/flags/cat9.webp",
       searchQuery: "respiratory",
-      bgGradient: "bg-gradient-to-br from-[#fdf0f5] to-[#fbdbe7]", // Soft Blush Pink
+      bgColor: "bg-[#faf0f4]", // Soft Blush Pink
     },
   ];
 
@@ -66,26 +66,19 @@ const CategoryCards = () => {
     <div className="w-full bg-white py-12 md:py-16 relative overflow-hidden">
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 relative z-10">
 
-        {/* Clean, Modern Header Block matching the screenshot structure */}
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-100">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[#111111] tracking-tight">
-              {storeCustomizationSetting?.home?.hero_title ? "Shop by Health Concerns" : "Shop by Health Concerns"}
-            </h2>
-          </div>
-
-          {/* View All Linked Button */}
-          <button
-            onClick={() => router.push("/search")}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-all"
-          >
-            View All
-            <span className="text-sm font-normal">→</span>
-          </button>
+        {/* Centered Header Block matching the screenshot UI */}
+        <div className="flex flex-col items-center justify-center mb-10 text-center">
+          <span className="text-xs md:text-sm font-bold text-[#0ea5e9] tracking-widest uppercase mb-1">
+            Our Categories
+          </span>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#222222] tracking-tight">
+            Shop by Health Concern
+          </h2>
+          <div className="w-12 h-[3px] bg-[#0ea5e9] rounded-full mt-3"></div>
         </div>
 
         {/* Carousel Window */}
-        <div className="relative group">
+        <div className="relative group/swiper">
           <Swiper
             modules={[Autoplay, Navigation]}
             spaceBetween={16}
@@ -103,29 +96,30 @@ const CategoryCards = () => {
             {categories.map((category) => (
               <SwiperSlide key={category.id}>
                 <div
-                  className="flex flex-col items-center cursor-pointer transition-all duration-300 select-none"
+                  className="flex flex-col items-center cursor-pointer select-none group"
                   onClick={() => router.push(`/search?q=${category.searchQuery}`)}
                 >
-                  {/* Outer Squared Card Canvas */}
-                  <div className={`w-full aspect-square ${category.bgGradient} rounded-2xl flex items-center justify-center p-4 transition-transform duration-300 hover:scale-[1.02]`}>
-
-                    {/* Inner Centralized Circular Frame */}
-                    <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-white/30 backdrop-blur-[4px] flex items-center justify-center shadow-[inset_0_2px_8px_rgba(255,255,255,0.4)]">
-                      <div className="relative w-14 h-14 md:w-16 md:h-16 transform transition-transform duration-300 hover:scale-110">
+                  {/* Outer Circle Container */}
+                  <div className="flex items-center justify-center w-full mb-1">
+                    {/* The Circle Card Itself */}
+                    <div
+                      className={`w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 ${category.bgColor} rounded-full flex items-center justify-center p-5 transition-all duration-300 ease-out group-hover:scale-105 group-hover:shadow-[0_10px_25px_rgba(0,0,0,0.05)]`}
+                    >
+                      {/* Image directly centered inside */}
+                      <div className="relative w-[65%] h-[65%] transform transition-transform duration-300 ease-out group-hover:scale-110">
                         <Image
                           src={category.image}
                           alt={category.title}
                           fill
-                          className="object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.06)]"
+                          className="object-contain filter drop-shadow-[0_6px_12px_rgba(0,0,0,0.06)]"
                           sizes="(max-width: 768px) 30vw, 15vw"
                         />
                       </div>
                     </div>
-
                   </div>
 
                   {/* Clean Category Label Title directly below box container */}
-                  <h3 className="mt-4 text-sm md:text-base font-bold text-slate-800 text-center tracking-tight px-1 line-clamp-1">
+                  <h3 className="mt-4 text-sm md:text-base font-bold text-slate-800 text-center tracking-tight px-1 line-clamp-1 group-hover:text-slate-900 transition-colors duration-300">
                     {category.title}
                   </h3>
                 </div>
@@ -139,6 +133,17 @@ const CategoryCards = () => {
           </button>
           <button className="cat-next absolute right-[-16px] top-[40%] -translate-y-1/2 w-9 h-9 z-30 flex items-center justify-center rounded-full bg-white border border-slate-200 text-slate-600 opacity-0 group-hover:opacity-100 transition-all shadow-md hover:bg-slate-50">
             <IoChevronForward size={16} />
+          </button>
+        </div>
+
+        {/* Centered View All Button */}
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={() => router.push("/search")}
+            className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-all hover:border-slate-300 shadow-sm"
+          >
+            View All Categories
+            <span className="text-base font-normal">→</span>
           </button>
         </div>
       </div>

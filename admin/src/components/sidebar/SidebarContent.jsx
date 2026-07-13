@@ -74,13 +74,12 @@ const SidebarContent = () => {
   return (
     <div className="py-4 text-neutral-500 dark:text-[#9fb1b1]">
       <div>
-        <Link to="/" className="flex items-center ml-8 shrink-0 group" aria-label="KalkiBrand">
+        <Link to="/" className="flex items-center ml-8 shrink-0 group" aria-label="KalkiBazar">
           {/* Wordmark */}
           <span className="flex flex-col leading-none">
             <span className="text-[#0f766e] font-extrabold tracking-tight text-xl">
-              Kalki<span className="text-[#0d9488]">Brand</span>
+              Kalki<span className="text-[#0d9488]">Bazar</span>
             </span>
-            <span className="text-[9px] font-semibold tracking-[0.18em] uppercase text-green-800 mt-0.5">Pharmacy</span>
           </span>
         </Link>
       </div >

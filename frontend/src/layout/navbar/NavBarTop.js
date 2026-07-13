@@ -74,7 +74,7 @@ const NavBarTop = () => {
       ].filter(Boolean);
       return parts.join(", ") || null;
     }
-    
+
     // Second priority: Geolocation address (from cookies)
     if (location?.address) {
       return location.address;
@@ -82,12 +82,12 @@ const NavBarTop = () => {
     if (location?.pinCode) {
       return `PIN: ${location.pinCode}`;
     }
-    
+
     // Third priority: User's basic address
     if (userInfo?.address) {
       return userInfo.address;
     }
-    
+
     return null;
   };
 
@@ -127,55 +127,39 @@ const NavBarTop = () => {
 
   return (
     <>
-      <div className="bg-gray-100 relative z-[51]">
-        <div className="max-w-screen-2xl mx-auto px-3 sm:px-10">
-          <div className="text-gray-700 py-2 font-sans text-xs font-medium border-b flex justify-between items-center">
-            <span className="flex items-center gap-2">
-              
+      <div className="bg-slate-950 relative z-[51] border-b border-slate-900">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-8">
+          <div className="py-1.5 font-sans text-xs font-medium flex justify-between items-center">
+            <span className="flex items-center gap-1.5 text-slate-400">
+              <FiMapPin className="text-emerald-400 text-xs shrink-0" />
               {displayAddress ? (
-                <span className="flex items-center text-gray-600">
-                  <span
-                    className="text-xs truncate max-w-xs"
-                    title={displayAddress}
-                  >
-                    {displayAddress}
-                  </span>
+                <span
+                  className="text-xs truncate max-w-sm font-medium text-slate-300"
+                  title={displayAddress}
+                >
+                  {displayAddress}
                 </span>
               ) : (
-                <LocationPickerDropdown className="!p-0 !bg-transparent !border-none text-xs font-sans text-gray-700 hover:text-store-500 z-40 h-auto" />
+                <LocationPickerDropdown className="!p-0 !bg-transparent !border-none text-xs font-sans text-slate-300 hover:text-emerald-400 z-40 h-auto font-medium" />
               )}
             </span>
 
-            <div className="lg:text-right flex items-center navBar">
-               
-               
-              {/* <Link
-                href={userInfo?.token ? "/user/my-account" : "/auth/login"}
-                className={`font-medium hover:text-store-600`}
-              >
-                {showingTranslateValue(storeCustomizationSetting?.navbar?.my_account) || "My Account"}
-              </Link>
-              <span className="mx-2">|</span> */}
+            <div className="lg:text-right flex items-center gap-4 text-slate-400 font-medium">
               {userInfo?.token ? (
                 <button
                   onClick={handleLogOut}
-                  className={`flex items-center font-medium hover:text-store-600`}
+                  className="flex items-center gap-1 text-slate-300 hover:text-emerald-400 transition-colors"
                 >
-                  <span className="mr-1">
-                    <IoLockOpenOutline />
-                  </span>
-                  {showingTranslateValue(storeCustomizationSetting?.navbar?.logout) || "Logout"}
+                  <IoLockOpenOutline className="text-xs" />
+                  <span>{showingTranslateValue(storeCustomizationSetting?.navbar?.logout) || "Logout"}</span>
                 </button>
               ) : (
                 <Link
                   href="/auth/login"
-                  className={`flex items-center font-medium hover:text-store-600`}
+                  className="flex items-center gap-1 text-slate-300 hover:text-emerald-400 transition-colors"
                 >
-                  <span className="mr-1">
-                    <FiUser />
-                  </span>
-
-                  {showingTranslateValue(storeCustomizationSetting?.navbar?.login) || "Login"}
+                  <FiUser className="text-xs" />
+                  <span>{showingTranslateValue(storeCustomizationSetting?.navbar?.login) || "Login"}</span>
                 </Link>
               )}
             </div>

@@ -3,8 +3,8 @@ const router = express.Router();
 const rateLimit = require("express-rate-limit");
 const { isAuthOptional, isAuth, isAdmin } = require("../config/auth");
 const {
-    exportProductsCSV,
-    importProductsCSV,
+  exportProductsCSV,
+  importProductsCSV,
   addProductView,
   getRecommendations,
   addProduct,
@@ -19,7 +19,7 @@ const {
   deleteProduct,
   deleteManyProducts,
   getShowingStoreProducts,
- 
+
 } = require("../controller/productController");
 
 // Rate limiters to prevent abuse

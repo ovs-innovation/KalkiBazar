@@ -533,7 +533,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
     product?.prices?.originalPrice,
     product?.prices?.price,
     product?.stock,
-    product.variants,
+    product?.variants,
     selectVa,
     selectVariant,
     value,
@@ -818,13 +818,18 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
       );
     }
   }, [selectVa, variantTitle, product?.variants, productImages, showingTranslateValue, getNumber, product?.title, product?.description, selectVariant]);
-
   useEffect(() => {
-    const res = Object.keys(Object.assign({}, ...product?.variants));
+    // GUARD: Exit early if product or variants array doesn't exist yet
+    if (!product || !product.variants || product.variants.length === 0) {
+      return;
+    }
+
+    // Now this is completely safe to run because variants is guaranteed to be an array
+    const res = Object.keys(Object.assign({}, ...product.variants));
     const varTitle = attributes?.filter((att) => res.includes(att?._id));
 
     setVariantTitle(varTitle?.sort());
-  }, [variants, attributes]);
+  }, [product, variants, attributes]); // Added 'product' here to re-run once the product details load
 
   useEffect(() => {
     setIsLoading(false);
@@ -1226,7 +1231,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
       ) : (
         <Layout
           title={dynamicTitle || showingTranslateValue(product?.title)}
-          description={dynamicDescription || showingTranslateValue(product.description)}
+          description={dynamicDescription || showingTranslateValue(product?.description)}
         >
           <div className="lg:px-8 py-4">
             <div className="mx-auto px-4 lg:px-12 max-w-screen-2xl">

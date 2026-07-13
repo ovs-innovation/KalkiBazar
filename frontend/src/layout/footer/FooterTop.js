@@ -146,8 +146,6 @@ const FooterTop = () => {
           </div>
         </div>
       </div>
-
-       
     </>
   );
 };

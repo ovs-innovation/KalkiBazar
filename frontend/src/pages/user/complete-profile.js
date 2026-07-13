@@ -78,17 +78,33 @@ const CompleteProfile = () => {
       return;
     }
 
+    // 1. Safe extraction of input values from react-hook-form data or watch hook
+    const rawPhone = watch("phone") || data.phone || "";
+
+    // 2. Extract digits only to strip spaces or dashes
+    const digits = String(rawPhone).replace(/\D/g, "");
+
+    // 3. Format strictly with the international prefix symbol (+) required by backend regex validators
+    const formattedPhone = digits.startsWith("91") && digits.length === 12
+      ? `+${digits}`
+      : digits.startsWith("+91")
+        ? digits
+        : `+91${digits.slice(-10)}`; // Takes the last 10 digits and forces +91 prefix
+
+    // 4. Build payload with formatted text
+    const payload = {
+      name: data.name,
+      email: emailTrimmed || undefined,
+      phone: formattedPhone, // Enforces "+918882474389" structure
+      address: data.address,
+      city: data.city,
+      zipCode: data.zipCode,
+      country: data.country || "India",
+    };
+
     setLoading(true);
     try {
-      const response = await CustomerServices.completeProfile({
-        name: data.name,
-        email: emailTrimmed || undefined,
-        phone: data.phone,
-        address: data.address,
-        city: data.city,
-        zipCode: data.zipCode,
-        country: data.country || "India",
-      });
+      const response = await CustomerServices.completeProfile(payload);
 
       saveAuthSession(response, dispatch);
       notifySuccess("Profile saved! You can place your order now.");
@@ -101,7 +117,6 @@ const CompleteProfile = () => {
       setLoading(false);
     }
   };
-
   return (
     <Layout title="Complete Profile">
       <div className="mx-auto max-w-lg px-4 py-10">
@@ -116,91 +131,102 @@ const CompleteProfile = () => {
           </p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <InputArea
+            {/* Full Name */}
+            <div>
+              <Label label="Full Name" />
+              <input
+                {...register("name", { required: "Name is required" })}
+                type="text"
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-store-500 focus:border-store-500 outline-none"
+                placeholder="Your full name"
+              />
+              <Error errorName={errors.name} />
+            </div>
+
+            {/* Email Field Component */}
+            <EmailVerificationField
               register={register}
-              label="Full Name"
-              name="name"
-              type="text"
-              placeholder="Your full name"
+              errors={errors}
+              emailValue={emailValue}
+              verifiedEmail={verifiedEmail}
+              isVerified={emailVerified}
+              onVerified={({ email }) => {
+                setVerifiedEmail(email);
+                setEmailVerified(true);
+                setValue("email", email);
+              }}
             />
-            <Error errorName={errors.name} />
-          </div>
 
-          <EmailVerificationField
-            register={register}
-            errors={errors}
-            emailValue={emailValue}
-            verifiedEmail={verifiedEmail}
-            isVerified={emailVerified}
-            onVerified={({ email }) => {
-              setVerifiedEmail(email);
-              setEmailVerified(true);
-              setValue("email", email);
-            }}
-          />
+            {/* Mobile Number - Native Input with Clean Validation */}
+            <div>
+              <Label label="Mobile Number" />
+              <input
+                {...register("phone", {
+                  required: "Phone number is required",
+                  pattern: {
+                    value: /^[0-9]{10,12}$/,
+                    message: "Please enter a valid phone number"
+                  }
+                })}
+                type="tel"
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-store-500 focus:border-store-500 outline-none"
+                placeholder="10-digit mobile"
+              />
+              <Error errorName={errors.phone} />
+            </div>
 
-          <div>
-            <InputArea
-              register={register}
-              label="Mobile Number"
-              name="phone"
-              type="tel"
-              placeholder="10-digit mobile"
-            />
-            <Error errorName={errors.phone} />
-          </div>
+            {/* Delivery Address */}
+            <div>
+              <Label label="Delivery address" />
+              <textarea
+                {...register("address", { required: "Address is required" })}
+                rows={3}
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-store-500 focus:border-store-500 outline-none"
+                placeholder="House no., street, area, landmark"
+              />
+              <Error errorName={errors.address} />
+            </div>
 
-          <div>
-            <Label label="Delivery address" />
-            <textarea
-              {...register("address", { required: "Address is required" })}
-              rows={3}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-store-500 focus:border-store-500 outline-none"
-              placeholder="House no., street, area, landmark"
-            />
-            <Error errorName={errors.address} />
-          </div>
+            {/* City & PIN Code */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label label="City" />
+                <input
+                  {...register("city", { required: "City is required" })}
+                  type="text"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-store-500 focus:border-store-500 outline-none"
+                  placeholder="City"
+                />
+                <Error errorName={errors.city} />
+              </div>
+              <div>
+                <Label label="PIN Code" />
+                <input
+                  {...register("zipCode", { required: "PIN Code is required" })}
+                  type="text"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-store-500 focus:border-store-500 outline-none"
+                  placeholder="PIN"
+                />
+                <Error errorName={errors.zipCode} />
+              </div>
+            </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <InputArea
-              register={register}
-              label="City"
-              name="city"
-              type="text"
-              placeholder="City"
-              required={false}
-            />
-            <InputArea
-              register={register}
-              label="PIN Code"
-              name="zipCode"
-              type="text"
-              placeholder="PIN"
-              required={false}
-            />
-          </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 rounded-full bg-store-600 hover:bg-store-700 text-white font-bold disabled:opacity-60"
+            >
+              {loading ? "Saving..." : isCheckout ? "Save & Continue" : "Save Profile"}
+            </button>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 rounded-full bg-store-600 hover:bg-store-700 text-white font-bold disabled:opacity-60"
-          >
-            {loading
-              ? "Saving..."
-              : isCheckout
-                ? "Save & Continue"
-                : "Save Profile"}
-          </button>
-
-          {!isCheckout && (
-            <p className="text-center text-sm text-gray-500 mt-4">
-              <Link href="/" className="text-store-600 hover:underline">
-                Skip for now — browse home
-              </Link>
-            </p>
-          )}
-        </form>
+            {!isCheckout && (
+              <p className="text-center text-sm text-gray-500 mt-4">
+                <Link href="/" className="text-store-600 hover:underline">
+                  Skip for now — browse home
+                </Link>
+              </p>
+            )}
+          </form>
         </div>
       </div>
     </Layout>

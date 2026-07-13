@@ -60,12 +60,14 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
       ) : (
         <Layout>
           <div className="min-h-screen">
+            {/* Hero Banner — full bleed, outside max-width container */}
+            <div className="w-full bg-white">
+              <HeroBanner />
+            </div>
+
             <div className="bg-white">
               <div className="mx-auto max-w-screen-2xl">
                 <div className="flex w-full flex-col">
-                  <div className="w-full">
-                    <HeroBanner />
-                  </div>
                   {/* Slider Carousel */}
                   <div className="md:hidden">
                     <SliderCarousel />
@@ -83,6 +85,7 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
             </div>
             {/* Category Cards Section */}
             <CategoryCards />
+
 
             {/* feature category's */}
             {storeCustomizationSetting?.home?.featured_status && (
@@ -128,7 +131,7 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                         <span>Popular Choice</span>
                       </div>
                       <SectionHeader
-                          title={storeCustomizationSetting?.home?.best_selling_title || "Best Selling Medicines"}
+                          title={storeCustomizationSetting?.home?.best_selling_title || "Best Selling Products"}
                         subtitle={storeCustomizationSetting?.home?.best_selling_description || "Explore our top-rated essentials, loved by thousands of customers."}
                         align="left"
                       />
@@ -233,11 +236,11 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                     <div className="space-y-3">
                       <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-700/80 to-amber-600/70 text-white text-[11px] font-extrabold uppercase tracking-widest shadow-lg shadow-amber-100">
                         <IoSparkles className="animate-pulse text-yellow-300" />
-                        <span>Nourishing & Natural</span>
+                        <span>Kitchen Needs</span>
                       </div>
                       <SectionHeader
-                        title="Personal Care Essentials"
-                        subtitle="Explore our range of premium organic personal care products crafted for your daily routine."
+                        title="Kitchen Essentials"
+                        subtitle="Explore our range of premium essentials crafted for your daily routine."
                         align="left"
                       />
                     </div>

@@ -215,11 +215,11 @@ const sendPhoneEmailOTP = async (req, res) => {
     if (!user && intent === "signup") {
       const myReferralCode = 'FK' + Math.random().toString(36).substring(2, 8).toUpperCase();
       let referredBy = undefined;
-      
+
       if (req.body.referralCode) {
         const referrer = await Customer.findOne({ referralCode: req.body.referralCode });
         if (referrer) {
-           referredBy = referrer._id;
+          referredBy = referrer._id;
         }
       }
 
@@ -236,12 +236,12 @@ const sendPhoneEmailOTP = async (req, res) => {
       await user.save();
 
       if (referredBy) {
-         const Referral = require("../models/Referral");
-         await new Referral({
-           referrer: referredBy,
-           referredUser: user._id,
-           status: "pending"
-         }).save();
+        const Referral = require("../models/Referral");
+        await new Referral({
+          referrer: referredBy,
+          referredUser: user._id,
+          status: "pending"
+        }).save();
       }
     }
 
@@ -576,11 +576,11 @@ const registerCustomerDirect = async (req, res) => {
 
     const myReferralCode = 'FK' + Math.random().toString(36).substring(2, 8).toUpperCase();
     let referredBy = undefined;
-    
+
     if (req.body.referralCode) {
       const referrer = await Customer.findOne({ referralCode: req.body.referralCode });
       if (referrer) {
-         referredBy = referrer._id;
+        referredBy = referrer._id;
       }
     }
 
@@ -598,16 +598,16 @@ const registerCustomerDirect = async (req, res) => {
     await newUser.save();
 
     if (referredBy) {
-       const Referral = require("../models/Referral");
-       await new Referral({
-         referrer: referredBy,
-         referredUser: newUser._id,
-         status: "pending"
-       }).save();
+      const Referral = require("../models/Referral");
+      await new Referral({
+        referrer: referredBy,
+        referredUser: newUser._id,
+        status: "pending"
+      }).save();
     }
 
     // Firebase handles email verification links natively now, so no custom OTP email is sent.
-    
+
     const token = signInToken(newUser);
     res.send({
       token,
@@ -1024,7 +1024,7 @@ const loginCustomer = async (req, res) => {
         });
       }
     }
-    
+
     // Update lastLogin timestamp
     customer.lastLogin = new Date();
     await customer.save();
@@ -1296,7 +1296,7 @@ const completeProfile = async (req, res) => {
     if (address) customer.address = String(address).trim();
     if (gender) customer.gender = gender;
     if (dob) customer.dob = dob;
-    
+
     if (phone) customer.phone = normalizePhone(phone);
     if (city) customer.city = city;
     if (country) customer.country = country;

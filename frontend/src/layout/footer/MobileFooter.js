@@ -17,7 +17,7 @@ import useWishlist from "@hooks/useWishlist";
 import LocationButton from "@components/location/LocationButton";
 import SearchSuggestions from "@components/search/SearchSuggestions";
 import CustomerNotificationBell from "@components/notification/CustomerNotificationBell";
-import { pickBrandLogo } from "@utils/brandAssets";
+
 const MobileFooter = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -83,23 +83,15 @@ const MobileFooter = () => {
           </button>
           <Link
             href="/"
-            className="flex items-center justify-center"
+            className="flex items-center gap-2.5 shrink-0 group"
             rel="noreferrer"
-            aria-label={t("Home") || "Home"}
+            aria-label="KalkiMart"
           >
-            <div className="relative w-[72px] h-[72px]">
-              <Image
-                src={pickBrandLogo(
-                  storeCustomizationSetting?.navbar?.logo,
-                  storeCustomizationSetting?.seo?.favicon
-                )}
-                alt="logo"
-                fill
-                className="object-contain"
-                sizes="72px"
-                priority
-              />
-            </div>
+            <span className="flex flex-col leading-none">
+              <span className="kalki-logo-text font-extrabold tracking-tight text-xl">
+                Kalki<span className="kalki-logo-accent">Mart</span>
+              </span>
+            </span>
           </Link>
           <Link
             href="/"

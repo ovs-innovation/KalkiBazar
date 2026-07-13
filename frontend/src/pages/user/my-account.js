@@ -316,7 +316,7 @@ const MyAccount = () => {
           <div className="relative overflow-hidden bg-white rounded-2xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
             {/* Subtle Top Accent */}
             <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-store-400 to-store-600"></div>
-            
+
             <div className="p-8">
               <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
@@ -334,7 +334,7 @@ const MyAccount = () => {
                       </div>
                     )}
                   </div>
-                  
+
                   <div>
                     <div className="flex flex-col sm:flex-row items-center gap-3 mb-2">
                       <h2 className="text-2xl font-serif font-bold text-gray-800">
@@ -360,7 +360,7 @@ const MyAccount = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <Link
                   href="/user/update-profile"
                   className="flex items-center gap-2 px-6 py-3 bg-white border-2 border-store-500 text-store-600 text-sm font-bold rounded-2xl hover:bg-store-500 hover:text-white transition-all duration-300 shadow-sm hover:shadow-md"
@@ -406,27 +406,25 @@ const MyAccount = () => {
                   {shippingAddresses.map((address) => (
                     <div
                       key={address._id || address.id}
-                      className={`group relative p-6 rounded-2xl border-2 transition-all duration-300 ${
-                        address.isDefault 
-                          ? 'border-store-500 bg-store-50/10' 
+                      className={`group relative p-6 rounded-2xl border-2 transition-all duration-300 ${address.isDefault
+                          ? 'border-store-500 bg-store-50/10'
                           : 'border-gray-100 hover:border-store-200 bg-white hover:shadow-md'
-                      }`}
+                        }`}
                     >
                       {address.isDefault && (
                         <div className="absolute -top-3 left-6 px-3 py-0.5 bg-store-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-sm">
                           Default
                         </div>
                       )}
-                      
+
                       <div className="flex justify-between items-start mb-4">
-                        <span className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-widest rounded-lg border ${
-                          address.addressType === 'Home' ? 'bg-indigo-50 text-indigo-600 border-indigo-100' : 
-                          address.addressType === 'Work' ? 'bg-amber-50 text-amber-600 border-amber-100' : 
-                          'bg-gray-50 text-gray-600 border-gray-100'
-                        }`}>
+                        <span className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-widest rounded-lg border ${address.addressType === 'Home' ? 'bg-indigo-50 text-indigo-600 border-indigo-100' :
+                            address.addressType === 'Work' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                              'bg-gray-50 text-gray-600 border-gray-100'
+                          }`}>
                           {address.addressType || 'Home'}
                         </span>
-                        
+
                         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
                             type="button"
@@ -489,11 +487,10 @@ const MyAccount = () => {
                 <button
                   type="button"
                   onClick={() => setIsEditingWholesaler((v) => !v)}
-                  className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${
-                    isEditingWholesaler 
-                      ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' 
+                  className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${isEditingWholesaler
+                      ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border border-emerald-200'
-                  }`}
+                    }`}
                 >
                   {isEditingWholesaler ? "Done" : "Update Documents"}
                 </button>
@@ -552,11 +549,11 @@ const MyAccount = () => {
       {showAddressModal && (
         <div className="fixed inset-0 z-[60] overflow-hidden">
           {/* Overlay */}
-          <div 
+          <div
             className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
             onClick={() => setShowAddressModal(false)}
           />
-          
+
           {/* Modal Panel - Slide from right */}
           <div className="absolute inset-y-0 right-0 max-w-full w-full md:max-w-lg">
             <div className="h-full flex flex-col bg-white shadow-xl">

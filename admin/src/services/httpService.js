@@ -14,26 +14,31 @@ const instance = axios.create({
 
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
-  // Do something before request is sent
-  let adminInfo;
-  if (Cookies.get("adminInfo")) {
-    adminInfo = JSON.parse(Cookies.get("adminInfo"));
+  console.log("ALL COOKIES AVAILABLE:", document.cookie); // See everything stored
+
+  let adminInfo = Cookies.get("adminInfo");
+  let customerInfo = Cookies.get("customerInfo");
+
+  console.log("Raw adminInfo Cookie:", adminInfo);
+  console.log("Raw customerInfo Cookie:", customerInfo);
+
+  let token = null;
+  if (adminInfo) {
+    const parsed = JSON.parse(adminInfo);
+    token = parsed?.token || parsed?.tokenValue; // check your object keys
+  } else if (customerInfo) {
+    const parsed = JSON.parse(customerInfo);
+    token = parsed?.token || parsed?.tokenValue;
   }
 
-  let company;
-
-  if (Cookies.get("company")) {
-    company = Cookies.get("company");
-  }
-
-  // console.log('Admin Http Services Cookie Read : ' + company);
-  // let companyName = JSON.stringify(company);
+  console.log("TOKEN BEING SENT:", token);
 
   return {
     ...config,
     headers: {
-      authorization: adminInfo ? `Bearer ${adminInfo.token}` : null,
-      company: company ? company : null,
+      ...config.headers,
+      authorization: token ? `Bearer ${token}` : null,
+      company: Cookies.get("company") || null,
     },
   };
 });

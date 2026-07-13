@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
+import { useRef, useEffect, useState } from "react";
 
 //internal import
 
@@ -21,17 +22,35 @@ const Layout = ({ title, description, children, hideMobileHeader }) => {
   const storeColor = storeCustomizationSetting?.theme?.color || DEFAULT_STORE_COLOR;
   const palette = getPalette(storeColor);
 
+  // Dynamically measure header height so content starts exactly below the fixed header
+  const headerRef = useRef(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    setHeaderHeight(el.offsetHeight);
+    const observer = new ResizeObserver(() => {
+      if (headerRef.current) setHeaderHeight(headerRef.current.offsetHeight);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   // Sync prescription medicines to cart
   useCartSync();
 
   // Get dynamic title and favicon from settings
-  const siteTitle = storeCustomizationSetting?.seo?.meta_title || globalSetting?.shop_name || "Kalki Brand";
+  const siteTitle = "KalkiBazar";
   const favicon = pickBrandLogo(
     storeCustomizationSetting?.seo?.favicon,
     globalSetting?.logo,
     storeCustomizationSetting?.navbar?.logo
   );
-  const defaultDescription = storeCustomizationSetting?.seo?.meta_description || description || "Discover personalized merchandise, branded giveaways, and advertising essentials. Ideal for businesses, events, and promotions";
+  const defaultDescription =
+    storeCustomizationSetting?.seo?.meta_description ||
+    description ||
+    "Discover personalized merchandise, branded giveaways, and advertising essentials. Ideal for businesses, events, and promotions";
 
   const hexToRgb = (hex) => {
     if (!hex) return "20, 184, 166";
@@ -77,29 +96,45 @@ const Layout = ({ title, description, children, hideMobileHeader }) => {
           <link rel="shortcut icon" href={favicon} />
           <link rel="apple-touch-icon" href={favicon} />
         </Head>
-        {/* Mobile header bar (fixed) */}
-        {!hideMobileHeader && <MobileFooter />}
 
-        {/* Mobile Bottom Navigation */}
+        {/* Mobile header (fixed top, hidden on desktop) */}
+        {!hideMobileHeader && <MobileFooter />}
         {!hideMobileHeader && <MobileBottomNavigation />}
 
-        {/* Desktop: one sticky header — top bar + navbar + categories shift on scroll */}
-        <div className="hidden lg:block sticky top-0 glass-header shadow-sm">
+        {/* Desktop header — inline styles force position:fixed at viewport top, bypassing any CSS specificity issues */}
+        <div
+          ref={headerRef}
+          className="hidden lg:block"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 9999,
+            backgroundColor: "#020617",
+          }}
+        >
           <NavBarTop />
           <Navbar />
         </div>
 
-        <div className={`${hideMobileHeader ? "pt-0" : "pt-16"} lg:pt-0 lg:mt-0 pb-16 lg:pb-0`}>
+        {/* Page content — paddingTop dynamically equals the actual fixed header height */}
+        <div
+          className={`${hideMobileHeader ? "pt-0" : "pt-16"} pb-16 lg:pb-0`}
+          style={headerHeight > 0 ? { paddingTop: `${headerHeight}px` } : {}}
+        >
           {children}
         </div>
-        <div className="  w-full">
-          {/* <FooterTop  /> */}
+
+        <div className="w-full">
           <div className="w-full">
             <Footer />
           </div>
         </div>
+
         <FloatingWhatsApp />
       </div>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}
