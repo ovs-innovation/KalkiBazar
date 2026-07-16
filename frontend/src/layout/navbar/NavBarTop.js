@@ -131,7 +131,7 @@ const NavBarTop = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-8">
           <div className="py-1.5 font-sans text-xs font-medium flex justify-between items-center">
             <span className="flex items-center gap-1.5 text-slate-400">
-              <FiMapPin className="text-emerald-400 text-xs shrink-0" />
+              {/* <FiMapPin className="text-yellow-400 text-xs shrink-0" /> */}
               {displayAddress ? (
                 <span
                   className="text-xs truncate max-w-sm font-medium text-slate-300"

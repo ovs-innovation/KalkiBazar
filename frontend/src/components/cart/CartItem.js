@@ -54,9 +54,9 @@ const CartItem = ({ item, currency = "₹" }) => {
   };
 
   return (
-    <div className="group w-full h-auto flex justify-start items-start bg-white py-4 px-4 mb-3 rounded-xl border border-gray-200 hover:border-emerald-300 shadow-md hover:shadow-xl transition-all duration-300 relative">
+    <div className="group w-full h-auto flex justify-start items-start bg-white py-4 px-4 mb-3 rounded-xl border border-gray-200 hover:border-yellow-500 shadow-md hover:shadow-xl transition-all duration-300 relative">
       {/* Enhanced Image Container */}
-      <div className="relative flex rounded-xl border-2 border-gray-100 shadow-sm hover:shadow-md overflow-hidden flex-shrink-0 cursor-pointer mr-4 transition-all duration-300 group-hover:border-emerald-200 bg-gray-50">
+      <div className="relative flex rounded-xl border-2 border-gray-100 shadow-sm hover:shadow-md overflow-hidden flex-shrink-0 cursor-pointer mr-4 transition-all duration-300 group-hover:border-yellow-500/40 bg-gray-50">
         <Image
           key={item.id}
           src={
@@ -77,7 +77,7 @@ const CartItem = ({ item, currency = "₹" }) => {
         <Link
           href={`/product/${item.slug || item.id || item._id}`}
           onClick={closeCartDrawer}
-          className="truncate text-sm md:text-base font-semibold text-gray-800 hover:text-emerald-600 transition-colors duration-200 line-clamp-2 mb-1.5"
+          className="truncate text-sm md:text-base font-semibold text-gray-800 hover:text-yellow-500 transition-colors duration-200 line-clamp-2 mb-1.5"
         >
           {item.title}
         </Link>
@@ -88,7 +88,7 @@ const CartItem = ({ item, currency = "₹" }) => {
             <span className="text-xs text-gray-500 line-through font-medium">
               MRP: {currency}{originalPrice.toFixed(2)}
             </span>
-            <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-sm">
+            <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-sm">
               {discountPercentage}% OFF
             </span>
           </div>
@@ -98,7 +98,7 @@ const CartItem = ({ item, currency = "₹" }) => {
         {!isWholesaler && (
           <span className="text-xs text-gray-500 mb-2 font-medium">
             Unit Price:{" "}
-            <span className="text-emerald-600 font-semibold">
+            <span className="text-yellow-500 font-semibold">
               {currency}{item.price.toFixed(2)}
             </span>
           </span>
@@ -116,7 +116,7 @@ const CartItem = ({ item, currency = "₹" }) => {
 
           {/* Quantity Controls */}
           <div className="flex items-center gap-2">
-            <div className="h-9 flex items-center justify-center p-1 border-2 border-emerald-300 bg-white hover:border-emerald-300 text-gray-700 rounded-lg transition-all duration-200 shadow-sm">
+            <div className="h-9 flex items-center justify-center p-1 border-2 border-yellow-500/40 bg-white hover:border-yellow-500/60 text-gray-700 rounded-lg transition-all duration-200 shadow-sm">
               <button
                 onClick={handleDecrease}
                 className="h-full px-2 hover:bg-gray-100 rounded-md transition-colors duration-150 active:scale-95"
@@ -130,9 +130,9 @@ const CartItem = ({ item, currency = "₹" }) => {
 
               <button
                 onClick={() => handleIncreaseQuantity(item)}
-                className="h-full px-2 hover:bg-emerald-50 rounded-md transition-colors duration-150 active:scale-95"
+                className="h-full px-2 hover:bg-yellow-50 rounded-md transition-colors duration-150 active:scale-95"
               >
-                <FiPlus className="text-emerald-600" />
+                <FiPlus className="text-yellow-500" />
               </button>
             </div>
 

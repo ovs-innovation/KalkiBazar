@@ -19,12 +19,12 @@ class MyDocument extends Document {
 
   render() {
     const setting = this.props.setting;
-    const favicon = "/favicon.png" || setting?.favicon;
+    const favicon = "/favicon.png?v=2";
     const metaTitle = setting?.meta_title || "Kalki Brand – Customized Promotional Items & Advertising Products Online Store";
     const metaDescription = setting?.meta_description || "Discover personalized merchandise, branded giveaways, and advertising essentials. Ideal for businesses, events, and promotions";
     const metaKeywords = setting?.meta_keywords || "ecommerce online store";
     const metaUrl = setting?.meta_url || "";
-    const metaImage = setting?.meta_img || "/logo/logo.png";
+    const metaImage = setting?.meta_img || "../../public/logo/kalkiBazar.png";
 
     return (
       <Html lang="en">

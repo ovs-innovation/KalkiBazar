@@ -137,7 +137,8 @@ const ProductCard = ({ product, attributes, hidePriceAndAdd = false, hideDiscoun
             router.push(`/product/${product.slug}`);
             handleLogEvent("product", `Mapped to ${showingTranslateValue(product?.title)} product page`);
           }}
-          className="relative w-full h-[180px] sm:h-[220px] bg-white rounded-2xl border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.02)] cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:border-slate-300/80 group/img flex-shrink-0"
+          className="relative w-full h-[180px] sm:h-[220px] rounded-2xl border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.02)] cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:border-slate-300/80 group/img flex-shrink-0"
+          style={{ backgroundColor: "#ffffff" }}
         >
           {/* Discount Badge */}
           {!hideDiscount && !isWholesaler && (() => {

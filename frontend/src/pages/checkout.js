@@ -510,8 +510,8 @@ const Checkout = () => {
                                   setValue("zipCode", address.zipCode || "");
                                 }}
                                 className={`border-2 rounded-lg p-3 sm:p-4 cursor-pointer transition-all ${isSelected
-                                    ? ' border-gray-200 ring-2 ring-store-300'
-                                    : 'border-gray-200 bg-white hover:border-store-300 hover:shadow-sm'
+                                  ? ' border-gray-200 ring-2 ring-store-300'
+                                  : 'border-gray-200 bg-white hover:border-store-300 hover:shadow-sm'
                                   }`}
                               >
                                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -542,7 +542,7 @@ const Checkout = () => {
                                     <div className="flex-1">
                                       {isSelected && (
                                         <div className="flex items-center gap-2 mb-2">
-                                          <span className="px-2.5 py-1 text-xs font-semibold uppercase tracking-wide bg-blue-50 text-gray-700 rounded-full">
+                                          <span className="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider bg-yellow-500 text-slate-950 rounded-full shadow-sm">
                                             DELIVER TO
                                           </span>
                                         </div>
@@ -798,7 +798,7 @@ const Checkout = () => {
                               </div>
 
                               {discountAmount > 0 && (
-                                <p className="text-xs text-green-600 font-semibold">
+                                <p className="text-xs text-yellow-500 font-semibold">
                                   You save {currency}
                                   {discountAmount.toFixed(2)} with this coupon.
                                 </p>
@@ -828,9 +828,9 @@ const Checkout = () => {
 
                 {/* Total Discount - Hidden for wholesalers */}
                 {!isWholesaler && totals.totalDiscount > 0 && (
-                  <div className="flex items-center py-2 text-sm w-full font-semibold text-green-600 last:border-b-0 last:text-base last:pb-0">
+                  <div className="flex items-center py-2 text-sm w-full font-semibold text-yellow-500 last:border-b-0 last:text-base last:pb-0">
                     Total Discount
-                    <span className="ml-auto flex-shrink-0 font-bold text-green-600">
+                    <span className="ml-auto flex-shrink-0 font-bold text-yellow-500">
                       -{currency}
                       {totals.totalDiscount.toFixed(2)}
                     </span>
@@ -862,7 +862,7 @@ const Checkout = () => {
                 {/* Coupon Offer / Additional Discount - Hidden for wholesalers */}
                 {!isWholesaler && discountAmount > 0 && (
                   <div
-                    className={`flex items-center py-2 text-sm w-full font-semibold last:border-b-0 last:text-base last:pb-0 ${isCouponApplied ? "text-green-600" : "text-gray-500"
+                    className={`flex items-center py-2 text-sm w-full font-semibold last:border-b-0 last:text-base last:pb-0 ${isCouponApplied ? "text-yellow-500" : "text-gray-500"
                       }`}
                   >
                     {isCouponApplied
@@ -871,7 +871,7 @@ const Checkout = () => {
                         storeCustomizationSetting?.checkout?.discount
                       )}
                     <span
-                      className={`ml-auto flex-shrink-0 font-bold ${isCouponApplied ? "text-green-600" : "text-orange-400"
+                      className={`ml-auto flex-shrink-0 font-bold ${isCouponApplied ? "text-yellow-500" : "text-orange-400"
                         }`}
                     >
                       {currency}
@@ -890,9 +890,9 @@ const Checkout = () => {
                     </span>
                   </div>
                 ) : (
-                  <div className="flex items-center py-2 text-sm w-full font-semibold text-green-600 last:border-b-0 last:text-base last:pb-0">
+                  <div className="flex items-center py-2 text-sm w-full font-semibold text-yellow-500 last:border-b-0 last:text-base last:pb-0">
                     Shipping Cost
-                    <span className="ml-auto flex-shrink-0 font-bold text-green-600">
+                    <span className="ml-auto flex-shrink-0 font-bold text-yellow-500">
                       FREE
                     </span>
                   </div>
@@ -983,8 +983,8 @@ const Checkout = () => {
                     }}
                     disabled={isEmpty || isCheckoutSubmit || !agreeToTerms}
                     className={`w-full py-4 rounded-lg text-base font-semibold text-white transition-all ${isEmpty || isCheckoutSubmit || !agreeToTerms
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-blue-500 hover:bg-blue-600 shadow-md hover:shadow-lg'
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-blue-500 hover:bg-blue-600 shadow-md hover:shadow-lg'
                       }`}
                   >
                     {isCheckoutSubmit ? (

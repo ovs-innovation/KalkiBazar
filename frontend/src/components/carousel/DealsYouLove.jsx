@@ -55,21 +55,21 @@ const DealsYouLove = ({ products, attributes }) => {
   if (!dealProducts || dealProducts.length === 0) return null;
 
   return (
-    <div className="relative lg:py-16 py-10 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 border-y border-slate-100">
+    <div className="relative lg:py-16 py-10 overflow-hidden bg-transparent border-y border-slate-800/40">
 
       {/* Soft Glow Background Accents */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-[-5%] w-[400px] h-[400px] bg-amber-500/[0.03] rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-[-5%] w-[400px] h-[400px] bg-indigo-500/[0.03] rounded-full blur-[120px]" />
+        <div className="absolute top-0 left-[-5%] w-[400px] h-[400px] bg-amber-500/[0.015] rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-[-5%] w-[400px] h-[400px] bg-indigo-500/[0.015] rounded-full blur-[120px]" />
       </div>
 
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Header Block */}
-        <div className="mb-8 flex flex-row items-end justify-between gap-4 border-b border-slate-100 pb-5">
+        <div className="mb-8 flex flex-row items-end justify-between gap-4 border-b border-slate-850 pb-5">
           <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-800 text-[11px] font-bold uppercase tracking-wider border border-amber-200/40">
-              <IoFlash className="animate-pulse text-amber-600 text-sm" /> Hot Offers
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-[11px] font-bold uppercase tracking-wider border border-amber-500/20">
+              <IoFlash className="animate-pulse text-amber-500 text-sm" /> Hot Offers
             </div>
             <SectionHeader
               title="Special Health Offers"
@@ -80,10 +80,10 @@ const DealsYouLove = ({ products, attributes }) => {
 
           {/* Clean Integrated Header Buttons */}
           <div className="hidden md:flex items-center gap-2 flex-shrink-0 mb-1">
-            <button className="prev-deals w-10 h-10 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-indigo-600 active:scale-95 transition-all shadow-sm">
+            <button className="prev-deals w-10 h-10 bg-slate-900 border border-slate-800 rounded-full flex items-center justify-center text-slate-300 hover:bg-slate-800 hover:text-yellow-500 active:scale-95 transition-all shadow-sm">
               <IoChevronBack className="text-lg" />
             </button>
-            <button className="next-deals w-10 h-10 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-indigo-600 active:scale-95 transition-all shadow-sm">
+            <button className="next-deals w-10 h-10 bg-slate-900 border border-slate-800 rounded-full flex items-center justify-center text-slate-300 hover:bg-slate-800 hover:text-yellow-500 active:scale-95 transition-all shadow-sm">
               <IoChevronForward className="text-lg" />
             </button>
           </div>

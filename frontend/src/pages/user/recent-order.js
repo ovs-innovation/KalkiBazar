@@ -154,7 +154,7 @@ const RecentOrder = ({ data, loading, error }) => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-100">
                   {data?.orders?.map((order) => (
-                    <tr key={order._id} className="hover:bg-gray-50/60 transition-colors">
+                    <tr key={order._id} className="hover:bg-zinc-800 transition-colors">
                       <td className="px-4 py-3.5 whitespace-nowrap">
                         <span className="font-mono text-xs font-bold text-store-600 bg-store-50 px-2 py-0.5 rounded">
                           #{order?._id?.slice(-6).toUpperCase()}

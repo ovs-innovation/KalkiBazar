@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import React from "react";
+import KalkiBazar from "../../../public/logo/kalkiBazar.png";
 
 // internal import
 import InvoiceOrderTable from "@/components/invoice/InvoiceOrderTable";
@@ -75,11 +76,15 @@ const InvoiceLayout = ({ data, printRef, globalSetting, currency, getNumberTwo }
           <div className="text-left flex flex-col items-start gap-0">
             <h2 className="text-lg font-serif font-semibold">
               <a href="/" rel="noreferrer">
-                <span className="flex flex-col leading-none">
-                  <span className="text-[#0f766e] font-extrabold tracking-tight text-xl">
-                    Kalki<span className="text-[#0d9488]">Bazar</span>
-                  </span>
-                </span>
+                <Image
+                  src={KalkiBazar}
+                  alt="logo"
+                  width={158}
+                  height={170}
+                  priority
+                  className="object-contain transition-transform duration-300 group-hover:scale-105"
+                  style={{ height: "120px", width: "auto" }}
+                />
               </a>
             </h2>
               

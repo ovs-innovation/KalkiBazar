@@ -14,11 +14,11 @@ body {
 body {
   overflow-x: hidden;
   width: 100%;
-  background-color: #fafafa;
+  background-color: #030303;
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.06), transparent),
-    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(167, 139, 250, 0.04), transparent);
-  color: #171717;
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(167, 139, 250, 0.05), transparent);
+  color: #f3f4f6;
 }
 
 .page-container {
@@ -98,6 +98,11 @@ body {
   font-weight: 600;
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Linear marquee swiper transition */
+.linear-swiper .swiper-wrapper {
+  transition-timing-function: linear !important;
 }
 
 .btn-modern:hover {
@@ -1811,16 +1816,17 @@ p:not(:last-of-type) {
 
 /* ---- Navbar search bar premium polish ---- */
 .navbar-search-form {
-  background: #f8fafc !important;
-  border: 1.5px solid #e2e8f0 !important;
+  background: rgba(15, 23, 42, 0.6) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 999px !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  backdrop-filter: blur(8px);
 }
 .navbar-search-form:focus-within {
-  background: #fff !important;
-  border-color: var(--store-color-400) !important;
-  box-shadow: 0 0 0 3px rgba(var(--store-color-rgb, 139,92,246), 0.1), 0 2px 8px rgba(0,0,0,0.06) !important;
+  background: rgba(15, 23, 42, 0.85) !important;
+  border-color: var(--store-color-500) !important;
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.15), 0 2px 8px rgba(0,0,0,0.25) !important;
 }
 
 /* Search submit button — animated gradient */
@@ -2131,9 +2137,213 @@ footer a:hover,
 
 /* Scrollbar — subtle teal tint */
 ::-webkit-scrollbar-thumb {
-  background: #99f6e4;
+  background: #27272a;
   border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #5eead4;
+  background: #3f3f46;
+}
+
+/* ==========================================
+   GLOBAL PREMIUM DARK BLACK THEME OVERRIDES
+   ========================================== */
+
+/* 1. Global Container/Card Surface Overrides */
+/* Force dark backgrounds for layout elements that are bg-white */
+.bg-white,
+[class*="bg-white"] {
+  background-color: #09090b !important;
+  color: #f3f4f6 !important;
+}
+
+.bg-slate-50,
+.bg-gray-50,
+.bg-gray-50\/50,
+.bg-neutral-50,
+.bg-stone-50 {
+  background-color: #030303 !important;
+  color: #e5e7eb !important;
+}
+
+.bg-gray-100,
+.bg-neutral-100,
+.bg-slate-100 {
+  background-color: #18181b !important;
+  color: #f3f4f6 !important;
+}
+
+.bg-gray-200,
+.bg-neutral-200,
+.bg-slate-200 {
+  background-color: #27272a !important;
+  color: #f3f4f6 !important;
+}
+
+/* 2. Text Color Contrast Fixes */
+.text-gray-900,
+.text-neutral-900,
+.text-slate-900,
+.text-black,
+.text-zinc-900,
+p.text-gray-900 {
+  color: #f8fafc !important;
+}
+
+.text-gray-800,
+.text-neutral-800,
+.text-slate-800,
+.text-zinc-800 {
+  color: #f1f5f9 !important;
+}
+
+.text-gray-700,
+.text-neutral-700,
+.text-slate-700,
+.text-zinc-700 {
+  color: #e2e8f0 !important;
+}
+
+.text-gray-600,
+.text-neutral-600,
+.text-slate-600,
+.text-zinc-600 {
+  color: #cbd5e1 !important;
+}
+
+.text-gray-500,
+.text-neutral-500,
+.text-slate-500,
+.text-zinc-500 {
+  color: #94a3b8 !important;
+}
+
+.text-gray-400,
+.text-neutral-400,
+.text-slate-400,
+.text-zinc-400 {
+  color: #64748b !important;
+}
+
+/* 3. Border Color Adjustment */
+.border,
+.border-slate-200,
+.border-slate-200\/60,
+.border-slate-100,
+.border-gray-100,
+.border-gray-200,
+.border-gray-300 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 4. Form Controls */
+input,
+select,
+textarea {
+  background-color: #121214 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #f8fafc !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--store-color-500, #8b5cf6) !important;
+  background-color: #18181b !important;
+}
+
+/* 5. Glassmorphism Header */
+.glass-header {
+  background: rgba(3, 3, 3, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 6. Section and Card Containers */
+.section-surface {
+  background: rgba(9, 9, 11, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+.card-modern {
+  background: #09090b !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+.card-modern:hover {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 7. Drawer and Modals */
+.drawer-content-wrapper {
+  background: #09090b !important;
+  color: #f3f4f6 !important;
+}
+.drawer-handle {
+  background: #09090b !important;
+  color: #f3f4f6 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+.drawer-handle-icon,
+.drawer-handle-icon:before,
+.drawer-handle-icon:after {
+  background: #f3f4f6 !important;
+}
+
+.custom-modal,
+.modal-content,
+[role="dialog"] {
+  background-color: #0c0c0e !important;
+  color: #f3f4f6 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.divide-y > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.react-use-cart-fixed {
+  background-color: #09090b !important;
+}
+
+.StripeElement {
+  background-color: #121214 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Dropdown Language Content Fix */
+.dropdown-content {
+  background-color: #09090b !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+.dropdown-content a {
+  color: #f3f4f6 !important;
+}
+.dropdown-content a:hover {
+  background-color: #18181b !important;
+}
+
+/* Fix for layout components with bg-white classes that need image overlays to look premium */
+.bg-gradient-to-b.from-white,
+.bg-gradient-to-b.to-white {
+  --tw-gradient-from: #030303 !important;
+  --tw-gradient-to: #030303 !important;
+  --tw-gradient-stops: var(--tw-gradient-from), #09090b, var(--tw-gradient-to) !important;
+}
+
+/* Make logo images white to stand out clearly on dark themes */
+header img[alt="logo"],
+header img[src*="logo"],
+footer img[alt="logo"],
+footer img[src*="logo"],
+.drawer img[alt="logo"],
+.drawer img[src*="logo"],
+img[alt="logo"],
+img[src*="logo"],
+img[src*="kalkiBazar"] {
+  filter: brightness(0) invert(1) !important;
 }

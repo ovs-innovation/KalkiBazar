@@ -67,7 +67,7 @@ const PharmacyPromoFeatures = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className="relative w-full rounded-[2.5rem] bg-gradient-to-br from-[#0C3E26] via-[#0E5132] to-[#1E7F51] overflow-hidden p-8 sm:p-12 lg:p-16 min-h-[300px] sm:min-h-[350px] flex items-center shadow-[0_20px_50px_rgba(12,62,38,0.18)]"
+                className="relative w-full rounded-[2.5rem] overflow-hidden p-8 sm:p-12 lg:p-16 min-h-[300px] sm:min-h-[350px] flex items-center shadow-[0_20px_50px_rgba(12,62,38,0.18)]"
             >
                 {/* Glowing Abstract Ambient Lights */}
                 <div className="absolute right-0 top-0 w-96 h-96 bg-emerald-400/20 rounded-full blur-[100px] pointer-events-none" />

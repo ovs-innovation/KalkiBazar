@@ -18,7 +18,7 @@ const DefaultSeo = () => {
     globalSetting?.logo
   );
   const metaImage = storeCustomizationSetting?.seo?.meta_img || brandLogo;
-  const favicon = brandLogo;
+  const favicon = "/favicon.png?v=2";
 
   return (
     <NextSeo

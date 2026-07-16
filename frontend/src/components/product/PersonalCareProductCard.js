@@ -152,7 +152,8 @@ const PersonalCareProductCard = ({
             router.push(`/product/${product.slug}`);
             handleLogEvent("product", `Mapped to ${showingTranslateValue(product?.title)} product page`);
           }}
-          className="relative w-full h-[180px] sm:h-[220px] bg-[#FAF9F5] rounded-2xl border border-[#EBE8DF]/60 shadow-[0_4px_20px_rgba(0,0,0,0.015)] cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-[0_12px_30px_rgba(180,160,130,0.08)] hover:border-amber-300/40 group/img flex-shrink-0"
+          className="relative w-full h-[180px] sm:h-[220px] rounded-2xl border border-[#EBE8DF]/60 shadow-[0_4px_20px_rgba(0,0,0,0.015)] cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-[0_12px_30px_rgba(180,160,130,0.08)] hover:border-amber-300/40 group/img flex-shrink-0"
+          style={{ backgroundColor: "#ffffff" }}
         >
           {/* Natural Discount Badge */}
           {!hideDiscount && !isWholesaler && (() => {

@@ -81,38 +81,38 @@ const SliderCarousel = () => {
 
   // Medical-themed placeholder collection with clean marketing info
   // Default images from public/slider folder
-  const defaultSliderData = [
-    {
-      img: "/images/slid1.jpeg",
-      title: "Paracetamol & Medicines",
-      desc: "Quality medicines delivered safely to your doorstep.",
-      badge: "Featured"
-    },
-    {
-      img: "/images/slid2.png",
-      title: "Healthcare Essentials",
-      desc: "Explore trusted healthcare products at affordable prices.",
-      badge: "Best Seller"
-    },
-    {
-      img: "/images/slid3.webp",
-      title: "Cardiac Care Products",
-      desc: "Premium healthcare solutions for your family.",
-      badge: "Top Rated"
-    },
-    {
-      img: "/images/img4.webp",
-      title: "Wellness Products",
-      desc: "Vitamins, supplements and daily health essentials.",
-      badge: "New Arrival"
-    },
-    {
-      img: "/images/img5.jpeg",
-      title: "Special Offers",
-      desc: "Get amazing discounts on medicines and healthcare products.",
-      badge: "Limited Offer"
-    }
-  ];
+  // const defaultSliderData = [
+  //   {
+  //     img: "/images/slid1.jpeg",
+  //     title: "Paracetamol & Medicines",
+  //     desc: "Quality medicines delivered safely to your doorstep.",
+  //     badge: "Featured"
+  //   },
+  //   {
+  //     img: "/images/slid2.png",
+  //     title: "Healthcare Essentials",
+  //     desc: "Explore trusted healthcare products at affordable prices.",
+  //     badge: "Best Seller"
+  //   },
+  //   {
+  //     img: "/images/slid3.webp",
+  //     title: "Cardiac Care Products",
+  //     desc: "Premium healthcare solutions for your family.",
+  //     badge: "Top Rated"
+  //   },
+  //   {
+  //     img: "/images/img4.webp",
+  //     title: "Wellness Products",
+  //     desc: "Vitamins, supplements and daily health essentials.",
+  //     badge: "New Arrival"
+  //   },
+  //   {
+  //     img: "/images/img5.jpeg",
+  //     title: "Special Offers",
+  //     desc: "Get amazing discounts on medicines and healthcare products.",
+  //     badge: "Limited Offer"
+  //   }
+  // ];
 
   const sliderData = backendSliderData.length > 0 ? backendSliderData : defaultSliderData;
 

@@ -17,6 +17,7 @@ import useWishlist from "@hooks/useWishlist";
 import LocationButton from "@components/location/LocationButton";
 import SearchSuggestions from "@components/search/SearchSuggestions";
 import CustomerNotificationBell from "@components/notification/CustomerNotificationBell";
+import KalkiBazar from "../../../public/logo/kalkiBazar.png";
 
 const MobileFooter = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -83,15 +84,19 @@ const MobileFooter = () => {
           </button>
           <Link
             href="/"
-            className="flex items-center gap-2.5 shrink-0 group"
+            className="flex items-center shrink-0 group"
             rel="noreferrer"
-            aria-label="KalkiMart"
+            aria-label="kalkiBazar"
           >
-            <span className="flex flex-col leading-none">
-              <span className="kalki-logo-text font-extrabold tracking-tight text-xl">
-                Kalki<span className="kalki-logo-accent">Mart</span>
-              </span>
-            </span>
+            <Image
+              src={KalkiBazar}
+              alt="logo"
+              width={158}
+              height={190}
+              priority
+              className="object-contain transition-transform duration-300 group-hover:scale-105"
+              style={{ height: "90px", width: "auto" }}
+            />
           </Link>
           <Link
             href="/"

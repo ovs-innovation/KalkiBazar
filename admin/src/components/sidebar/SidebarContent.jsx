@@ -14,7 +14,7 @@ import { AdminContext } from "@/context/AdminContext";
 import { SidebarContext } from "@/context/SidebarContext";
 import SidebarSubMenu from "@/components/sidebar/SidebarSubMenu";
 import useGetCData from "@/hooks/useGetCData";
-import { ADMIN_BRAND_LOGO } from "@/utils/cloudinaryUrl";
+//import { ADMIN_BRAND_LOGO } from "@/utils/cloudinaryUrl";
 
 const SidebarContent = () => {
   const { t } = useTranslation();
@@ -75,15 +75,15 @@ const SidebarContent = () => {
     <div className="py-4 text-neutral-500 dark:text-[#9fb1b1]">
       <div>
         <Link to="/" className="flex items-center ml-8 shrink-0 group" aria-label="KalkiBazar">
-          {/* Wordmark */}
-          <span className="flex flex-col leading-none">
-            <span className="text-[#0f766e] font-extrabold tracking-tight text-xl">
-              Kalki<span className="text-[#0d9488]">Bazar</span>
-            </span>
-          </span>
+          <img
+            src="/logo/kalkiBazar.png"
+            alt="logo"
+            className="object-contain transition-transform duration-300 group-hover:scale-105"
+            style={{ height: "120px", width: "auto" }}
+          />
         </Link>
       </div >
-      <ul className="mt-8">
+      <ul className="mt-4">
         {updatedSidebar?.map((route) =>
           route.type === "title" ? (
             <li className="px-6 py-3 mt-4" key={route.name}>

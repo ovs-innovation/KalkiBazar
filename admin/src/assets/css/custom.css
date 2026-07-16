@@ -1592,3 +1592,48 @@ input[type="number"]::-webkit-outer-spin-button {
 .dark .dark\:border-pink-500 {
   border-color: var(--brand-500) !important;
 }
+
+/* ==========================================
+   GLOBAL PREMIUM DARK BLACK THEME OVERRIDES
+   ========================================== */
+html.dark body {
+  background-color: #020204 !important;
+  color: #f3f4f6 !important;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #27272a !important;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46 !important;
+}
+
+html.dark .glass-header {
+  background: rgba(2, 2, 4, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .card-modern {
+  background: #09090b !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .drawer-content-wrapper {
+  background: #09090b !important;
+  color: #f3f4f6 !important;
+}
+
+html.dark .drawer-handle {
+  background: #09090b !important;
+  color: #f3f4f6 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Make logo images white in dark mode to match the theme */
+html.dark img[src*="logo"],
+html.dark img[alt*="logo"] {
+  filter: brightness(0) invert(1) !important;
+}

@@ -35,8 +35,8 @@ const Cart = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full h-full justify-between items-middle bg-white rounded cursor-pointer">
-        <div className="w-full flex justify-between items-center relative px-5 py-4 border-b bg-indigo-50 border-gray-100">
+      <div className="flex flex-col w-full h-full justify-between items-middle rounded cursor-pointer">
+        <div className="w-full flex justify-between items-center relative px-5 py-4 border-b border-gray-100">
           <h2 className="font-semibold font-serif text-lg m-0 text-heading flex items-center">
             <span className="text-xl mr-2 mb-1">
               <IoBagCheckOutline />

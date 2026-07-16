@@ -28,6 +28,7 @@ import {
   FiSettings,
   FiMessageSquare,
 } from "react-icons/fi";
+import KalkiBazar from "../../../public/logo/kalkiBazar.png";
 
 //internal import
 import { getUserSession } from "@lib/auth";
@@ -114,14 +115,16 @@ const Footer = () => {
           {/* Brand & Contact Column (Takes 4/12 width on large screens) */}
           <div className="lg:col-span-4 space-y-6">
             {/* Logo Section */}
-            <Link href="/" className="flex items-center gap-3 group inline-flex" rel="noreferrer">
-              
-              <span className="flex flex-col leading-none">
-                <span className="kalki-logo-text font-black tracking-tight text-xl text-slate-900">
-                  Kalki<span className="kalki-logo-accent text-store-600">Mart</span>
-                </span>
-                
-              </span>
+            <Link href="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="kalkiBazar">
+              <Image
+                src={KalkiBazar}
+                alt="logo"
+                width={158}
+                height={190}
+                priority
+                className="object-contain transition-transform duration-300 group-hover:scale-105"
+                style={{ height: "95px", width: "auto" }}
+              />
             </Link>
 
             {storeCustomizationSetting?.footer?.block4_status && (

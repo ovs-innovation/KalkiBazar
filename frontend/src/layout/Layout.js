@@ -19,7 +19,7 @@ import { pickBrandLogo } from "@utils/brandAssets";
 
 const Layout = ({ title, description, children, hideMobileHeader }) => {
   const { storeCustomizationSetting, globalSetting } = useGetSetting();
-  const storeColor = storeCustomizationSetting?.theme?.color || DEFAULT_STORE_COLOR;
+  const storeColor = "yellow";
   const palette = getPalette(storeColor);
 
   // Dynamically measure header height so content starts exactly below the fixed header
@@ -92,9 +92,9 @@ const Layout = ({ title, description, children, hideMobileHeader }) => {
             {title ? `${siteTitle} | ${title}` : siteTitle}
           </title>
           <meta name="description" content={description || defaultDescription} />
-          <link rel="icon" href={favicon} />
-          <link rel="shortcut icon" href={favicon} />
-          <link rel="apple-touch-icon" href={favicon} />
+          <link rel="icon" href="/favicon.png?v=2" />
+          <link rel="shortcut icon" href="/favicon.png?v=2" />
+          <link rel="apple-touch-icon" href="/favicon.png?v=2" />
         </Head>
 
         {/* Mobile header (fixed top, hidden on desktop) */}

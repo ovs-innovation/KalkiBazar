@@ -20,18 +20,20 @@ import SearchSuggestions from "@components/search/SearchSuggestions";
 import LowerCategoryNavbar from "./LowerCategoryNavbar";
 import CustomerNotificationBell from "@components/notification/CustomerNotificationBell";
 import { pickBrandLogo } from "@utils/brandAssets";
+import KalkiBazar from "../../../public/logo/kalkiBazar.png";
 
 const NavbarLogo = () => {
   return (
-    <Link href="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="KalkiMart">
-    
-      {/* Wordmark */}
-      <span className="flex flex-col leading-none">
-        <span className="kalki-logo-text font-extrabold tracking-tight text-xl">
-          Kalki<span className="kalki-logo-accent">Bazar</span>
-        </span>
-        {/* <span className="text-[9px] font-semibold tracking-[0.18em] uppercase text-gray-500 mt-0.5">Pharmacy</span> */}
-      </span>
+    <Link href="/" className="flex items-center shrink-0 group" aria-label="kalkiBazar">
+      <Image
+        src={KalkiBazar}
+        alt="logo"
+        width={158}
+        height={170}
+        priority
+        className="object-contain transition-transform duration-300 group-hover:scale-105"
+        style={{ height: "120px", width: "auto" }}
+      />
     </Link>
   );
 };
@@ -40,9 +42,8 @@ const NavbarLogo = () => {
 const NavbarHomeIcon = ({ besideSearch = false }) => (
   <Link
     href="/"
-    className={`flex h-10 w-10 items-center justify-center rounded-lg text-store-600 hover:text-store-800 hover:bg-store-50 transition-colors shrink-0 ${
-      besideSearch ? "mr-1" : "ml-10 md:ml-14"
-    }`}
+    className={`flex h-10 w-10 items-center justify-center rounded-lg text-white hover:text-yellow-300 transition-colors shrink-0 ${besideSearch ? "mr-1" : "ml-10 md:ml-14"
+      }`}
     aria-label="Home"
     title="Home"
   >
@@ -148,9 +149,8 @@ const Navbar = () => {
       <header className="hidden lg:block glass-header">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-8">
           <div
-            className={`flex items-center gap-4 transition-all duration-300 ${
-              showNavbarSearch ? "py-2.5" : "py-2"
-            }`}
+            className={`flex items-center gap-4 transition-all duration-300 ${showNavbarSearch ? "py-2.5" : "py-2"
+              }`}
           >
             <NavbarLogo />
 
@@ -162,15 +162,15 @@ const Navbar = () => {
               {showNavbarSearch ? (
                 <form
                   onSubmit={handleSearchSubmit}
-                  className="navbar-search-form flex items-center w-full max-w-3xl rounded-full border border-gray-200 bg-white p-1 hover:border-store-300 focus-within:border-store-400 focus-within:ring-2 focus-within:ring-store-100 transition-all"
+                  className="navbar-search-form flex items-center w-full max-w-3xl rounded-full border border-slate-800 bg-slate-900/90 backdrop-blur-md p-1 hover:border-yellow-500/40 focus-within:border-yellow-500/50 focus-within:ring-2 focus-within:ring-yellow-500/25 transition-all"
                 >
                   <div className="flex-1 relative min-w-0 flex items-center min-h-[42px]">
-                    <IoSearchOutline className="absolute left-3 text-gray-700 text-lg pointer-events-none z-10" />
+                    <IoSearchOutline className="absolute left-3 text-slate-400 text-lg pointer-events-none z-10" />
                     <input
                       ref={searchInputRef}
                       type="search"
                       placeholder="Search for medicine, healthcare & more..."
-                      className="navbar-search-input w-full h-full py-2 pl-10 pr-2 text-sm !bg-transparent !border-0 !border-none !shadow-none !ring-0 !outline-none focus:!ring-0 focus:!border-0 focus:!outline-none placeholder-gray-500"
+                      className="navbar-search-input w-full h-full py-2 pl-10 pr-2 text-sm text-slate-100 placeholder-slate-500 !bg-transparent !border-0 !border-none !shadow-none !ring-0 !outline-none focus:!ring-0 focus:!border-0 focus:!outline-none"
                       value={searchText}
                       onChange={(e) => handleSearchChange(e.target.value)}
                       onFocus={() => searchText.length > 0 && setShowSuggestions(true)}
@@ -197,7 +197,7 @@ const Navbar = () => {
                   </div>
                   <button
                     type="submit"
-                    className="shrink-0 rounded-full bg-store-600 hover:bg-store-700 text-white text-sm font-bold px-5 py-2.5 border-0 outline-none shadow-md hover:shadow-lg transition-all"
+                    className="shrink-0 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-bold px-5 py-2.5 border-0 outline-none shadow-md hover:shadow-lg transition-all active:scale-[0.97]"
                   >
                     Search
                   </button>
@@ -212,15 +212,15 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center gap-1 shrink-0">
-              <CustomerNotificationBell />
+              <CustomerNotificationBell className="text-xl hover:text-yellow-700"/>
               <Link
                 href="/wishlist"
-                className="relative p-2 text-gray-600 hover:text-store-600 rounded-lg hover:bg-store-50"
+                className="relative p-2 text-gray-600 rounded-lg"
                 aria-label="Wishlist"
               >
-                <FiHeart className="text-xl" />
+                <FiHeart className="text-xl hover:text-yellow-700" />
                 {wishlistCount > 0 && (
-                  <span className="absolute top-0.5 right-0.5 min-w-[16px] h-4 text-[10px] font-bold text-white bg-store-500 rounded-full flex items-center justify-center">
+                  <span className="absolute top-0.5 right-0.5 min-w-[16px] h-4 text-[10px] font-bold text-white rounded-full flex items-center justify-center">
                     {wishlistCount}
                   </span>
                 )}
@@ -228,10 +228,10 @@ const Navbar = () => {
               <button
                 type="button"
                 onClick={toggleCartDrawer}
-                className="relative p-2 text-gray-600 hover:text-store-600 rounded-lg hover:bg-store-50"
+                className="relative p-2 text-gray-600 hover:text-yellow-600 rounded-lg"
                 aria-label="Cart"
               >
-                <FiShoppingCart className="text-xl" />
+                <FiShoppingCart className="text-xl hover:text-yellow-700" />
                 {totalUniqueItems > 0 && (
                   <span className="absolute top-0.5 right-0.5 min-w-[16px] h-4 text-[10px] font-bold text-white bg-store-500 rounded-full flex items-center justify-center">
                     {totalUniqueItems}
