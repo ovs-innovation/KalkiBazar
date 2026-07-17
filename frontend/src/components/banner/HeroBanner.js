@@ -59,7 +59,7 @@ const HeroBanner = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        bottom: "50px"
+        marginTop: "20px"
       }}
     >
       {/* Premium dark gradient overlay to blend with the dark page and ensure text readability on the left */}
@@ -78,8 +78,8 @@ const HeroBanner = () => {
       />
 
       {/* Content */}
-      <div className="relative z-20 flex items-center min-h-[480px] px-6 sm:px-10 md:px-16 lg:px-20 py-12">
-        <div className="w-full max-w-[600px]">
+      <div className="relative z-20 flex items-center min-h-[480px] px-6 sm:px-10 md:px-16 lg:px-20 py-10">
+        <div className="w-full max-w-[700px]">
 
           {/* Pill badge */}
           <div className="inline-flex items-center gap-2 mb-5 bg-yellow-950/30 backdrop-blur-sm px-3.5 py-1.5 rounded-full border border-yellow-800/40 shadow-sm">
@@ -117,7 +117,7 @@ const HeroBanner = () => {
           </p>
 
           {/* Search bar — premium pill style */}
-          <div id="hero-search-anchor" className="w-full max-w-[480px] scroll-mt-32">
+          <div id="hero-search-anchor" className="w-full max-w-[650px] scroll-mt-32">
             <form
               onSubmit={handleSubmit}
               className="flex items-center bg-slate-900/90 backdrop-blur-md rounded-full shadow-[0_10px_35px_rgba(0,0,0,0.4),0_1px_4px_rgba(0,0,0,0.1)] border border-slate-800/80 focus-within:shadow-[0_10px_35px_rgba(234,179,8,0.2)] focus-within:border-yellow-500/50 transition-all duration-300 p-1.5 gap-1"

@@ -162,7 +162,7 @@ const Navbar = () => {
               {showNavbarSearch ? (
                 <form
                   onSubmit={handleSearchSubmit}
-                  className="navbar-search-form flex items-center w-full max-w-3xl rounded-full border border-slate-800 bg-slate-900/90 backdrop-blur-md p-1 hover:border-yellow-500/40 focus-within:border-yellow-500/50 focus-within:ring-2 focus-within:ring-yellow-500/25 transition-all"
+                  className="navbar-search-form relative z-50 flex items-center w-full max-w-3xl rounded-full border border-slate-800 bg-slate-900/90 backdrop-blur-md p-1 hover:border-yellow-500/40 focus-within:border-yellow-500/50 focus-within:ring-2 focus-within:ring-yellow-500/25 transition-all"
                 >
                   <div className="flex-1 relative min-w-0 flex items-center min-h-[42px]">
                     <IoSearchOutline className="absolute left-3 text-slate-400 text-lg pointer-events-none z-10" />
