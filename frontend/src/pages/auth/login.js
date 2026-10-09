@@ -24,7 +24,7 @@ const Login = () => {
           href: { pathname: "/auth/signup", query: { ...router.query } },
         }}
         footer={
-          <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
+          <p className="mt-3 text-center text-[11px] leading-relaxed text-zinc-500">
             Browse as guest anytime. Delivery details are collected at checkout.
           </p>
         }

@@ -90,13 +90,14 @@ const WriteReviewForm = ({
   };
 
   return (
-    <div className="bg-white border border-gray-100 rounded-xl p-4 md:p-5 shadow-sm">
-      <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-1">
+    <div className="bg-zinc-950/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 shadow-2xl backdrop-blur-md">
+      <h3 className="text-base md:text-lg font-bold text-white mb-1 flex items-center gap-2">
+        <span className="w-1.5 h-5 bg-yellow-400 rounded-full" />
         {isEditing ? "Update your review" : "Rate and review this product"}
       </h3>
-      <p className="text-xs md:text-sm text-gray-500 mb-3">
+      <p className="text-xs md:text-sm text-zinc-400 mb-3">
         Only customers who have actually purchased this product will be marked
-        as <span className="font-semibold">Verified Buyer</span>.
+        as <span className="font-semibold text-emerald-400">Verified Buyer</span>.
       </p>
       {isLoggedIn ? (
         <form onSubmit={handleSubmit} className="space-y-3">
@@ -112,7 +113,7 @@ const WriteReviewForm = ({
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
               rows={3}
-              className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-gray-300"
+              className="w-full text-sm border border-zinc-700/80 rounded-xl px-3.5 py-2.5 bg-zinc-900 text-zinc-200 focus:outline-none focus:border-yellow-400"
               placeholder="Share your experience with this product..."
               disabled={isSubmitting}
             />
@@ -121,7 +122,7 @@ const WriteReviewForm = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-sm font-semibold text-white bg-store-600 rounded-md hover:bg-store-700 disabled:opacity-60"
+              className="px-5 py-2.5 text-xs font-bold text-slate-950 bg-yellow-400 rounded-xl hover:bg-yellow-300 disabled:opacity-60 transition-all shadow-md active:scale-95 cursor-pointer"
             >
               {isSubmitting
                 ? "Submitting..."
@@ -132,11 +133,11 @@ const WriteReviewForm = ({
           </div>
         </form>
       ) : (
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-zinc-400">
           Please{" "}
           <a
             href="/auth/login"
-            className="text-store-600 hover:text-store-700 font-semibold"
+            className="text-yellow-400 hover:text-yellow-300 font-semibold underline"
           >
             login
           </a>{" "}

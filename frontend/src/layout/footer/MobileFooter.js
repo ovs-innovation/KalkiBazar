@@ -2,35 +2,26 @@ import React, { useContext, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { useCart } from "react-use-cart";
-import { FiHome, FiUser, FiShoppingCart, FiAlignLeft, FiHeart } from "react-icons/fi";
-import { IoSearchOutline, IoLockClosedOutline } from "react-icons/io5";
+import { FiAlignLeft, FiUser } from "react-icons/fi";
+import { IoSearchOutline, IoLockClosedOutline, IoClose } from "react-icons/io5";
 import { useRouter } from "next/router";
-import useTranslation from "next-translate/useTranslation";
 
-//internal imports
+// internal imports
 import { getUserSession } from "@lib/auth";
 import { SidebarContext } from "@context/SidebarContext";
 import CategoryDrawer from "@components/drawer/CategoryDrawer";
-import useGetSetting from "@hooks/useGetSetting";
-import useWishlist from "@hooks/useWishlist";
 import LocationButton from "@components/location/LocationButton";
 import SearchSuggestions from "@components/search/SearchSuggestions";
 import CustomerNotificationBell from "@components/notification/CustomerNotificationBell";
 import KalkiBazar from "../../../public/logo/kalkiBazar.png";
 
 const MobileFooter = () => {
-  const [modalOpen, setModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [showSignDropdown, setShowSignDropdown] = useState(false);
   const searchInputRef = useRef(null);
-  const { toggleCategoryDrawer, showSearch, setShowSearch } = useContext(SidebarContext);
+  const { toggleCategoryDrawer, showSearch, setShowSearch, toggleSearch } = useContext(SidebarContext);
   const userInfo = getUserSession();
   const router = useRouter();
-  const { t } = useTranslation("common");
-  const { storeCustomizationSetting } = useGetSetting();
-  const storeColor = storeCustomizationSetting?.theme?.color || "green";
 
   const handleSearchChange = (value) => {
     setSearchText(value);
@@ -69,96 +60,110 @@ const MobileFooter = () => {
 
   return (
     <>
-      {/* Drawer lives off-canvas; keep it mounted without forcing page layout/scroll */}
+      {/* Category Drawer */}
       <CategoryDrawer />
-      <footer className="lg:hidden fixed z-[60] top-0 glass-header flex items-center justify-between w-full h-16 px-3 sm:px-10">
-        <div className="flex items-center gap-4">
+
+      {/* Mobile Top Header */}
+      <header className="lg:hidden fixed z-[60] top-0 left-0 right-0 glass-header bg-slate-950/95 border-b border-slate-800/80 flex items-center justify-between w-full h-16 px-3 sm:px-6 shadow-md backdrop-blur-xl">
+        {/* Left: Category Drawer Menu & Logo */}
+        <div className="flex items-center gap-3">
           <button
-            aria-label="Bar"
+            aria-label="Open Categories"
             onClick={toggleCategoryDrawer}
-            className="flex items-center justify-center flex-shrink-0 h-auto relative focus:outline-none"
+            className="flex items-center justify-center p-2 rounded-lg text-slate-300 hover:text-yellow-400 hover:bg-slate-900 transition-colors focus:outline-none"
           >
-            <span className={`text-xl text-store-500`}>
-              <FiAlignLeft className="w-6 h-6 drop-shadow-xl" />
-            </span>
+            <FiAlignLeft className="w-6 h-6" />
           </button>
+
           <Link
             href="/"
             className="flex items-center shrink-0 group"
-            rel="noreferrer"
-            aria-label="kalkiBazar"
+            aria-label="Kalki Bazar Home"
           >
             <Image
               src={KalkiBazar}
-              alt="logo"
-              width={158}
-              height={190}
+              alt="Kalki Bazar"
+              width={140}
+              height={48}
               priority
               className="object-contain transition-transform duration-300 group-hover:scale-105"
-              style={{ height: "90px", width: "auto" }}
+              style={{ height: "46px", width: "auto" }}
             />
           </Link>
-          <Link
-            href="/"
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-900 hover:bg-gray-100 hover:text-black shrink-0 ml-6"
-            aria-label="Home"
-            title="Home"
-          >
-            <FiHome className="w-5 h-5" />
-          </Link>
         </div>
-        <div className="flex items-center gap-4">
-          <CustomerNotificationBell />
-          <div className="flex items-center justify-center relative">
+
+        {/* Right: Search, Notification Bell, User Account/Login */}
+        <div className="flex items-center gap-2">
+          {/* Search Toggle Button */}
+          <button
+            type="button"
+            onClick={toggleSearch}
+            className={`p-2 rounded-full transition-colors ${
+              showSearch
+                ? "text-yellow-400 bg-yellow-400/10"
+                : "text-slate-300 hover:text-yellow-400 hover:bg-slate-900"
+            }`}
+            aria-label="Toggle Search"
+          >
+            <IoSearchOutline className="text-xl" />
+          </button>
+
+          {/* Customer Notifications */}
+          <CustomerNotificationBell className="text-xl hover:text-yellow-400" />
+
+          {/* User Account / Login */}
+          <div className="flex items-center">
             {userInfo?.image ? (
-              <Link href="/user/dashboard" className="relative top-1 w-8 h-8 block">
+              <Link href="/user/dashboard" className="block">
                 <Image
-                  width={32}
-                  height={32}
+                  width={30}
+                  height={30}
                   src={userInfo.image}
-                  alt="user"
-                  className="rounded-full object-cover w-8 h-8 border-2 border-gray-200"
+                  alt="Account"
+                  className="rounded-full object-cover w-7 h-7 border border-yellow-500/40"
                 />
               </Link>
             ) : userInfo?.name ? (
               <Link
                 href="/user/dashboard"
-                className={`leading-none font-bold font-serif block px-3 py-2 border rounded-full border-store-500 text-store-500`}
+                className="w-7 h-7 rounded-full bg-yellow-500/20 text-yellow-400 text-xs font-bold flex items-center justify-center border border-yellow-500/40"
               >
-                {userInfo?.name[0]}
+                {userInfo.name[0]}
               </Link>
             ) : (
-              <div className="relative">
-                <Link
-                  href="/auth/login"
-                  className="bg-store-500 text-white px-4 py-2 rounded-full flex items-center gap-2 font-bold text-sm hover:bg-store-600 transition-colors"
-                >
-                  <IoLockClosedOutline className="text-lg" /> Login
-                </Link>
-              </div>
+              <Link
+                href="/auth/login"
+                className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-950 font-bold px-3 py-1.5 rounded-full flex items-center gap-1 text-xs shadow-sm transition-all"
+              >
+                <FiUser className="text-xs" />
+                <span>Login</span>
+              </Link>
             )}
           </div>
-
         </div>
-      </footer>
+      </header>
+
+      {/* Expandable Mobile Search Bar Dropdown */}
       {showSearch && (
-        <div className="fixed z-50 top-16 left-0 w-full bg-white px-3 py-2 shadow" style={{ overflow: 'visible' }}>
+        <div className="fixed z-50 top-16 left-0 right-0 w-full bg-slate-900/98 backdrop-blur-2xl border-b border-slate-800 px-3 py-2.5 shadow-2xl animate-expandSearch">
           <form
             onSubmit={handleSubmit}
-            className="relative bg-white shadow-sm rounded-md w-full flex items-center overflow-visible"
+            className="relative bg-slate-950 rounded-full border border-slate-700/80 focus-within:border-yellow-500/50 w-full flex items-center overflow-visible p-1 shadow-inner"
           >
             {/* Location Button */}
-            <LocationButton className="h-10 flex-shrink-0" />
+            <LocationButton className="h-9 flex-shrink-0 !text-slate-300 !border-none !bg-transparent text-xs" />
+
+            <div className="w-px h-5 bg-slate-800 shrink-0" />
 
             {/* Search Input */}
-            <div className="flex-1 relative">
+            <div className="flex-1 relative min-w-0">
               <input
                 ref={searchInputRef}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 value={searchText}
-                type="text"
-                placeholder="Search for medicine or store..."
-                className="w-full pl-3 pr-12 appearance-none transition ease-in-out text-input text-sm font-sans rounded-md min-h-10 h-10 duration-200 bg-[#F3F4F6] focus:ring-2 focus:ring-store-500 outline-none border-none focus:outline-none placeholder-gray-500 placeholder-opacity-75"
+                type="search"
+                placeholder="Search grocery, medicines, daily essentials..."
+                className="w-full pl-3 pr-10 appearance-none text-xs sm:text-sm font-sans rounded-full min-h-[36px] bg-transparent text-slate-100 placeholder-slate-400 outline-none border-none focus:outline-none"
                 onFocus={() => searchText.trim().length > 0 && setShowSuggestions(true)}
                 onBlur={(e) => {
                   const relatedTarget = e.relatedTarget;
@@ -177,7 +182,8 @@ const MobileFooter = () => {
               <button
                 aria-label="Search"
                 type="submit"
-                className={`outline-none text-xl text-gray-400 absolute top-0 right-0 end-0 w-12 h-full flex items-center justify-center transition duration-200 ease-in-out hover:text-heading focus:outline-none text-store-500 z-10`}>
+                className="outline-none text-yellow-400 hover:text-yellow-300 absolute top-0 right-0 h-full px-3 flex items-center justify-center text-lg"
+              >
                 <IoSearchOutline />
               </button>
               <SearchSuggestions
@@ -199,4 +205,3 @@ const MobileFooter = () => {
 };
 
 export default dynamic(() => Promise.resolve(MobileFooter), { ssr: false });
-

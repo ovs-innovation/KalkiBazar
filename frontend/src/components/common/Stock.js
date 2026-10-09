@@ -6,7 +6,14 @@ const Stock = ({ stock, card }) => {
   return (
     <>
       {stock <= 0 ? (
-        <span className="bg-red-100 absolute z-10 text-red-700 rounded-full inline-flex items-center justify-center px-2 py-0 text-xs font-medium font-serif">
+        <span
+          className={`${
+            card
+              ? "bg-rose-500/15 border border-rose-500/30 text-rose-400 absolute z-10 rounded-full text-[11px] px-2.5 py-0.5 font-bold"
+              : "bg-rose-500/15 border border-rose-500/30 text-rose-400 rounded-full inline-flex items-center gap-1.5 px-3.5 py-1 text-xs font-bold"
+          }`}
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
           {t("stockOut")}
         </span>
       ) : (
@@ -14,17 +21,34 @@ const Stock = ({ stock, card }) => {
           <span
             className={`${
               card
-                ? "bg-gray-100 absolute z-10 text-store-500 rounded-full text-xs px-2 py-0 font-medium"
-                : "bg-store-100 text-store-500 rounded-full inline-flex items-center justify-center px-2 py-0 text-xs font-semibold font-serif"
+                ? "bg-zinc-900/90 border border-zinc-800 text-yellow-400 absolute z-10 rounded-full text-[11px] px-2.5 py-0.5 font-bold backdrop-blur-sm"
+                : "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full inline-flex items-center gap-2 px-3.5 py-1 text-xs font-semibold backdrop-blur-sm"
             }`}
           >
-            {t("stock")} :
-            <span className={`pl-1 font-bold ${stock <= 10 ? "text-red-500" : "text-orange-700"}`}>
-              {Math.max(0, stock)}{" "}
-            </span>
-            {stock <= 10 && (
-              <span className="text-[10px] text-red-600 ml-1 font-bold animate-pulse">
-                (Low Stock)
+            {!card && (
+              <span className="relative flex h-2 w-2">
+                <span
+                  className={`animate-ping absolute inline-flex h-full w-full rounded-full ${
+                    stock <= 10 ? "bg-amber-400" : "bg-emerald-400"
+                  } opacity-75`}
+                />
+                <span
+                  className={`relative inline-flex rounded-full h-2 w-2 ${
+                    stock <= 10 ? "bg-amber-400" : "bg-emerald-500"
+                  }`}
+                />
+              </span>
+            )}
+            {stock <= 10 ? (
+              <span className="text-amber-400 font-bold">
+                Only {Math.max(0, stock)} left in stock!
+              </span>
+            ) : (
+              <span>
+                In Stock{" "}
+                <span className="text-zinc-400 font-normal">
+                  ({Math.max(0, stock)} units available)
+                </span>
               </span>
             )}
           </span>

@@ -7,17 +7,17 @@ export const SignupContent = SignupRedirectContent;
 const SignupModal = ({ modalOpen, setModalOpen }) => {
   return (
     <MainModal modalOpen={modalOpen} setModalOpen={setModalOpen}>
-      <div className="inline-block w-full max-w-md p-0 overflow-hidden text-left align-middle transition-all transform bg-white shadow-2xl rounded-3xl relative">
+      <div className="inline-block w-full max-w-md p-0 overflow-hidden text-left align-middle transition-all transform bg-[#0c0d12] border border-zinc-800/90 shadow-2xl rounded-3xl relative">
         <div className="p-6 md:p-8">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h2 className="text-xl font-extrabold text-gray-900">Login or Sign up</h2>
-              <p className="text-gray-500 text-sm mt-1">Mobile OTP only</p>
+              <h2 className="text-xl font-black text-white">Login or Sign up</h2>
+              <p className="text-zinc-400 text-sm mt-1">Access member benefits and fast checkout</p>
             </div>
             <button
               type="button"
               onClick={() => setModalOpen(false)}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-600"
+              className="p-2 hover:bg-zinc-800 rounded-full transition-colors text-zinc-400 hover:text-white"
               aria-label="Close"
             >
               <IoClose size={22} />

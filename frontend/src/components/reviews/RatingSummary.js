@@ -36,8 +36,8 @@ const RatingSummary = ({ summary }) => {
             key={idx}
             className={
               idx < full
-                ? `text-store-500 w-4 h-4`
-                : "text-gray-300 w-4 h-4"
+                ? `text-yellow-400 w-4 h-4 fill-yellow-400`
+                : "text-zinc-700 w-4 h-4"
             }
           />
         ))}
@@ -46,39 +46,40 @@ const RatingSummary = ({ summary }) => {
   };
 
   return (
-    <div className="bg-white border border-gray-100 rounded-xl p-4 md:p-5 shadow-sm">
-      <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-3">
+    <div className="bg-zinc-950/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 shadow-2xl backdrop-blur-md">
+      <h3 className="text-lg sm:text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <span className="w-1.5 h-5 bg-yellow-400 rounded-full" />
         Ratings &amp; Reviews
       </h3>
-      <div className="flex items-start space-x-4">
-        <div className="flex flex-col items-start">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+        <div className="flex flex-col items-start sm:border-r border-zinc-800/80 sm:pr-8">
           <div className="flex items-baseline space-x-1">
-            <span className="text-3xl md:text-4xl font-bold text-gray-900">
+            <span className="text-4xl sm:text-5xl font-black text-white tracking-tight">
               {averageRating?.toFixed ? averageRating.toFixed(1) : "0.0"}
             </span>
-            <span className="text-sm text-gray-500">/ 5</span>
+            <span className="text-sm font-semibold text-zinc-500">/ 5</span>
           </div>
-          <div className="mt-1">{renderStars(averageRating)}</div>
-          <p className="mt-2 text-xs md:text-sm text-gray-500">
+          <div className="mt-2">{renderStars(averageRating)}</div>
+          <p className="mt-2 text-xs text-zinc-400">
             {totalRatings} Ratings &amp; {totalReviews} Reviews
           </p>
         </div>
 
-        <div className="flex-1 space-y-1">
+        <div className="flex-1 space-y-2">
           {[5, 4, 3, 2, 1].map((star) => (
-            <div key={star} className="flex items-center space-x-2 text-xs">
-              <span className="w-6 text-xs text-gray-600 font-medium">
+            <div key={star} className="flex items-center space-x-3 text-xs">
+              <span className="w-6 text-xs text-zinc-400 font-semibold flex items-center gap-0.5">
                 {star}★
               </span>
-              <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div className="flex-1 h-2.5 bg-zinc-800/90 rounded-full overflow-hidden">
                 <div
-                  className={`h-full bg-store-500 rounded-full`}
+                  className="h-full bg-yellow-400 rounded-full transition-all duration-500"
                   style={{
                     width: getBarWidth(starCounts?.[star] || 0),
                   }}
                 />
               </div>
-              <span className="w-8 text-right text-[11px] text-gray-500">
+              <span className="w-8 text-right text-[11px] text-zinc-400 font-medium">
                 {starCounts?.[star] || 0}
               </span>
             </div>

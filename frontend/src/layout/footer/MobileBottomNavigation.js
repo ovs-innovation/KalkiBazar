@@ -1,101 +1,99 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCart } from "react-use-cart";
-import { FiHome, FiShoppingCart, FiHeart, FiFileText, FiSearch, FiBell } from "react-icons/fi";
-import { useQuery } from "@tanstack/react-query";
-import useCustomerAuth from "@hooks/useCustomerAuth";
-import CustomerNotificationServices from "@services/CustomerNotificationServices";
+import { FiHome, FiShoppingCart, FiHeart, FiFileText, FiSearch } from "react-icons/fi";
 import { SidebarContext } from "@context/SidebarContext";
 import useWishlist from "@hooks/useWishlist";
-import useGetSetting from "@hooks/useGetSetting";
 
 const MobileBottomNavigation = () => {
   const router = useRouter();
   const { totalItems } = useCart();
   const { count: wishlistCount } = useWishlist();
   const { toggleCartDrawer, toggleSearch, showSearch } = useContext(SidebarContext);
-  const { storeCustomizationSetting } = useGetSetting();
-  const { isLoggedIn, userId } = useCustomerAuth();
-
-  const { data: notifData } = useQuery({
-    queryKey: ["customerNotifications", userId, "badge"],
-    queryFn: () => CustomerNotificationServices.getUnreadCount(),
-    enabled: isLoggedIn,
-    refetchInterval: 60000,
-  });
-
-  const unreadCount = notifData?.unreadCount || 0;
 
   const isActive = (href) => router.pathname === href;
 
   return (
-    <div className="lg:hidden fixed bottom-0 w-full z-50 border-t border-neutral-100/80 bg-white/90 backdrop-blur-xl shadow-[0_-8px_32px_-8px_rgba(0,0,0,0.12)]">
-      <div className="flex justify-between items-center px-4 py-2 pt-2.5 pb-safe">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-slate-800/80 bg-slate-950/95 backdrop-blur-xl shadow-[0_-8px_32px_rgba(0,0,0,0.5)]">
+      <div className="flex justify-around items-center px-2 py-2 pb-safe max-w-lg mx-auto">
         {/* Home */}
-        <Link href="/" className={`flex flex-col items-center justify-center w-full py-1 rounded-xl transition-colors ${isActive("/") ? "text-store-600 bg-store-50" : "text-neutral-500"}`}>
-          <FiHome className="w-6 h-6 mb-1" />
-          <span className="text-[10px] font-medium">Home</span>
-        </Link>
-
-        {/* Notifications */}
         <Link
-          href={isLoggedIn ? "/user/notifications" : "/auth/login"}
-          className={`flex flex-col items-center justify-center w-full relative ${isActive("/user/notifications") ? "text-store-500" : "text-gray-500"}`}
+          href="/"
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all duration-200 ${
+            isActive("/")
+              ? "text-yellow-400 font-semibold"
+              : "text-slate-400 hover:text-slate-200"
+          }`}
         >
-          <div className="relative">
-            <FiBell className="w-6 h-6 mb-1" />
-            {unreadCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold rounded-full h-4 min-w-[16px] px-0.5 flex items-center justify-center">
-                {unreadCount > 9 ? "9+" : unreadCount}
-              </span>
-            )}
-          </div>
-          <span className="text-[10px] font-medium">Alerts</span>
+          <FiHome className="w-5 h-5 mb-0.5" />
+          <span className="text-[10px] tracking-tight">Home</span>
         </Link>
 
-        {/* My Orders */}
-        <Link href="/user/my-orders" className={`flex flex-col items-center justify-center w-full ${isActive("/user/my-orders") ? "text-store-500" : "text-gray-500"}`}>
-          <FiFileText className="w-6 h-6 mb-1" />
-          <span className="text-[10px] font-medium">Orders</span>
-        </Link>
+        {/* Search */}
+        <button
+          onClick={toggleSearch}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all duration-200 ${
+            showSearch
+              ? "text-yellow-400 font-semibold"
+              : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          <FiSearch className="w-5 h-5 mb-0.5" />
+          <span className="text-[10px] tracking-tight">Search</span>
+        </button>
 
         {/* Cart */}
-        <button 
-          onClick={toggleCartDrawer} 
-          className={`flex flex-col items-center justify-center w-full relative ${router.pathname === "/cart" ? "text-store-500" : "text-gray-500"}`}
+        <button
+          onClick={toggleCartDrawer}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl relative transition-all duration-200 ${
+            router.pathname === "/cart"
+              ? "text-yellow-400 font-semibold"
+              : "text-slate-400 hover:text-slate-200"
+          }`}
         >
           <div className="relative">
-            <FiShoppingCart className="w-6 h-6 mb-1" />
+            <FiShoppingCart className="w-5 h-5 mb-0.5" />
             {totalItems > 0 && (
-              <span className="absolute -top-2 -right-2 bg-store-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+              <span className="absolute -top-1.5 -right-2.5 bg-yellow-500 text-slate-950 text-[9px] font-black rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center shadow-md">
                 {totalItems}
               </span>
             )}
           </div>
-          <span className="text-[10px] font-medium">Cart</span>
+          <span className="text-[10px] tracking-tight">Cart</span>
         </button>
 
-        {/* Search */}
-        <button 
-          onClick={toggleSearch} 
-          className={`flex flex-col items-center justify-center w-full ${showSearch ? "text-store-500" : "text-gray-500"}`}
+        {/* Orders */}
+        <Link
+          href="/user/my-orders"
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all duration-200 ${
+            isActive("/user/my-orders")
+              ? "text-yellow-400 font-semibold"
+              : "text-slate-400 hover:text-slate-200"
+          }`}
         >
-          <FiSearch className="w-6 h-6 mb-1" />
-          <span className="text-[10px] font-medium">Search</span>
-        </button>
+          <FiFileText className="w-5 h-5 mb-0.5" />
+          <span className="text-[10px] tracking-tight">Orders</span>
+        </Link>
 
         {/* WishList */}
-        <Link href="/wishlist" className={`flex flex-col items-center justify-center w-full ${isActive("/wishlist") ? "text-store-500" : "text-gray-500"}`}>
+        <Link
+          href="/wishlist"
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl relative transition-all duration-200 ${
+            isActive("/wishlist")
+              ? "text-yellow-400 font-semibold"
+              : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
           <div className="relative">
-            <FiHeart className="w-6 h-6 mb-1" />
+            <FiHeart className="w-5 h-5 mb-0.5" />
             {wishlistCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-store-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+              <span className="absolute -top-1.5 -right-2.5 bg-rose-500 text-white text-[9px] font-bold rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center shadow-sm">
                 {wishlistCount}
               </span>
             )}
           </div>
-          <span className="text-[10px] font-medium">WishList</span>
+          <span className="text-[10px] tracking-tight">Wishlist</span>
         </Link>
       </div>
     </div>

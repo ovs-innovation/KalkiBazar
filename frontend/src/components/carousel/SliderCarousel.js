@@ -122,7 +122,7 @@ const SliderCarousel = () => {
 
   // Refactored unified card presentation framework
   const renderSliderContent = (item, index) => (
-    <div className="relative w-full h-[180px] sm:h-[240px] md:h-[280px] lg:h-[340px] rounded-2xl overflow-hidden group border border-slate-100 bg-gradient-to-br from-slate-50 via-teal-50/10 to-white shadow-md hover:shadow-xl transition-all duration-300">
+    <div className="relative w-full h-[180px] sm:h-[240px] md:h-[280px] lg:h-[340px] rounded-2xl overflow-hidden group border border-slate-800 bg-slate-900 shadow-md hover:shadow-xl transition-all duration-300">
       <Image
         src={item.img || "/placeholder.png"}
         alt={item.title || `Pharmacy Promotional Offer ${index + 1}`}
@@ -152,7 +152,7 @@ const SliderCarousel = () => {
   );
 
   return (
-    <div className="w-full bg-white py-6 md:py-8">
+    <div className="w-full bg-transparent py-4 md:py-6">
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
         <div className="relative group/slider">
           <Swiper

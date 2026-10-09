@@ -5,8 +5,15 @@ import { UserContext } from "@context/UserContext";
 import ProductServices from "@services/ProductServices";
 import ProductCard from "@components/product/ProductCard";
 import useUtilsFunction from "@hooks/useUtilsFunction";
-import { FiChevronRight } from "react-icons/fi";
+import { IoChevronBack, IoChevronForward, IoSparkles } from "react-icons/io5";
 import SectionHeader from "@components/common/SectionHeader";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Autoplay } from "swiper/modules";
+
+// Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/autoplay";
 
 const SuggestedProducts = () => {
   const { showingTranslateValue } = useUtilsFunction();
@@ -15,24 +22,6 @@ const SuggestedProducts = () => {
   const isWholesaler = state?.userInfo?.role && state.userInfo.role.toString().toLowerCase() === "wholesaler";
   const [products, setProducts] = useState([]);
   const [fetchLoading, setFetchLoading] = useState(true);
-  const [showAll, setShowAll] = useState(false);
-
-  // Responsive product count
-  const getVisibleCount = () => {
-    if (typeof window !== "undefined") {
-      if (window.innerWidth >= 1024) return 6; // lg and up
-      return 4; // sm and below
-    }
-    return 6;
-  };
-  const [visibleCount, setVisibleCount] = useState(getVisibleCount());
-
-  useEffect(() => {
-    // Update visibleCount on resize
-    const handleResize = () => setVisibleCount(getVisibleCount());
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     const fetchSuggestedProducts = async () => {
@@ -47,7 +36,6 @@ const SuggestedProducts = () => {
         let params = {};
         let guestIds = [];
         const guestHistory = localStorage.getItem("recentlyViewed");
-        console.log("SuggestedProducts: Loaded guestHistory from LS:", guestHistory);
         if (guestHistory) {
           try {
             const parsed = JSON.parse(guestHistory);
@@ -60,9 +48,7 @@ const SuggestedProducts = () => {
             console.error("Error parsing guest history", e);
           }
         }
-        console.log("SuggestedProducts: Fetching suggestions with params:", params);
         const res = await ProductServices.getSuggestedProducts(params);
-        console.log("SuggestedProducts: Received response from API:", res);
         
         const filtered = Array.isArray(res)
           ? res.filter((p, i, arr) => p && arr.findIndex(x => x._id === p._id) === i)
@@ -82,31 +68,31 @@ const SuggestedProducts = () => {
       }
     };
     fetchSuggestedProducts();
-  }, []);
+  }, [isWholesaler]);
 
   if (fetchLoading) {
-    return null; // Or a skeleton loader
+    return null;
   }
 
   if (products.length === 0) {
-    // Edge case: new user, cleared cache, or all products deleted
+    return null;
+  }
+
+  const eligibleProducts = isWholesaler
+    ? products.filter(p => (p.wholePrice && Number(p.wholePrice) > 0) || p.isWholesaler)
+    : products;
+
+  if (eligibleProducts.length === 0) {
     return null;
   }
 
   return (
-    <div className="relative lg:py-16 py-10 overflow-hidden rounded-[2.5rem] border border-emerald-100/50 bg-white">
-      {/* Dynamic Background Layer */}
-      {/* <div className="absolute top-0 left-0 w-full h-full pointer-events-none -z-10">
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-emerald-100/30 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-blue-50/40 rounded-full blur-[80px]" />
-        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
-      </div> */}
-
-      <div className="relative z-10 px-4 sm:px-8">
+    <div className="relative w-full bg-transparent overflow-hidden">
+      <div className="relative z-10">
         {/* Header Section with Badge */}
-        <div className="mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-store-600 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-store/20 mb-4">
-            <span className="flex h-2 w-2 rounded-full bg-store-400 animate-ping" />
+        <div className="mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-400 text-slate-950 text-[10px] font-extrabold uppercase tracking-widest shadow-md mb-3">
+            <IoSparkles className="text-slate-950 animate-pulse" />
             Picked For You
           </div>
           <SectionHeader
@@ -116,32 +102,57 @@ const SuggestedProducts = () => {
           />
         </div>
 
-        {/* Responsive Product Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 md:gap-6 lg:gap-8">
-          {(isWholesaler
-            ? (showAll ? products : products.slice(0, visibleCount)).filter(p => (p.wholePrice && Number(p.wholePrice) > 0) || p.isWholesaler)
-            : (showAll ? products : products.slice(0, visibleCount))
-          ).map((product) => (
-            <div key={product._id} className="transition-all duration-500 hover:-translate-y-2">
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
+        {/* Carousel Slider */}
+        <div className="relative group/slider px-2">
+          {/* Custom Floating Navigation Buttons on Left & Right */}
+          <button
+            aria-label="Previous Slide"
+            className="prev-suggested absolute top-1/2 -left-2 sm:-left-4 md:-left-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+          >
+            <IoChevronBack className="text-xl" />
+          </button>
 
-        {/* Enhanced "View All" Button */}
-        {products.length > visibleCount && !showAll && (
-          <div className="flex justify-center mt-12">
-            <button
-              className="group relative px-8 py-3 rounded-full bg-store-600 text-white font-bold flex items-center gap-3 transition-all duration-300 hover:bg-store-700 hover:shadow-xl hover:shadow-store/30 active:scale-95"
-              onClick={() => setShowAll(true)}
+          <button
+            aria-label="Next Slide"
+            className="next-suggested absolute top-1/2 -right-2 sm:-right-4 md:-right-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+          >
+            <IoChevronForward className="text-xl" />
+          </button>
+
+          <div className="w-full">
+            <Swiper
+              modules={[Navigation, Autoplay]}
+              spaceBetween={14}
+              slidesPerView={2}
+              loop={eligibleProducts.length >= 5}
+              navigation={{
+                prevEl: ".prev-suggested",
+                nextEl: ".next-suggested",
+              }}
+              autoplay={{
+                delay: 3500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+              }}
+              breakpoints={{
+                320: { slidesPerView: 2, spaceBetween: 10 },
+                640: { slidesPerView: 3, spaceBetween: 14 },
+                768: { slidesPerView: 4, spaceBetween: 16 },
+                1024: { slidesPerView: 5, spaceBetween: 18 },
+                1280: { slidesPerView: 6, spaceBetween: 18 },
+              }}
+              className="mySwiper !pb-6 px-1"
             >
-              <span className="relative z-10">View All Suggestions</span>
-              <div className="bg-store-500 rounded-full p-1 group-hover:translate-x-1 transition-transform">
-                <FiChevronRight className="text-xl" />
-              </div>
-            </button>
+              {eligibleProducts.map((product) => (
+                <SwiperSlide key={product._id} className="h-auto">
+                  <div className="h-full transition-transform duration-300 hover:-translate-y-1">
+                    <ProductCard product={product} />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ const FloatingWhatsApp = () => {
     const timer = setTimeout(() => {
       setIsVisible(true);
       setShowTooltip(true);
-      
+
       // Hide tooltip after 5 seconds
       setTimeout(() => setShowTooltip(false), 5000);
     }, 2000);
@@ -27,18 +27,10 @@ const FloatingWhatsApp = () => {
   return (
     <div className="fixed bottom-24 lg:bottom-8 right-4 lg:right-8 z-[99] flex items-end justify-end flex-col group">
       {/* Tooltip */}
-      <div 
+      <div
         className={`bg-white text-gray-800 px-4 py-3 rounded-2xl shadow-xl border border-gray-100 mb-4 mr-2 transition-all duration-500 transform origin-bottom-right max-w-[200px]
           ${showTooltip ? 'scale-100 opacity-100' : 'scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100'}`}
       >
-        <div className="relative">
-          <p className="text-sm font-semibold leading-snug">
-            Need medicines urgently? 💊<br/>
-            <span className="text-gray-500 font-normal text-xs">Chat with our pharmacist!</span>
-          </p>
-          {/* Arrow pointing down right */}
-          <div className="absolute -bottom-5 right-2 w-3 h-3 bg-white border-b border-r border-gray-100 transform rotate-45"></div>
-        </div>
       </div>
 
       {/* Button */}
@@ -54,7 +46,7 @@ const FloatingWhatsApp = () => {
         {/* Pulse rings */}
         <span className="absolute inline-flex w-full h-full rounded-full bg-[#25D366] opacity-30 animate-ping"></span>
         <span className="absolute inline-flex w-full h-full rounded-full bg-[#25D366] opacity-20" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }}></span>
-        
+
         <FaWhatsapp className="w-8 h-8 relative z-10" />
       </a>
 

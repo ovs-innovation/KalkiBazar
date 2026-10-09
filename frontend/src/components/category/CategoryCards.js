@@ -63,35 +63,52 @@ const CategoryCards = () => {
   ];
 
   return (
-    <div className="w-full bg-white py-12 md:py-16 relative overflow-hidden">
+    <div className="w-full bg-transparent py-10 md:py-14 relative overflow-hidden">
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 relative z-10">
 
-        {/* Centered Header Block matching the screenshot UI */}
-        <div className="flex flex-col items-center justify-center mb-10 text-center">
-          <span className="text-xs md:text-sm font-bold text-yellow-500 tracking-widest uppercase mb-1">
+        {/* Centered Header Block */}
+        <div className="flex flex-col items-center justify-center mb-8 text-center">
+          <span className="text-[11px] md:text-xs font-bold text-yellow-400 tracking-widest uppercase mb-1">
             Our Categories
           </span>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
             Shop by Health Concern
           </h2>
-          <div className="w-12 h-[3px] bg-yellow-500 rounded-full mt-3"></div>
+          <div className="w-10 h-[3px] bg-yellow-400 rounded-full mt-2.5"></div>
         </div>
 
         {/* Carousel Window */}
-        <div className="relative group/swiper">
+        <div className="relative group/swiper px-2">
+          {/* Custom Floating Navigation Buttons on Left & Right */}
+          <button
+            aria-label="Previous Category"
+            className="cat-prev absolute top-[40%] -left-2 sm:-left-4 md:-left-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+          >
+            <IoChevronBack className="text-xl" />
+          </button>
+
+          <button
+            aria-label="Next Category"
+            className="cat-next absolute top-[40%] -right-2 sm:-right-4 md:-right-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+          >
+            <IoChevronForward className="text-xl" />
+          </button>
+
           <Swiper
             modules={[Autoplay, Navigation]}
-            spaceBetween={16}
-            slidesPerView={2.2}
+            spaceBetween={14}
+            slidesPerView={3}
+            loop={categories.length >= 6}
             breakpoints={{
-              480: { slidesPerView: 3, spaceBetween: 16 },
-              640: { slidesPerView: 4, spaceBetween: 20 },
-              1024: { slidesPerView: 5, spaceBetween: 20 },
+              320: { slidesPerView: 3, spaceBetween: 12 },
+              480: { slidesPerView: 4, spaceBetween: 14 },
+              640: { slidesPerView: 5, spaceBetween: 16 },
+              1024: { slidesPerView: 6, spaceBetween: 20 },
               1280: { slidesPerView: 6, spaceBetween: 24 },
             }}
-            autoplay={{ delay: 6000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+            autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
             navigation={{ prevEl: ".cat-prev", nextEl: ".cat-next" }}
-            className="category-cards-swiper"
+            className="category-cards-swiper !pb-2"
           >
             {categories.map((category) => (
               <SwiperSlide key={category.id}>
@@ -103,44 +120,36 @@ const CategoryCards = () => {
                   <div className="flex items-center justify-center w-full mb-1">
                     {/* The Circle Card Itself */}
                     <div
-                      className={`w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 ${category.bgColor} rounded-full flex items-center justify-center p-5 transition-all duration-300 ease-out group-hover:scale-105 group-hover:shadow-[0_10px_25px_rgba(0,0,0,0.05)]`}
+                      className={`w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 ${category.bgColor} rounded-full flex items-center justify-center p-3 sm:p-4 transition-all duration-300 ease-out group-hover:scale-105 group-hover:shadow-[0_10px_25px_rgba(0,0,0,0.3)] shadow-md`}
                     >
                       {/* Image directly centered inside */}
-                      <div className="relative w-[65%] h-[65%] transform transition-transform duration-300 ease-out group-hover:scale-110">
+                      <div className="relative w-[70%] h-[70%] transform transition-transform duration-300 ease-out group-hover:scale-110">
                         <Image
                           src={category.image}
                           alt={category.title}
                           fill
-                          className="object-contain filter drop-shadow-[0_6px_12px_rgba(0,0,0,0.06)]"
-                          sizes="(max-width: 768px) 30vw, 15vw"
+                          className="object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.1)]"
+                          sizes="(max-width: 768px) 25vw, 12vw"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Clean Category Label Title directly below box container */}
-                  <h3 className="mt-4 text-sm md:text-base font-bold text-slate-300 text-center tracking-tight px-1 line-clamp-1 group-hover:text-yellow-500 transition-colors duration-300">
+                  <h3 className="mt-2 text-xs sm:text-sm font-semibold text-slate-200 text-center tracking-tight px-1 line-clamp-1 group-hover:text-yellow-400 transition-colors duration-300">
                     {category.title}
                   </h3>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
-
-          {/* Minimal Hover Arrow Controllers */}
-          <button className="cat-prev absolute left-[-16px] top-[40%] -translate-y-1/2 w-9 h-9 z-30 flex items-center justify-center rounded-full bg-white border border-slate-200 text-slate-600 opacity-0 group-hover:opacity-100 transition-all shadow-md hover:bg-slate-50">
-            <IoChevronBack size={16} />
-          </button>
-          <button className="cat-next absolute right-[-16px] top-[40%] -translate-y-1/2 w-9 h-9 z-30 flex items-center justify-center rounded-full bg-white border border-slate-200 text-slate-600 opacity-0 group-hover:opacity-100 transition-all shadow-md hover:bg-slate-50">
-            <IoChevronForward size={16} />
-          </button>
         </div>
 
         {/* Centered View All Button */}
-        <div className="flex justify-center mt-10">
+        <div className="flex justify-center mt-8">
           <button
             onClick={() => router.push("/search")}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-all hover:border-slate-300 shadow-sm"
+            className="flex items-center gap-2 px-6 py-2 rounded-full border border-slate-700 text-sm font-semibold text-slate-200 hover:border-yellow-400 hover:text-yellow-400 hover:bg-slate-900 transition-all shadow-sm"
           >
             View All Categories
             <span className="text-base font-normal">→</span>

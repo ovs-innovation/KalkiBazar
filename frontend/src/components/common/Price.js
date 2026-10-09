@@ -49,14 +49,14 @@ const Price = ({
   const effectivePrice = Math.max(0, typeof price === 'number' && !Number.isNaN(price) ? price : Number(product?.prices?.price || 0));
 
   return (
-    <div className="font-serif product-price font-bold">
+    <div className="product-price font-sans">
       {product?.isCombination ? (
-        <>
+        <div className="flex flex-wrap items-baseline gap-2">
           <span
             className={
               card
-                ? "inline-block text-lg font-semibold text-gray-800"
-                : "inline-block text-2xl"
+                ? "inline-block text-lg font-bold text-white"
+                : "inline-block text-3xl sm:text-4xl font-black text-white tracking-tight"
             }
           >
             {currency}
@@ -67,8 +67,8 @@ const Price = ({
               <del
                 className={
                   card
-                    ? "sm:text-sm font-normal text-base text-gray-400 ml-1"
-                    : "text-lg font-normal text-gray-400 ml-1"
+                    ? "text-xs font-normal text-zinc-500"
+                    : "text-base sm:text-lg font-normal text-zinc-500 ml-1.5"
                 }
               >
                 {currency}
@@ -77,22 +77,22 @@ const Price = ({
               <span
                 className={
                   card
-                    ? "block text-store-600 text-xs font-bold"
-                    : "inline-block text-store-600 text-sm font-bold ml-2"
+                    ? "text-yellow-400 text-xs font-black ml-1"
+                    : "inline-block bg-yellow-400 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded-md ml-2 uppercase tracking-wider shadow-sm"
                 }
               >
                 {Math.round(discountPercentage)}% Off
               </span>
             </>
           ) : null}
-        </>
+        </div>
       ) : (
-        <>
+        <div className="flex flex-wrap items-baseline gap-2">
           <span
             className={
               card
-                ? "inline-block text-lg font-semibold text-gray-800"
-                : "inline-block text-2xl"
+                ? "inline-block text-lg font-bold text-white"
+                : "inline-block text-3xl sm:text-4xl font-black text-white tracking-tight"
             }
           >
             {currency}
@@ -103,8 +103,8 @@ const Price = ({
               <del
                 className={
                   card
-                    ? "sm:text-sm font-normal text-base text-gray-400 ml-1"
-                    : "text-lg font-normal text-gray-400 ml-1"
+                    ? "text-xs font-normal text-zinc-500"
+                    : "text-base sm:text-lg font-normal text-zinc-500 ml-1.5"
                 }
               >
                 {currency}
@@ -113,31 +113,31 @@ const Price = ({
               <span
                 className={
                   card
-                    ? "block text-store-600 text-xs font-bold"
-                    : "inline-block text-store-600 text-sm font-bold ml-2"
+                    ? "text-yellow-400 text-xs font-black ml-1"
+                    : "inline-block bg-yellow-400 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded-md ml-2 uppercase tracking-wider shadow-sm"
                 }
               >
                 {Math.round(discountPercentage)}% Off
               </span>
             </>
           ) : null}
-        </>
+        </div>
       )}
       {hasTaxInfo && (
-        <p className="text-[11px] sm:text-xs font-medium mt-1">
+        <div className="text-[11px] sm:text-xs font-medium mt-1.5">
           {product?.isPriceInclusive ? (
-            <span className="inline-block text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded font-semibold">
-              (Incl. of GST)
+            <span className="inline-flex items-center gap-1 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md font-semibold">
+              ✓ Incl. of GST
             </span>
           ) : (
-            <span className="text-gray-500">
-              + GST Extra 
-              <span className="ml-1 inline-flex items-center rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-gray-600">
+            <span className="text-zinc-400 inline-flex items-center gap-1.5">
+              <span>+ GST Extra</span>
+              <span className="inline-flex items-center rounded bg-zinc-800 border border-zinc-700/80 px-1.5 py-0.5 text-[10px] font-bold text-zinc-300">
                 {taxRateValue}%
               </span>
             </span>
           )}
-        </p>
+        </div>
       )}
     </div>
   );

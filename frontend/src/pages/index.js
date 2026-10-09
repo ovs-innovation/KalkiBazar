@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { UserContext } from "@context/UserContext";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -36,6 +37,10 @@ import TestimonialsSection from "@components/testimonial/TestimonialsSection";
 import DealsYouLove from "@components/carousel/DealsYouLove";
 import Features from "@components/Features/Features";
 
+const SuggestedProducts = dynamic(() => import("@components/product/SuggestedProducts"), {
+  ssr: false,
+});
+
 const Home = ({ popularProducts, discountProducts, bestSellingProducts, attributes, brands, personalCareProducts }) => {
   const router = useRouter();
   const { isLoading, setIsLoading } = useContext(SidebarContext);
@@ -61,11 +66,11 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
         <Layout>
           <div className="min-h-screen">
             {/* Hero Banner — full bleed, outside max-width container */}
-            <div className="w-full bg-white">
+            <div className="w-full bg-transparent">
               <HeroBanner />
             </div>
 
-            <div className="bg-white">
+            <div className="bg-transparent">
               <div className="mx-auto max-w-screen-2xl">
                 <div className="flex w-full flex-col">
                   {/* Slider Carousel */}
@@ -151,20 +156,25 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                   {/* Slider Area */}
                   <div className="relative group/slider">
                     <div className="relative px-2">
-                      {/* Custom Floating Navigation */}
-                      <button className="prev-best-selling absolute top-1/2 -left-4 lg:-left-12 z-30 bg-slate-900/90 backdrop-blur-md shadow-xl border border-slate-800 rounded-2xl p-4 hover:bg-emerald-600 hover:text-white transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
-                        <IoChevronBack className="text-xl text-white" />
+                      {/* Custom Floating Navigation Buttons on Left & Right */}
+                      <button
+                        aria-label="Previous Slide"
+                        className="prev-best-selling absolute top-1/2 -left-2 sm:-left-4 md:-left-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+                      >
+                        <IoChevronBack className="text-xl" />
                       </button>
 
-                      <button className="next-best-selling absolute top-1/2 -right-4 lg:-right-12 z-30 bg-slate-900/90 backdrop-blur-md shadow-xl border border-slate-800 rounded-2xl p-4 hover:bg-emerald-600 hover:text-white transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 -translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
-                        <IoChevronForward className="text-xl text-white" />
+                      <button
+                        aria-label="Next Slide"
+                        className="next-best-selling absolute top-1/2 -right-2 sm:-right-4 md:-right-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+                      >
+                        <IoChevronForward className="text-xl" />
                       </button>
 
-                      {/* Slider with subtle Glassmorphism container */}
-                      <div className="rounded-[2rem] p-2 bg-slate-900/40 backdrop-blur-md border border-slate-800/40 shadow-sm">
+                      <div className="w-full">
                         <Swiper
                           modules={[Navigation, Autoplay]}
-                          spaceBetween={15}
+                          spaceBetween={14}
                           slidesPerView={2}
                           loop={(bestSellingProducts?.length || 0) >= 5}
                           navigation={{
@@ -177,12 +187,13 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                             pauseOnMouseEnter: true
                           }}
                           breakpoints={{
-                            640: { slidesPerView: 2, spaceBetween: 15 },
-                            768: { slidesPerView: 3, spaceBetween: 20 },
-                            1024: { slidesPerView: 4, spaceBetween: 25 },
-                            1280: { slidesPerView: 5, spaceBetween: 25 },
+                            320: { slidesPerView: 2, spaceBetween: 10 },
+                            640: { slidesPerView: 3, spaceBetween: 14 },
+                            768: { slidesPerView: 4, spaceBetween: 16 },
+                            1024: { slidesPerView: 5, spaceBetween: 18 },
+                            1280: { slidesPerView: 6, spaceBetween: 18 },
                           }}
-                          className="mySwiper !pb-10 !pt-4"
+                          className="mySwiper !pb-8 !pt-3"
                         >
                           {(isWholesaler
                             ? bestSellingProducts.filter(p => (p.wholePrice && Number(p.wholePrice) > 0) || p.isWholesaler)
@@ -211,13 +222,7 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
             {/* Suggested For You Section */}
             <div className="lg:py-12 py-10">
               <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
-                <div className="mt-4">
-                  {/* Renders personalized suggestions for user/guest */}
-                  {/* If you want to move this, just change the position */}
-                  {typeof window !== "undefined" && (
-                    require("@components/product/SuggestedProducts").default()
-                  )}
-                </div>
+                <SuggestedProducts />
               </div>
             </div>
             {/* Deals You'll Love Section */}
@@ -260,18 +265,24 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                   <div className="relative group/slider">
                     <div className="relative px-2">
                       {/* Navigation buttons */}
-                      <button className="prev-personal-care absolute top-1/2 -left-4 lg:-left-12 z-30 bg-slate-900/90 backdrop-blur-md shadow-xl border border-slate-800 rounded-2xl p-4 hover:bg-amber-800 hover:text-white transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
-                        <IoChevronBack className="text-xl text-white" />
+                      <button
+                        aria-label="Previous Slide"
+                        className="prev-personal-care absolute top-1/2 -left-2 sm:-left-4 md:-left-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+                      >
+                        <IoChevronBack className="text-xl" />
                       </button>
 
-                      <button className="next-personal-care absolute top-1/2 -right-4 lg:-right-12 z-30 bg-slate-900/90 backdrop-blur-md shadow-xl border border-slate-800 rounded-2xl p-4 hover:bg-amber-800 hover:text-white transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 -translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
-                        <IoChevronForward className="text-xl text-white" />
+                      <button
+                        aria-label="Next Slide"
+                        className="next-personal-care absolute top-1/2 -right-2 sm:-right-4 md:-right-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+                      >
+                        <IoChevronForward className="text-xl" />
                       </button>
 
-                      <div className="rounded-[2.5rem] p-2 bg-slate-900/40 backdrop-blur-md border border-slate-800/40 shadow-sm">
+                      <div className="w-full">
                         <Swiper
                           modules={[Navigation, Autoplay]}
-                          spaceBetween={15}
+                          spaceBetween={14}
                           slidesPerView={2}
                           loop={personalCareProducts.length >= 5}
                           navigation={{
@@ -284,12 +295,13 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                             pauseOnMouseEnter: true
                           }}
                           breakpoints={{
-                            640: { slidesPerView: 2, spaceBetween: 15 },
-                            768: { slidesPerView: 3, spaceBetween: 20 },
-                            1024: { slidesPerView: 4, spaceBetween: 25 },
-                            1280: { slidesPerView: 5, spaceBetween: 25 },
+                            320: { slidesPerView: 2, spaceBetween: 10 },
+                            640: { slidesPerView: 3, spaceBetween: 14 },
+                            768: { slidesPerView: 4, spaceBetween: 16 },
+                            1024: { slidesPerView: 5, spaceBetween: 18 },
+                            1280: { slidesPerView: 6, spaceBetween: 18 },
                           }}
-                          className="mySwiper !pb-10 !pt-4"
+                          className="mySwiper !pb-8 !pt-3"
                         >
                           {(isWholesaler
                             ? personalCareProducts.filter(p => (p.wholePrice && Number(p.wholePrice) > 0) || p.isWholesaler)
@@ -324,12 +336,25 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                   error={error}
                   align="left"
                 />
-                <div className="flex w-full relative group px-4 py-4">
-                  <div className="w-full">
-                    <>
+                <div className="flex w-full relative group/slider px-2 py-4">
+                  <div className="w-full relative">
+                    <button
+                      aria-label="Previous Slide"
+                      className="prev-popular absolute top-1/2 -left-2 sm:-left-4 md:-left-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+                    >
+                      <IoChevronBack className="text-xl" />
+                    </button>
+                    <button
+                      aria-label="Next Slide"
+                      className="next-popular absolute top-1/2 -right-2 sm:-right-4 md:-right-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+                    >
+                      <IoChevronForward className="text-xl" />
+                    </button>
+
+                    <div className="w-full">
                       <Swiper
                         modules={[Navigation, Autoplay]}
-                        spaceBetween={10}
+                        spaceBetween={14}
                         slidesPerView={2}
                         loop={(popularProducts?.length || 0) >= 5}
                         navigation={{
@@ -337,15 +362,16 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                           nextEl: ".next-popular",
                         }}
                         autoplay={{
-                          delay: 2500,
+                          delay: 3000,
                           disableOnInteraction: false,
                           pauseOnMouseEnter: true
                         }}
                         breakpoints={{
-                          640: { slidesPerView: 2, spaceBetween: 10 },
-                          768: { slidesPerView: 3, spaceBetween: 20 },
-                          1024: { slidesPerView: 4, spaceBetween: 20 },
-                          1280: { slidesPerView: 5, spaceBetween: 20 },
+                          320: { slidesPerView: 2, spaceBetween: 10 },
+                          640: { slidesPerView: 3, spaceBetween: 14 },
+                          768: { slidesPerView: 4, spaceBetween: 16 },
+                          1024: { slidesPerView: 5, spaceBetween: 18 },
+                          1280: { slidesPerView: 6, spaceBetween: 18 },
                         }}
                         className="mySwiper px-2 py-2"
                       >
@@ -357,26 +383,22 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                           )
                           .map((product) => (
                             <SwiperSlide key={product._id}>
-                              <ProductCard
-                                product={product}
-                                attributes={attributes}
-                              />
+                              <div className="h-full transform hover:-translate-y-1 transition-transform duration-300">
+                                <ProductCard
+                                  product={product}
+                                  attributes={attributes}
+                                />
+                              </div>
                             </SwiperSlide>
                           ))}
                       </Swiper>
-                      <button className="prev-popular absolute top-1/2 -left-2 md:-left-4 z-10 bg-slate-900 shadow-lg border border-slate-800 rounded-full p-2 hover:bg-slate-800 text-white transition-colors transform -translate-y-1/2 disabled:opacity-50 disabled:cursor-not-allowed">
-                        <IoChevronBack className="text-xl" />
-                      </button>
-                      <button className="next-popular absolute top-1/2 -right-2 md:-right-4 z-10 bg-slate-900 shadow-lg border border-slate-800 rounded-full p-2 hover:bg-slate-800 text-white transition-colors transform -translate-y-1/2 disabled:opacity-50 disabled:cursor-not-allowed">
-                        <IoChevronForward className="text-xl" />
-                      </button>
+                    </div>
 
                       <div className="flex justify-end mt-4 px-2">
-                        <Link href="/search?sort=newest" className="inline-flex items-center gap-1 text-sm font-semibold text-store-500 border border-store-500 rounded-full px-4 py-1 hover:bg-store-500 hover:text-white transition-colors">
+                        <Link href="/search?sort=newest" className="inline-flex items-center gap-1 text-sm font-semibold text-yellow-400 border border-yellow-400/50 rounded-full px-4 py-1 hover:bg-yellow-400 hover:text-slate-950 transition-colors">
                           View All <IoChevronForward />
                         </Link>
                       </div>
-                    </>
                   </div>
                 </div>
               </div>
@@ -476,12 +498,27 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                     error={error}
                     align="left"
                   />
-                  <div className="bg-rose-50 py-4 px-4 flex w-full relative group">
-                    <div className="w-full">
-                      <>
+                  <div className="flex w-full relative group/slider px-2 py-4">
+                    <div className="w-full relative">
+                      {/* Left & Right Slide Buttons */}
+                      <button
+                        aria-label="Previous Slide"
+                        className="prev-discount absolute top-1/2 -left-2 sm:-left-4 md:-left-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+                      >
+                        <IoChevronBack className="text-xl" />
+                      </button>
+
+                      <button
+                        aria-label="Next Slide"
+                        className="next-discount absolute top-1/2 -right-2 sm:-right-4 md:-right-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+                      >
+                        <IoChevronForward className="text-xl" />
+                      </button>
+
+                      <div className="w-full">
                         <Swiper
                           modules={[Navigation, Autoplay]}
-                          spaceBetween={10}
+                          spaceBetween={14}
                           slidesPerView={2}
                           loop={(discountProducts?.length || 0) >= 5}
                           navigation={{
@@ -489,15 +526,16 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                             nextEl: ".next-discount",
                           }}
                           autoplay={{
-                            delay: 2500,
+                            delay: 3000,
                             disableOnInteraction: false,
                             pauseOnMouseEnter: true
                           }}
                           breakpoints={{
-                            640: { slidesPerView: 2, spaceBetween: 10 },
-                            768: { slidesPerView: 3, spaceBetween: 20 },
-                            1024: { slidesPerView: 4, spaceBetween: 20 },
-                            1280: { slidesPerView: 5, spaceBetween: 20 },
+                            320: { slidesPerView: 2, spaceBetween: 10 },
+                            640: { slidesPerView: 3, spaceBetween: 14 },
+                            768: { slidesPerView: 4, spaceBetween: 16 },
+                            1024: { slidesPerView: 5, spaceBetween: 18 },
+                            1280: { slidesPerView: 6, spaceBetween: 18 },
                           }}
                           className="mySwiper px-2 py-2"
                         >
@@ -509,26 +547,22 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                             )
                             .map((product) => (
                               <SwiperSlide key={product._id}>
-                                <ProductCard
-                                  product={product}
-                                  attributes={attributes}
-                                />
+                                <div className="h-full transform hover:-translate-y-1 transition-transform duration-300">
+                                  <ProductCard
+                                    product={product}
+                                    attributes={attributes}
+                                  />
+                                </div>
                               </SwiperSlide>
                             ))}
                         </Swiper>
-                        <button className="prev-discount absolute top-1/2 -left-2 md:-left-4 z-10 bg-white shadow-lg border border-gray-100 rounded-full p-2 hover:bg-store-50 transition-colors transform -translate-y-1/2 disabled:opacity-50 disabled:cursor-not-allowed">
-                          <IoChevronBack className="text-xl text-gray-600" />
-                        </button>
-                        <button className="next-discount absolute top-1/2 -right-2 md:-right-4 z-10 bg-white shadow-lg border border-gray-100 rounded-full p-2 hover:bg-store-50 transition-colors transform -translate-y-1/2 disabled:opacity-50 disabled:cursor-not-allowed">
-                          <IoChevronForward className="text-xl text-gray-600" />
-                        </button>
+                      </div>
 
                         <div className="flex justify-end mt-4 px-2">
-                          <Link href={`/search?category=${storeCustomizationSetting?.home?.discount_categorySlug}${storeCustomizationSetting?.home?.discount_categoryId ? `&_id=${storeCustomizationSetting?.home?.discount_categoryId}` : ""}`} className="inline-flex items-center gap-1 text-sm font-semibold text-store-500 border border-store-500 rounded-full px-4 py-1 hover:bg-store-500 hover:text-white transition-colors">
+                          <Link href={`/search?category=${storeCustomizationSetting?.home?.discount_categorySlug}${storeCustomizationSetting?.home?.discount_categoryId ? `&_id=${storeCustomizationSetting?.home?.discount_categoryId}` : ""}`} className="inline-flex items-center gap-1 text-sm font-semibold text-yellow-400 border border-yellow-400/50 rounded-full px-4 py-1 hover:bg-yellow-400 hover:text-slate-950 transition-colors">
                             View All <IoChevronForward />
                           </Link>
                         </div>
-                      </>
                     </div>
                   </div>
                 </div>

@@ -15,14 +15,14 @@ const ReviewFilters = ({
   onRatingFilterChange,
 }) => {
   return (
-    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/80 mb-4">
       <div className="flex items-center space-x-2">
-        <span className="text-sm font-semibold text-gray-700">Sort by:</span>
+        <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">Sort by:</span>
         <div className="relative inline-block text-left">
           <select
             value={sort}
             onChange={(e) => onSortChange(e.target.value)}
-            className="block w-40 md:w-48 pl-3 pr-8 py-2 text-sm border border-gray-200 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-gray-300"
+            className="block w-40 md:w-48 pl-3 pr-8 py-2 text-xs font-semibold border border-zinc-700/80 rounded-xl bg-zinc-900 text-zinc-200 focus:outline-none focus:border-yellow-400"
           >
             {sortOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -30,12 +30,12 @@ const ReviewFilters = ({
               </option>
             ))}
           </select>
-          <FiChevronDown className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <FiChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 w-4 h-4" />
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-sm font-semibold text-gray-700">Filter:</span>
+        <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">Filter:</span>
         {[5, 4, 3, 2, 1].map((star) => {
           const active = ratingFilter === star;
           return (
@@ -45,10 +45,10 @@ const ReviewFilters = ({
               onClick={() =>
                 onRatingFilterChange(active ? null : star)
               }
-              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all ${
                 active
-                  ? "bg-yellow-500 border-yellow-500 text-white"
-                  : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+                  ? "bg-yellow-400 border-yellow-400 text-slate-950 shadow-md"
+                  : "bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700"
               }`}
             >
               {star}★
@@ -59,7 +59,7 @@ const ReviewFilters = ({
           <button
             type="button"
             onClick={() => onRatingFilterChange(null)}
-            className="text-xs text-gray-500 underline ml-1"
+            className="text-xs text-yellow-400 hover:text-yellow-300 font-semibold underline ml-1"
           >
             Clear
           </button>

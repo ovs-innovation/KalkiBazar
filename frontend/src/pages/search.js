@@ -434,19 +434,22 @@ const Search = ({ products, attributes }) => {
       </div>
 
       {/* Mobile Sort/Filter Bar */}
-      <div className="lg:hidden sticky top-[57px] z-40 bg-white border-b border-gray-100 flex divide-x divide-gray-100">
+      <div
+        className="lg:hidden sticky top-[57px] z-40 border-b flex divide-x divide-zinc-800 shadow-xl"
+        style={{ backgroundColor: "#000000", borderBottomColor: "#27272a" }}
+      >
         <button
           onClick={() => setIsSortModalOpen(true)}
-          className="flex-1 py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-700"
+          className="flex-1 py-3 flex items-center justify-center gap-2 text-sm font-semibold text-zinc-200 hover:text-yellow-400 hover:bg-zinc-900 transition-colors"
         >
-          <FiList size={18} />
+          <FiList size={18} className="text-yellow-400" />
           Sort
         </button>
         <button
           onClick={toggleFilterDrawer}
-          className="flex-1 py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-700"
+          className="flex-1 py-3 flex items-center justify-center gap-2 text-sm font-semibold text-zinc-200 hover:text-yellow-400 hover:bg-zinc-900 transition-colors"
         >
-          <FiFilter size={18} />
+          <FiFilter size={18} className="text-yellow-400" />
           Filter
         </button>
       </div>
@@ -492,38 +495,43 @@ const Search = ({ products, attributes }) => {
                   </h2>
                 </div>
               ) : (
-                <div className="hidden lg:flex justify-between my-3 bg-orange-100 border border-gray-100 rounded p-3">
-                  <h6 className="text-sm font-serif">
+                <div
+                  className="search-total-bar hidden lg:flex justify-between items-center my-4 border rounded-2xl px-5 py-3.5 shadow-2xl"
+                  style={{ backgroundColor: "#000000", borderColor: "#27272a" }}
+                >
+                  <h6 className="text-xs sm:text-sm font-sans font-medium text-zinc-300 flex items-center gap-1.5">
                     {t("totalI")}{" "}
-                    <span className="font-bold">{filteredProductData?.length}</span>{" "}
+                    <span className="font-extrabold text-yellow-400 text-sm sm:text-base px-2 py-0.5 rounded-md bg-yellow-400/10 border border-yellow-400/20">{filteredProductData?.length}</span>{" "}
                     {t("itemsFound")}
                   </h6>
-                  <span className="text-sm font-serif">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Sort By:</span>
                     <select
                       onChange={(e) => handleSortChange(e.target.value)}
                       value={sortedField}
-                      className="py-0 text-sm font-serif font-medium block w-full rounded border-0 bg-white pr-10 cursor-pointer focus:ring-0"
+                      className="py-1.5 px-3 text-xs sm:text-sm font-semibold rounded-xl border cursor-pointer focus:outline-none focus:border-yellow-400 transition-all shadow-sm"
+                      style={{ backgroundColor: "#000000", borderColor: "#27272a", color: "#f4f4f5" }}
                     >
-                      <option className="px-3" value="All" defaultValue hidden>
+                      <option className="bg-black text-zinc-100" value="All" defaultValue hidden>
                         {t("sortByPrice")}
                       </option>
-                      <option className="px-3" value="Low">
+                      <option className="bg-black text-zinc-100" value="Low">
                         {t("lowToHigh")}
                       </option>
-                      <option className="px-3" value="High">
+                      <option className="bg-black text-zinc-100" value="High">
                         {t("highToLow")}
                       </option>
-                      <option className="px-3" value="newest">
+                      <option className="bg-black text-zinc-100" value="newest">
                         Latest
                       </option>
-                      <option className="px-3" value="best-selling">
+                      <option className="bg-black text-zinc-100" value="best-selling">
                         Best Selling
                       </option>
-                      <option className="px-3" value="most-discounted">
+                      <option className="bg-black text-zinc-100" value="most-discounted">
                         Most Discounted
                       </option>
                     </select>
-                  </span>
+                  </div>
                 </div>
               )}
 
@@ -573,81 +581,38 @@ const Search = ({ products, attributes }) => {
 
       {/* Sort Modal for Mobile */}
       {isSortModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50 lg:hidden">
-          <div className="bg-white w-full rounded-t-2xl p-6 animate-slide-up">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Sort By</h3>
-              <button className="p-2 border border-store-400 rounded-lg" onClick={() => setIsSortModalOpen(false)}>
-                <IoClose size={24} />
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 backdrop-blur-sm lg:hidden">
+          <div className="bg-slate-900 border-t border-slate-800 w-full rounded-t-3xl p-6 animate-slide-up shadow-2xl text-slate-100">
+            <div className="flex justify-between items-center mb-5 pb-3 border-b border-slate-800">
+              <h3 className="text-lg font-bold text-white">Sort By</h3>
+              <button className="p-2 border border-slate-700 text-slate-300 hover:text-yellow-400 rounded-xl hover:bg-slate-800 transition-colors" onClick={() => setIsSortModalOpen(false)}>
+                <IoClose size={22} />
               </button>
             </div>
-            <div className="space-y-4">
-              <button
-                onClick={() => {
-                  handleSortChange("Low");
-                  setIsSortModalOpen(false);
-                }}
-                className={`w-full text-left py-2 px-4 rounded-lg ${
-                  sortedField === "Low" ? "bg-store-100 text-store-600 font-semibold" : "text-gray-700"
-                }`}
-              >
-                Price: Low to High
-              </button>
-              <button
-                onClick={() => {
-                  handleSortChange("High");
-                  setIsSortModalOpen(false);
-                }}
-                className={`w-full text-left py-2 px-4 rounded-lg ${
-                  sortedField === "High" ? "bg-store-100 text-store-600 font-semibold" : "text-gray-700"
-                }`}
-              >
-                Price: High to Low
-              </button>
-              <button
-                onClick={() => {
-                  handleSortChange("newest");
-                  setIsSortModalOpen(false);
-                }}
-                className={`w-full text-left py-2 px-4 rounded-lg ${
-                  sortedField === "newest" ? "bg-store-100 text-store-600 font-semibold" : "text-gray-700"
-                }`}
-              >
-                Latest
-              </button>
-              <button
-                onClick={() => {
-                  handleSortChange("best-selling");
-                  setIsSortModalOpen(false);
-                }}
-                className={`w-full text-left py-2 px-4 rounded-lg ${
-                  sortedField === "best-selling" ? "bg-store-100 text-store-600 font-semibold" : "text-gray-700"
-                }`}
-              >
-                Best Selling
-              </button>
-              <button
-                onClick={() => {
-                  handleSortChange("most-discounted");
-                  setIsSortModalOpen(false);
-                }}
-                className={`w-full text-left py-2 px-4 rounded-lg ${
-                  sortedField === "most-discounted" ? "bg-store-100 text-store-600 font-semibold" : "text-gray-700"
-                }`}
-              >
-                Most Discounted
-              </button>
-              <button
-                onClick={() => {
-                  handleSortChange("All");
-                  setIsSortModalOpen(false);
-                }}
-                className={`w-full text-left py-2 px-4 rounded-lg ${
-                  sortedField === "All" ? "bg-store-100 text-store-600 font-semibold" : "text-gray-700"
-                }`}
-              >
-                Default
-              </button>
+            <div className="space-y-2">
+              {[
+                { label: "Price: Low to High", value: "Low" },
+                { label: "Price: High to Low", value: "High" },
+                { label: "Latest", value: "newest" },
+                { label: "Best Selling", value: "best-selling" },
+                { label: "Most Discounted", value: "most-discounted" },
+                { label: "Default", value: "All" },
+              ].map((item) => (
+                <button
+                  key={item.value}
+                  onClick={() => {
+                    handleSortChange(item.value);
+                    setIsSortModalOpen(false);
+                  }}
+                  className={`w-full text-left py-3 px-4 rounded-xl font-medium transition-all ${
+                    sortedField === item.value
+                      ? "bg-yellow-400 text-slate-950 font-bold shadow-md"
+                      : "text-slate-300 hover:bg-slate-800 hover:text-yellow-400"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>

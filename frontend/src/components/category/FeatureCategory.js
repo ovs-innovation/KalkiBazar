@@ -63,7 +63,7 @@ const FeatureCategory = ({ initialSelectedCategory }) => {
   if (loading) return <CMSkeleton count={10} height={20} error={error} loading={loading} />;
 
   return (
-    <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-gradient-to-b from-transparent via-slate-50/50 to-transparent">
+    <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-transparent">
 
       {/* Top Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4 border-b border-slate-200/60 pb-6">

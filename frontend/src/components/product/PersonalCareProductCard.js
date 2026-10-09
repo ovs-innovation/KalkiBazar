@@ -144,7 +144,7 @@ const PersonalCareProductCard = ({
       )}
       
       {/* Premium organic card design */}
-      <div className="group relative flex flex-col w-full h-full max-w-[360px] xl:max-w-[370px] mx-auto select-none bg-transparent">
+      <div className="group relative flex flex-col w-full h-full max-w-[270px] xl:max-w-[280px] mx-auto select-none bg-transparent">
         
         {/* Product Image Container Box */}
         <div
@@ -152,7 +152,7 @@ const PersonalCareProductCard = ({
             router.push(`/product/${product.slug}`);
             handleLogEvent("product", `Mapped to ${showingTranslateValue(product?.title)} product page`);
           }}
-          className="relative w-full h-[180px] sm:h-[220px] rounded-2xl border border-[#EBE8DF]/60 shadow-[0_4px_20px_rgba(0,0,0,0.015)] cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-[0_12px_30px_rgba(180,160,130,0.08)] hover:border-amber-300/40 group/img flex-shrink-0"
+          className="relative w-full h-[140px] sm:h-[160px] md:h-[175px] rounded-xl sm:rounded-2xl border border-[#EBE8DF]/60 shadow-[0_4px_16px_rgba(0,0,0,0.015)] cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-[0_10px_25px_rgba(180,160,130,0.08)] hover:border-amber-300/40 group/img flex-shrink-0"
           style={{ backgroundColor: "#ffffff" }}
         >
           {/* Natural Discount Badge */}
@@ -167,7 +167,7 @@ const PersonalCareProductCard = ({
             const finalDiscount = product?.discount || discountPercentage;
 
             return finalDiscount > 1 ? (
-              <span className="absolute top-3 left-3 z-10 bg-[#B28E68] text-white text-[9px] sm:text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-sm whitespace-nowrap uppercase tracking-wider">
+              <span className="absolute top-2.5 left-2.5 z-10 bg-[#B28E68] text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap uppercase tracking-wider">
                 -{finalDiscount}% OFF
               </span>
             ) : null;
@@ -175,50 +175,64 @@ const PersonalCareProductCard = ({
 
           {/* Stock Status Badge */}
           {product.stock < 1 && (
-            <div className="absolute top-3 left-3 z-10">
+            <div className="absolute top-2.5 left-2.5 z-10">
               <Stock product={product} stock={product.stock} card />
             </div>
           )}
 
           {/* Wishlist and Compare */}
           {!hideWishlistCompare && (
-            <div className="absolute top-3 right-3 z-30 flex flex-col gap-1.5 opacity-0 translate-x-2 group-hover/img:opacity-100 group-hover/img:translate-x-0 transition-all duration-300">
+            <div className="absolute top-2.5 right-2.5 z-30 flex flex-col gap-1.5 opacity-100 translate-x-0 transition-all duration-300 pointer-events-auto">
               <button
                 onClick={handleAddToWishlist}
-                className="p-1.5 bg-white/70 hover:bg-rose-50 text-[#6C6753] hover:text-rose-600 rounded-full shadow-sm hover:shadow border border-white/60 hover:scale-110 active:scale-95 transition-all duration-300 backdrop-blur-md"
+                className="product-action-btn wishlist-btn w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:scale-110 active:scale-95 transition-all duration-200"
+                style={{
+                  backgroundColor: "#0f172a",
+                  color: "#ffffff",
+                  border: "1px solid rgba(255, 255, 255, 0.25)",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.35)",
+                }}
                 aria-label="Add to wishlist"
+                title="Add to Wishlist"
               >
-                <FiHeart className="w-3.5 h-3.5" />
+                <FiHeart className="w-4 h-4" style={{ color: "#ffffff", stroke: "#ffffff", strokeWidth: 2.2 }} />
               </button>
               <button
                 onClick={handleAddToCompare}
-                className="p-1.5 bg-white/70 hover:bg-amber-50 text-[#6C6753] hover:text-amber-700 rounded-full shadow-sm hover:shadow border border-white/60 hover:scale-110 active:scale-95 transition-all duration-300 hidden lg:flex backdrop-blur-md"
+                className="product-action-btn compare-btn w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:scale-110 active:scale-95 transition-all duration-200 hidden lg:flex"
+                style={{
+                  backgroundColor: "#0f172a",
+                  color: "#ffffff",
+                  border: "1px solid rgba(255, 255, 255, 0.25)",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.35)",
+                }}
                 aria-label="Add to compare"
+                title="Compare Product"
               >
-                <FiShuffle className="w-3.5 h-3.5" />
+                <FiShuffle className="w-4 h-4" style={{ color: "#ffffff", stroke: "#ffffff", strokeWidth: 2.2 }} />
               </button>
             </div>
           )}
 
           {/* Product Image */}
-          <div className="absolute inset-0 flex items-center justify-center p-6 transition-all duration-500 group-hover/img:scale-108 group-hover/img:-translate-y-1">
+          <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-4 transition-all duration-500 group-hover/img:scale-105 group-hover/img:-translate-y-0.5">
             {product.image[0] ? (
               <ImageWithFallback
                 src={imageSrc}
                 alt={showingTranslateValue(product?.title)}
-                width={250}
-                height={250}
+                width={200}
+                height={200}
                 className="max-w-full max-h-full object-contain w-auto h-auto drop-shadow-md"
                 style={{ width: "auto", height: "auto" }}
               />
             ) : (
               <Image
                 src="/placeholder.png"
-                width={250}
-                height={250}
+                width={200}
+                height={200}
                 style={{
                   objectFit: "contain",
-                  maxHeight: "130px",
+                  maxHeight: "115px",
                   width: "auto",
                   height: "auto",
                 }}
@@ -231,17 +245,17 @@ const PersonalCareProductCard = ({
         </div>
 
         {/* Info Content Section */}
-        <div className="flex flex-col pt-3 pb-2 text-left bg-transparent flex-grow">
+        <div className="flex flex-col pt-2.5 pb-1 text-left bg-transparent flex-grow">
           
           {/* Sophisticated natural tag */}
-          <div className="text-[10px] font-black tracking-widest text-[#B28E68] mb-1 uppercase">
+          <div className="text-[9px] sm:text-[10px] font-black tracking-widest text-amber-400 mb-0.5 uppercase truncate">
             {product.brandName || "PERSONAL CARE & WELLNESS"}
           </div>
 
           {/* Product Title Wrapper with Fixed Height for Vertical Alignment */}
-          <div className="h-11 flex items-center mb-1.5">
+          <div className="h-9 sm:h-10 flex items-center mb-1">
             <h2
-              className="text-sm md:text-base font-bold text-[#3E3A30] line-clamp-2 leading-snug hover:text-amber-800 transition-colors cursor-pointer w-full"
+              className="text-xs sm:text-[13px] md:text-sm font-semibold text-slate-100 line-clamp-2 leading-tight hover:text-amber-400 transition-colors cursor-pointer w-full"
               onClick={() => router.push(`/product/${product.slug}`)}
               title={showingTranslateValue(product?.title)}
             >
@@ -250,19 +264,19 @@ const PersonalCareProductCard = ({
           </div>
 
           {/* Warm Amber Star Rating */}
-          <div className="flex items-center gap-0.5 text-amber-500 mb-1.5 h-4">
+          <div className="flex items-center gap-0.5 text-amber-400 mb-1 h-3.5">
             {[...Array(5)].map((_, i) => (
               <IoStar key={i} size={11} className="fill-current" />
             ))}
-            <span className="text-[10px] font-bold text-[#8C8673] mt-0.5 ml-1">
+            <span className="text-[9px] sm:text-[10px] font-medium text-slate-400 ml-1">
               {product?.rating || "4.9"}
             </span>
           </div>
 
           {/* Price Section with Fixed Height for Vertical Alignment */}
           {!hidePriceAndAdd && (
-            <div className="h-8 flex items-center mt-1">
-              <div className="flex items-baseline gap-2 flex-wrap">
+            <div className="h-7 sm:h-8 flex items-center mt-0.5">
+              <div className="flex items-baseline gap-1.5 flex-wrap">
                 {(() => {
                   const basePrice = product?.isCombination ? product?.variants[0]?.price : product?.prices?.price;
                   const wholesalePrice = product?.wholePrice && Number(product.wholePrice) > 0 ? Number(product.wholePrice) : null;
@@ -277,17 +291,17 @@ const PersonalCareProductCard = ({
 
                   return (
                     <>
-                      <p className={`text-base md:text-lg font-extrabold ${hasDiscount ? 'text-rose-600' : 'text-[#2E2C25]'}`}>
+                      <p className={`text-sm sm:text-base font-extrabold ${hasDiscount ? 'text-rose-500' : 'text-slate-100'}`}>
                         {currency}{getNumberTwo(Math.max(0, currentPrice))}
                       </p>
                       {hasDiscount && (
-                        <p className="text-xs text-[#A8A18C] line-through font-medium mt-0.5">
+                        <p className="text-[10px] sm:text-xs text-slate-400 line-through font-medium">
                           {currency}{getNumberTwo(originalPriceValue)}
                         </p>
                       )}
                       {isWholesaler && wholesalePrice && (
-                        <p className="text-xs text-[#7A7463] w-full mt-0.5">
-                          Wholesale: <span className="font-semibold">{currency}{getNumberTwo(wholesalePrice)}</span>
+                        <p className="text-[11px] text-slate-400 w-full mt-0.5">
+                          Wholesale: <span className="font-semibold text-amber-400">{currency}{getNumberTwo(wholesalePrice)}</span>
                           {product.minQuantity ? ` (Min ${product.minQuantity})` : ""}
                         </p>
                       )}
@@ -300,13 +314,13 @@ const PersonalCareProductCard = ({
 
           {/* Action Button Section */}
           {!hidePriceAndAdd && (
-            <div className="flex justify-start w-full mt-auto">
+            <div className="flex justify-start w-full mt-auto pt-1">
               {inCart(product._id) ? (
                 (() => {
                   const item = getItem(product._id);
                   return (
                     item && (
-                      <div key={item.id} className="h-8 w-28 flex items-center justify-between px-2.5 border border-[#E0DCCA] text-[#3E3A30] bg-white rounded-full font-bold transition-all shadow-sm mt-2">
+                      <div key={item.id} className="h-7 sm:h-8 w-24 sm:w-28 flex items-center justify-between px-2 border border-slate-700 text-slate-200 bg-slate-900 rounded-full font-bold transition-all shadow-sm">
                         <button
                           onClick={() => {
                             const minQty = isWholesaler && product?.minQuantity ? Number(product.minQuantity) : 1;
@@ -317,15 +331,15 @@ const PersonalCareProductCard = ({
                             updateItemQuantity(item.id, item.quantity - 1);
                           }}
                           disabled={isWholesaler && product?.minQuantity && item.quantity <= Number(product.minQuantity)}
-                          className={`p-1 hover:text-amber-800 transition-colors ${isWholesaler && product?.minQuantity && item.quantity <= Number(product.minQuantity) ? 'opacity-30 cursor-not-allowed' : ''}`}
+                          className={`p-0.5 hover:text-amber-400 transition-colors ${isWholesaler && product?.minQuantity && item.quantity <= Number(product.minQuantity) ? 'opacity-30 cursor-not-allowed' : ''}`}
                         >
                           <IoRemove className="w-3.5 h-3.5" />
                         </button>
-                        <p className="text-xs font-bold text-[#2E2C25] px-1">
+                        <p className="text-xs font-bold text-white px-1">
                           {item.quantity}
                         </p>
                         <button
-                          className="p-1 hover:text-amber-800 transition-colors"
+                          className="p-0.5 hover:text-amber-400 transition-colors"
                           onClick={() =>
                             item?.variants?.length > 0
                               ? handleAddItem(item)
@@ -342,12 +356,12 @@ const PersonalCareProductCard = ({
                 <button
                   onClick={() => handleAddItem(product)}
                   title="Add to cart"
-                  className="flex items-center gap-2 mt-2 group/btn cursor-pointer select-none"
+                  className="flex items-center gap-1.5 sm:gap-2 group/btn cursor-pointer select-none"
                 >
-                  <div className="w-8 h-8 rounded-full bg-[#3E3A30] flex items-center justify-center text-white shadow-[0_2px_6px_rgba(62,58,48,0.15)] group-hover/btn:bg-[#25221B] group-hover/btn:scale-105 group-hover/btn:rotate-12 transition-all duration-300">
+                  <div className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full bg-amber-500 flex items-center justify-center text-slate-950 font-bold shadow-md group-hover/btn:bg-amber-400 group-hover/btn:scale-110 group-hover/btn:rotate-6 transition-all duration-300">
                     <IoCartOutline className="w-4 h-4" />
                   </div>
-                  <span className="text-[10px] md:text-xs font-bold text-slate-700 tracking-wider uppercase group-hover/btn:text-[#3E3A30] transition-colors duration-300">
+                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-200 tracking-wide uppercase group-hover/btn:text-amber-400 transition-colors duration-300">
                     ADD TO CART
                   </span>
                 </button>

@@ -110,7 +110,7 @@ const ProductImageGallery = ({
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 lg:items-start bg-white rounded-2xl ">
+    <div className="flex flex-col lg:flex-row gap-5 lg:items-start bg-transparent">
       {/* Vertical Thumbnail Gallery - Left Side (Flipkart Style) */}
       {displayImages.length > 1 && (
         <div className="flex lg:flex-col flex-row gap-3 order-2 lg:order-1 overflow-x-auto lg:overflow-x-visible lg:overflow-y-auto max-h-[560px] pb-2 lg:pb-0 scrollbar-thin">
@@ -118,16 +118,16 @@ const ProductImageGallery = ({
             <button
               key={`thumb-${index}-${mediaUrl}`}
               onClick={() => handleThumbnailClick(index)}
-              className={`flex-shrink-0 relative w-16 h-16 lg:w-20 lg:h-20 rounded-xl border-2 overflow-hidden transition-all duration-300 transform ${index === activeIndex
-                ? "border-store-500 ring-2 ring-store-100 shadow-md scale-105"
-                : "border-gray-100 hover:border-gray-300 hover:shadow-sm grayscale-[0.5] hover:grayscale-0"
+              className={`flex-shrink-0 relative w-16 h-16 lg:w-20 lg:h-20 rounded-2xl border-2 overflow-hidden transition-all duration-300 transform bg-[#121214] p-1 ${index === activeIndex
+                ? "border-yellow-400 ring-2 ring-yellow-400/25 shadow-lg scale-105"
+                : "border-zinc-800 hover:border-zinc-600 hover:shadow-md opacity-70 hover:opacity-100"
                 }`}
               type="button"
             >
               {isVideoUrl(mediaUrl) ? (
                 <video
                   src={mediaUrl}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-xl"
                   muted
                   playsInline
                 />
@@ -140,20 +140,20 @@ const ProductImageGallery = ({
                         : mediaUrl || placeholder
                     }
                     alt={`${productTitle} - View ${index + 1}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain rounded-xl"
                     onError={handleImageError}
                     loading="lazy"
                   />
                   {isYoutubeUrl(mediaUrl) && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-25">
-                      <span className="w-6 h-6 bg-white rounded-full flex items-center justify-center shadow">
-                        <span className="ml-0.5 border-l-8 border-y-4 border-l-red-600 border-y-transparent" />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                      <span className="w-6 h-6 bg-yellow-400 text-black rounded-full flex items-center justify-center shadow">
+                        <span className="ml-0.5 border-l-8 border-y-4 border-l-black border-y-transparent" />
                       </span>
                     </div>
                   )} </>
               )}
               {index === activeIndex && (
-                <div className="absolute inset-0 border-2 border-store-500" />
+                <div className="absolute inset-0 border-2 border-yellow-400 rounded-2xl pointer-events-none" />
               )}
             </button>
           ))}
@@ -161,9 +161,8 @@ const ProductImageGallery = ({
       )}
 
       {/* Main Preview Image / Video - Right Side (Flipkart Style) */}
-      {/* Main Preview Image / Video - Right Side (Flipkart Style) */}
       <div className="flex-1 order-1 lg:order-2 w-full">
-        <div className="relative w-full aspect-square bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+        <div className="relative w-full aspect-square bg-[#121214] border border-zinc-800/80 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 hover:border-zinc-700/80 flex items-center justify-center p-4 sm:p-6 group">
 
           {/* Buttons overlay */}
           {buttons}

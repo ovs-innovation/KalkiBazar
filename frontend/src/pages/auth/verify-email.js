@@ -6,6 +6,7 @@ import { sendEmailVerification } from "firebase/auth";
 
 //internal import
 import Layout from "@layout/Layout";
+import AuthPageShell from "@components/auth/AuthPageShell";
 import CustomerServices from "@services/CustomerServices";
 import { setToken } from "@services/httpServices";
 import { UserContext } from "@context/UserContext";
@@ -113,52 +114,58 @@ const VerifyEmail = () => {
 
   return (
     <Layout title="Verify Email">
-      <div className="mx-auto max-w-screen-2xl px-3 sm:px-10 py-20">
-        <div className="mx-auto max-w-lg bg-white shadow-xl rounded-2xl p-8 sm:p-10 text-center">
-          {/* Email Icon */}
-          <div className="mx-auto w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
-            <svg className="w-10 h-10 text-store-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <AuthPageShell
+        title="Verify Your Email"
+        subtitle="We've sent a verification link to your email address."
+        alternateLink={{
+          text: "Wrong account?",
+          label: "Back to Login",
+          href: { pathname: "/auth/login" },
+        }}
+      >
+        <div className="space-y-4 text-center">
+          <div className="mx-auto w-14 h-14 bg-yellow-400/10 border border-yellow-400/20 rounded-full flex items-center justify-center">
+            <svg className="w-7 h-7 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           </div>
 
-          <h2 className="text-3xl font-bold mb-4">Verify Your Email</h2>
-          <p className="text-gray-500 mb-2">
-            We&apos;ve sent a verification link to your email:
-          </p>
-          <p className="font-semibold text-gray-900 mb-4">{email}</p>
+          <div className="rounded-xl bg-zinc-900/80 p-3 ring-1 ring-zinc-800">
+            <p className="text-xs text-zinc-400">Verification link sent to:</p>
+            <p className="text-sm font-bold text-white break-all mt-0.5">{email}</p>
+          </div>
 
-          <p className="text-sm text-gray-500 mb-6">
-            <span className="font-semibold text-store-600">Note:</span> Please check your Inbox, Spam, or Junk folder if you don&apos;t see the email in your primary inbox.
-          </p>
-
-          <p className="text-sm text-gray-400 mb-8">
-            Open your email and click the verification link, then come back and click the button below.
+          <p className="text-xs text-zinc-400 leading-relaxed">
+            <span className="font-semibold text-yellow-400">Note:</span> Please check your Inbox, Spam, or Junk folder if you don&apos;t see the email in your primary inbox.
           </p>
 
-          <div className="space-y-4">
+          <p className="text-xs text-zinc-500">
+            Open your email and click the verification link, then click below.
+          </p>
+
+          <div className="pt-2 space-y-3">
             <button
               onClick={handleContinue}
               disabled={loading}
-              className="w-full py-4 rounded-xl bg-store-500 text-white font-bold text-lg hover:bg-store-600 transition-all shadow-lg disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 hover:from-yellow-300 hover:via-yellow-400 hover:to-amber-400 py-3.5 sm:py-4 text-sm sm:text-base font-black text-slate-950 shadow-[0_4px_22px_rgba(234,179,8,0.35)] hover:shadow-[0_6px_28px_rgba(234,179,8,0.5)] active:scale-[0.99] transition-all duration-200 tracking-wide disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
             >
               {loading ? "Checking..." : "I've Verified — Continue"}
             </button>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-xs text-zinc-400">
               Didn&apos;t receive the email?{" "}
               <button
                 type="button"
                 onClick={handleResend}
                 disabled={resending}
-                className="text-store-600 font-bold hover:underline disabled:opacity-50"
+                className="text-yellow-400 font-bold hover:text-yellow-300 hover:underline disabled:opacity-50"
               >
                 {resending ? "Sending..." : "Resend Email"}
               </button>
             </p>
           </div>
         </div>
-      </div>
+      </AuthPageShell>
     </Layout>
   );
 };

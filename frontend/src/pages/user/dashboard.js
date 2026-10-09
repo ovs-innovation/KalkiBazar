@@ -28,7 +28,6 @@ import { UserContext } from "@context/UserContext";
 import Loading from "@components/preloader/Loading";
 import useGetSetting from "@hooks/useGetSetting";
 import useUtilsFunction from "@hooks/useUtilsFunction";
-import PrescriptionStatus from "@components/prescription/PrescriptionStatus";
 import { setToken } from "@services/httpServices";
 
 const Dashboard = ({ title, description, children }) => {
@@ -74,17 +73,18 @@ const Dashboard = ({ title, description, children }) => {
 
   const userSidebar = [
     {
-      title: showingTranslateValue(
-        storeCustomizationSetting?.dashboard?.dashboard_title
-      ),
+      title:
+        showingTranslateValue(
+          storeCustomizationSetting?.dashboard?.dashboard_title
+        ) || "Dashboard",
       href: "/user/dashboard",
       icon: FiGrid,
     },
-
     {
-      title: showingTranslateValue(
-        storeCustomizationSetting?.dashboard?.my_order
-      ),
+      title:
+        showingTranslateValue(
+          storeCustomizationSetting?.dashboard?.my_order
+        ) || "My Orders",
       href: "/user/my-orders",
       icon: FiList,
     },
@@ -103,23 +103,19 @@ const Dashboard = ({ title, description, children }) => {
       href: "/user/track-order",
       icon: FiTruck,
     },
-
     {
-      title: showingTranslateValue(
-        storeCustomizationSetting?.dashboard?.update_profile
-      ),
+      title:
+        showingTranslateValue(
+          storeCustomizationSetting?.dashboard?.update_profile
+        ) || "Update Profile",
       href: "/user/update-profile",
       icon: FiSettings,
     },
     {
-      title: "Prescription",
-      href: "/user/prescription",
-      icon: FiFileText,
-    },
-    {
-      title: showingTranslateValue(
-        storeCustomizationSetting?.dashboard?.change_password
-      ),
+      title:
+        showingTranslateValue(
+          storeCustomizationSetting?.dashboard?.change_password
+        ) || "Change Password",
       href: "/user/change-password",
       icon: IoLockOpenOutline,
     },
@@ -176,29 +172,31 @@ const Dashboard = ({ title, description, children }) => {
                         const isActive = router.pathname === item.href;
                         return (
                           <Link
-                            key={item.title}
+                            key={item.href}
                             href={item.href}
-                            className={`group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ${isActive
-                                ? 'bg-store-500 text-white shadow-md'
-                                : 'text-gray-600 hover:bg-yellow-600 hover:text-store-600'
-                              }`}
+                            className={`group flex items-center px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200 ${
+                              isActive
+                                ? "user-sidebar-active bg-yellow-500 text-slate-950 font-bold shadow-md"
+                                : "user-sidebar-link text-zinc-300 hover:bg-zinc-800 hover:text-yellow-400"
+                            }`}
                           >
                             <item.icon
-                              className={`flex-shrink-0 h-5 w-5 mr-3 transition-colors ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-store-500'
-                                }`}
+                              className={`flex-shrink-0 h-5 w-5 mr-3 transition-colors ${
+                                isActive ? "text-slate-950" : "text-zinc-400 group-hover:text-yellow-400"
+                              }`}
                               aria-hidden="true"
                             />
-                            {item.title}
+                            <span>{item.title}</span>
                           </Link>
                         );
                       })}
 
                       <button
                         onClick={handleLogOut}
-                        className="w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl text-red-500 hover:bg-red-600 border-red-800 hover:text-white transition-all duration-200 mt-4 border-t pt-6"
+                        className="w-full flex items-center px-4 py-3 text-sm font-semibold rounded-xl text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 transition-all duration-200 mt-4 border-t border-zinc-800/80 pt-6"
                       >
-                        <IoLockOpenOutline className="flex-shrink-0 h-5 w-5 mr-3" />
-                        {showingTranslateValue(storeCustomizationSetting?.navbar?.logout) || "Logout"}
+                        <IoLockOpenOutline className="flex-shrink-0 h-5 w-5 mr-3 text-rose-400" />
+                        <span>{showingTranslateValue(storeCustomizationSetting?.navbar?.logout) || "Logout"}</span>
                       </button>
                     </div>
                   </div>
@@ -216,41 +214,46 @@ const Dashboard = ({ title, description, children }) => {
                       </div>
                       <div className="grid gap-6 mb-10 grid-cols-2 xl:grid-cols-4">
                         <Card
-                          title={showingTranslateValue(
-                            storeCustomizationSetting?.dashboard?.total_order
-                          )}
+                          title={
+                            showingTranslateValue(
+                              storeCustomizationSetting?.dashboard?.total_order
+                            ) || "Total Orders"
+                          }
                           Icon={FiShoppingCart}
                           quantity={data?.totalDoc}
                           className="text-red-600  bg-red-200"
                         />
                         <Card
-                          title={showingTranslateValue(
-                            storeCustomizationSetting?.dashboard?.pending_order
-                          )}
+                          title={
+                            showingTranslateValue(
+                              storeCustomizationSetting?.dashboard?.pending_order
+                            ) || "Pending Orders"
+                          }
                           Icon={FiRefreshCw}
                           quantity={data?.pending}
                           className="text-orange-600 bg-orange-200"
                         />
                         <Card
-                          title={showingTranslateValue(
-                            storeCustomizationSetting?.dashboard?.processing_order
-                          )}
+                          title={
+                            showingTranslateValue(
+                              storeCustomizationSetting?.dashboard?.processing_order
+                            ) || "Processing Orders"
+                          }
                           Icon={FiTruck}
                           quantity={data?.processing}
                           className="text-indigo-600 bg-indigo-200"
                         />
                         <Card
-                          title={showingTranslateValue(
-                            storeCustomizationSetting?.dashboard?.complete_order
-                          )}
+                          title={
+                            showingTranslateValue(
+                              storeCustomizationSetting?.dashboard?.complete_order
+                            ) || "Complete Orders"
+                          }
                           Icon={FiCheck}
                           quantity={data?.delivered}
                           className={`text-store-600 bg-store-200`}
                         />
                       </div>
-                      {isAuthenticated && userId && (
-                        <PrescriptionStatus userId={userId} />
-                      )}
                       <RecentOrder data={data} loading={loading} error={error} />
                     </div>
                   )}

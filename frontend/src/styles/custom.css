@@ -1846,9 +1846,10 @@ p:not(:last-of-type) {
 
 /* ---- Dropdown menu premium panel ---- */
 #category-nav-dropdown-portal > div {
-  box-shadow: 0 16px 48px -8px rgba(0,0,0,0.16), 0 4px 16px -4px rgba(0,0,0,0.08) !important;
+  background-color: #000000 !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
   border-radius: 16px !important;
-  border: 1px solid rgba(220, 240, 230, 0.7) !important;
+  border: 1px solid #27272a !important;
   animation: dropdownFadeIn 0.18s cubic-bezier(0.4, 0, 0.2, 1);
 }
 @keyframes dropdownFadeIn {
@@ -1913,17 +1914,60 @@ button[aria-label="Add to bag"]:hover,
   box-shadow: 0 4px 12px rgba(22,101,52,0.2) !important;
 }
 
-/* ---- Wishlist / compare icon buttons ---- */
-button[aria-label="Add to wishlist"],
-button[aria-label="Add to compare"] {
-  backdrop-filter: blur(4px);
-  background: rgba(255,255,255,0.9) !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-  transition: transform 0.18s, background 0.18s, box-shadow 0.18s !important;
+/* ---- Wishlist / compare icon buttons on product cards ---- */
+button[aria-label="Add to wishlist"].rounded-full,
+button[aria-label="Add to compare"].rounded-full,
+button.product-action-btn,
+button.wishlist-btn,
+button.compare-btn {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
-button[aria-label="Add to wishlist"]:hover,
-button[aria-label="Add to compare"]:hover {
-  transform: scale(1.15);
+
+button[aria-label="Add to wishlist"].rounded-full svg,
+button[aria-label="Add to compare"].rounded-full svg,
+button.product-action-btn svg,
+button.wishlist-btn svg,
+button.compare-btn svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  stroke-width: 2.2px !important;
+  display: block !important;
+}
+
+button[aria-label="Add to wishlist"].rounded-full:hover,
+button.product-action-btn.wishlist-btn:hover {
+  background-color: #e11d48 !important;
+  border-color: #e11d48 !important;
+  color: #ffffff !important;
+  transform: scale(1.12) !important;
+  box-shadow: 0 6px 18px rgba(225, 29, 72, 0.45) !important;
+}
+
+button[aria-label="Add to wishlist"].rounded-full:hover svg,
+button.product-action-btn.wishlist-btn:hover svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+button[aria-label="Add to compare"].rounded-full:hover,
+button.product-action-btn.compare-btn:hover {
+  background-color: #facc15 !important;
+  border-color: #facc15 !important;
+  color: #09090b !important;
+  transform: scale(1.12) !important;
+  box-shadow: 0 6px 18px rgba(250, 204, 21, 0.45) !important;
+}
+
+button[aria-label="Add to compare"].rounded-full:hover svg,
+button.product-action-btn.compare-btn:hover svg {
+  color: #09090b !important;
+  stroke: #09090b !important;
 }
 
 /* ---- Pharmacy pulse icon (logo fallback) ---- */
@@ -2002,13 +2046,34 @@ footer, .footer-root {
   border-bottom-color: rgba(13, 148, 136, 0.2) !important;
 }
 
-/* Dropdown links — teal hover */
+/* Dropdown links — luxury dark & Kalki yellow hover */
 #category-nav-dropdown-portal a {
-  transition: color 0.15s, background 0.15s;
+  transition: color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  color: #d4d4d8 !important;
 }
 #category-nav-dropdown-portal a:hover {
-  color: #0f766e !important;
-  background: #f0fdfa !important;
+  color: #facc15 !important;
+  background-color: #18181b !important;
+}
+#category-nav-dropdown-portal a.view-all-link {
+  color: #facc15 !important;
+}
+#category-nav-dropdown-portal a.view-all-link:hover {
+  color: #fde047 !important;
+  background-color: #18181b !important;
+}
+#category-nav-dropdown-portal .overflow-y-auto::-webkit-scrollbar {
+  width: 5px;
+}
+#category-nav-dropdown-portal .overflow-y-auto::-webkit-scrollbar-track {
+  background: #09090b;
+}
+#category-nav-dropdown-portal .overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 4px;
+}
+#category-nav-dropdown-portal .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
 }
 
 /* Google Sign In button — teal */
@@ -2346,4 +2411,61 @@ img[alt="logo"],
 img[src*="logo"],
 img[src*="kalkiBazar"] {
   filter: brightness(0) invert(1) !important;
+}
+
+/* Swiper custom navigation disabled state */
+.swiper-button-disabled {
+  opacity: 0.25 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* Filter sidebar item hover micro-interactions (pure neutral black/zinc, no blue tint) */
+.filter-item-row {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.filter-item-row:hover {
+  background-color: #18181b !important;
+}
+.filter-item-row:hover label,
+.filter-item-row:hover span,
+.filter-item-row:hover div {
+  color: #facc15 !important;
+}
+
+/* Force pure black backgrounds for search filters and top bar */
+.search-filter-sidebar,
+.search-total-bar {
+  background-color: #000000 !important;
+  border-color: #27272a !important;
+}
+
+/* User Dashboard Sidebar Links */
+.user-sidebar-active {
+  background-color: #facc15 !important;
+  background-image: none !important;
+  color: #020617 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(250, 204, 21, 0.35) !important;
+}
+.user-sidebar-active svg {
+  color: #020617 !important;
+}
+.user-sidebar-active span {
+  color: #020617 !important;
+}
+
+.user-sidebar-link {
+  color: #d4d4d8 !important;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.user-sidebar-link:hover {
+  background-color: #18181b !important;
+  color: #facc15 !important;
+}
+.user-sidebar-link:hover svg {
+  color: #facc15 !important;
+}
+.user-sidebar-link:hover span {
+  color: #facc15 !important;
 }

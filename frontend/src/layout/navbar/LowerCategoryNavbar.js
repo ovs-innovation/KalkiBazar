@@ -110,29 +110,30 @@ export default function LowerCategoryNavbar({
         onMouseEnter={clearCloseTimer}
         onMouseLeave={scheduleClose}
       >
-        <div className="bg-white shadow-[0_12px_48px_rgba(0,0,0,0.15)] rounded-xl border border-gray-200 py-2 overflow-hidden">
+        <div className="bg-black/95 shadow-[0_20px_50px_rgba(0,0,0,0.8)] rounded-2xl border border-zinc-800 py-2 overflow-hidden backdrop-blur-xl">
           <Link
             href={`/search?category=${activeCategory.slug || createSlug(getName(activeCategory))}&_id=${activeCategory._id}`}
-            className="px-5 py-3 text-sm font-bold text-store-600 uppercase tracking-wide block border-b border-gray-100 hover:bg-store-50"
+            className="view-all-link px-5 py-2.5 text-xs font-bold text-yellow-400 hover:text-yellow-300 uppercase tracking-wider flex items-center justify-between border-b border-zinc-800 hover:bg-zinc-800/60 transition-colors"
             onClick={() => setActiveCategoryId(null)}
           >
-            View All {getName(activeCategory)}
+            <span>View All {getName(activeCategory)}</span>
+            <span>→</span>
           </Link>
           {hasChildren ? (
-            <div className="max-h-[60vh] overflow-y-auto">
+            <div className="max-h-[60vh] overflow-y-auto py-1 divide-y divide-zinc-800/40">
               {activeCategory.children.map((sub) => (
                 <Link
                   key={sub._id}
                   href={`/search?category=${sub.slug || createSlug(getName(sub))}&_id=${sub._id}`}
                   onClick={() => setActiveCategoryId(null)}
-                  className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-store-50 hover:text-store-700"
+                  className="block px-5 py-2.5 text-sm font-medium text-zinc-300 hover:text-yellow-400 hover:bg-zinc-800/80 transition-all duration-150"
                 >
                   {getName(sub)}
                 </Link>
               ))}
             </div>
           ) : (
-            <p className="px-5 py-2 text-xs text-gray-500">Browse all products in this category</p>
+            <p className="px-5 py-2.5 text-xs text-zinc-400">Browse all products in this category</p>
           )}
         </div>
       </div>
@@ -140,12 +141,12 @@ export default function LowerCategoryNavbar({
 
   const wrapperClass = isInline
     ? "w-full min-w-0 relative"
-    : "w-full border-t border-gray-100 bg-white relative";
+    : "w-full border-t border-slate-800/60 bg-slate-950 relative";
 
   return (
     <div className={wrapperClass} ref={dropdownRef}>
       <div className={isInline ? "" : "max-w-screen-2xl mx-auto px-4 sm:px-8"}>
-        <nav className="flex items-center justify-center gap-1 md:gap-3 lg:gap-6 py-1 overflow-x-auto no-scrollbar">
+        <nav className="flex items-center justify-center gap-1 md:gap-2 lg:gap-3 py-1 overflow-x-auto no-scrollbar">
           {categories.map((category) => {
             const id = getId(category);
             const isActive = activeCategoryId === id;
@@ -180,15 +181,15 @@ export default function LowerCategoryNavbar({
                       window.location.href = `/search?category=${category.slug || createSlug(getName(category))}&_id=${category._id}`;
                     }
                   }}
-                  className={`flex items-center gap-1.5 font-semibold whitespace-nowrap rounded-full transition-all duration-200
-                    ${isInline ? "px-3 py-1.5 text-sm" : "px-4 py-2 text-sm"}
+                  className={`flex items-center gap-1.5 font-medium whitespace-nowrap rounded-full transition-all duration-200
+                    ${isInline ? "px-3 py-1.5 text-xs lg:text-sm" : "px-4 py-2 text-sm"}
                     ${isActive
-                      ? "bg-store-500 text-white shadow-md"
-                      : "text-gray-700 hover:text-store-700 hover:bg-store-50"}`}
+                      ? "bg-yellow-500 text-slate-950 font-bold shadow-md"
+                      : "text-slate-200 hover:text-yellow-400 hover:bg-slate-800/70"}`}
                 >
                   {getName(category)}
                   <IoChevronDown
-                    className={`text-xs transition-transform ${isActive ? "rotate-180 text-gray-900" : "text-gray-600"}`}
+                    className={`text-xs transition-transform duration-200 ${isActive ? "rotate-180 text-slate-950" : "text-slate-400"}`}
                   />
                 </button>
               </div>

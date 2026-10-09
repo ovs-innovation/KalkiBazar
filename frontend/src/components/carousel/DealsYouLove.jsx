@@ -55,7 +55,7 @@ const DealsYouLove = ({ products, attributes }) => {
   if (!dealProducts || dealProducts.length === 0) return null;
 
   return (
-    <div className="relative lg:py-16 py-10 overflow-hidden bg-transparent border-y border-slate-800/40">
+    <div className="relative lg:py-16 py-10 overflow-hidden bg-transparent">
 
       {/* Soft Glow Background Accents */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -77,42 +77,50 @@ const DealsYouLove = ({ products, attributes }) => {
               align="left"
             />
           </div>
-
-          {/* Clean Integrated Header Buttons */}
-          <div className="hidden md:flex items-center gap-2 flex-shrink-0 mb-1">
-            <button className="prev-deals w-10 h-10 bg-slate-900 border border-slate-800 rounded-full flex items-center justify-center text-slate-300 hover:bg-slate-800 hover:text-yellow-500 active:scale-95 transition-all shadow-sm">
-              <IoChevronBack className="text-lg" />
-            </button>
-            <button className="next-deals w-10 h-10 bg-slate-900 border border-slate-800 rounded-full flex items-center justify-center text-slate-300 hover:bg-slate-800 hover:text-yellow-500 active:scale-95 transition-all shadow-sm">
-              <IoChevronForward className="text-lg" />
-            </button>
-          </div>
         </div>
 
         {/* Carousel Slider */}
-        <div className="relative">
-          <Swiper
-            modules={[Navigation, Autoplay]}
-            spaceBetween={18}
-            slidesPerView={2}
-            navigation={{ prevEl: ".prev-deals", nextEl: ".next-deals" }}
-            autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-            breakpoints={{
-              640: { slidesPerView: 3, spaceBetween: 18 },
-              768: { slidesPerView: 4, spaceBetween: 20 },
-              1024: { slidesPerView: 5, spaceBetween: 22 },
-              1280: { slidesPerView: 6, spaceBetween: 24 },
-            }}
-            className="mySwiper !pb-6 px-1"
+        <div className="relative group/slider px-2">
+          {/* Custom Floating Navigation Buttons on Left & Right */}
+          <button
+            aria-label="Previous Slide"
+            className="prev-deals absolute top-1/2 -left-2 sm:-left-4 md:-left-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
           >
-            {dealProducts.map((product) => (
-              <SwiperSlide key={product._id} className="h-auto">
-                <div className="h-full transition-transform duration-300 hover:-translate-y-1">
-                  <ProductCard product={product} attributes={attributes} />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+            <IoChevronBack className="text-xl" />
+          </button>
+
+          <button
+            aria-label="Next Slide"
+            className="next-deals absolute top-1/2 -right-2 sm:-right-4 md:-right-5 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 text-white hover:bg-yellow-400 hover:text-slate-950 border border-slate-700/80 hover:border-yellow-400 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-25 disabled:pointer-events-none cursor-pointer transform -translate-y-1/2"
+          >
+            <IoChevronForward className="text-xl" />
+          </button>
+
+          <div className="w-full">
+            <Swiper
+              modules={[Navigation, Autoplay]}
+              spaceBetween={14}
+              slidesPerView={2}
+              navigation={{ prevEl: ".prev-deals", nextEl: ".next-deals" }}
+              autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+              breakpoints={{
+                320: { slidesPerView: 2, spaceBetween: 10 },
+                640: { slidesPerView: 3, spaceBetween: 14 },
+                768: { slidesPerView: 4, spaceBetween: 16 },
+                1024: { slidesPerView: 5, spaceBetween: 18 },
+                1280: { slidesPerView: 6, spaceBetween: 18 },
+              }}
+              className="mySwiper !pb-6 px-1"
+            >
+              {dealProducts.map((product) => (
+                <SwiperSlide key={product._id} className="h-auto">
+                  <div className="h-full transition-transform duration-300 hover:-translate-y-1">
+                    <ProductCard product={product} attributes={attributes} />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
         </div>
       </div>
     </div>

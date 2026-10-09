@@ -6,7 +6,6 @@ import { useRef, useEffect, useState } from "react";
 
 import Navbar from "@layout/navbar/Navbar";
 import Footer from "@layout/footer/Footer";
-import NavBarTop from "./navbar/NavBarTop";
 import FooterTop from "@layout/footer/FooterTop";
 import MobileFooter from "@layout/footer/MobileFooter";
 import MobileBottomNavigation from "@layout/footer/MobileBottomNavigation";
@@ -21,21 +20,6 @@ const Layout = ({ title, description, children, hideMobileHeader }) => {
   const { storeCustomizationSetting, globalSetting } = useGetSetting();
   const storeColor = "yellow";
   const palette = getPalette(storeColor);
-
-  // Dynamically measure header height so content starts exactly below the fixed header
-  const headerRef = useRef(null);
-  const [headerHeight, setHeaderHeight] = useState(0);
-
-  useEffect(() => {
-    const el = headerRef.current;
-    if (!el) return;
-    setHeaderHeight(el.offsetHeight);
-    const observer = new ResizeObserver(() => {
-      if (headerRef.current) setHeaderHeight(headerRef.current.offsetHeight);
-    });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   // Sync prescription medicines to cart
   useCartSync();
@@ -101,28 +85,13 @@ const Layout = ({ title, description, children, hideMobileHeader }) => {
         {!hideMobileHeader && <MobileFooter />}
         {!hideMobileHeader && <MobileBottomNavigation />}
 
-        {/* Desktop header — inline styles force position:fixed at viewport top, bypassing any CSS specificity issues */}
-        <div
-          ref={headerRef}
-          className="hidden lg:block"
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 9999,
-            backgroundColor: "#020617",
-          }}
-        >
-          <NavBarTop />
+        {/* Desktop unified header — clean, single-row, sticky at the top */}
+        <div className="hidden lg:block sticky top-0 z-40 bg-slate-950/95 backdrop-blur-xl shadow-md">
           <Navbar />
         </div>
 
-        {/* Page content — paddingTop dynamically equals the actual fixed header height */}
-        <div
-          className={`${hideMobileHeader ? "pt-0" : "pt-16"} pb-16 lg:pb-0`}
-          style={headerHeight > 0 ? { paddingTop: `${headerHeight}px` } : {}}
-        >
+        {/* Page content */}
+        <div className={`${hideMobileHeader ? "pt-0" : "pt-16"} lg:pt-0 pb-16 lg:pb-0`}>
           {children}
         </div>
 
